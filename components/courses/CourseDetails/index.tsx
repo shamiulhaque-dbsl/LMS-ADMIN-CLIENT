@@ -1,0 +1,9 @@
+export { default as CourseDescription } from "./CourseDescription";
+export { default as CourseContent } from "./CourseContent";
+export { default as CourseFAQ } from "./CourseFAQ";
+export { default as CourseRequirements } from "./CourseRequirements";
+export { default as CourseWhatYouWillLearn } from "./CourseWhatYouWillLearn";
+export { default as CourseHero } from "./CourseHero";
+export { default as CourseStats } from "./sidebar/CourseStats";
+export { default as CourseMoneyBack } from "./sidebar/CourseMoneyBack";
+export { default as CourseFeaturedReview } from "./sidebar/CourseFeaturedReview";
