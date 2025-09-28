@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Plus, FileSpreadsheet, FileType } from "lucide-react";
+import Link from "next/link";
 
 export default function CourseTableWrapper() {
   return (
@@ -24,10 +25,12 @@ export default function CourseTableWrapper() {
           </Tooltip>
 
           {/* Add Course */}
-          <Button size="sm" variant="default" type="button">
-            <Plus className="w-4 h-4 mr-1" />
-            Add Course
-          </Button>
+          <Link href="/admin/courses/create">
+            <Button size="sm" variant="default" type="button">
+              <Plus className="w-4 h-4 mr-1" />
+              Add Course
+            </Button>
+          </Link>
         </div>
       </Card.Header>
 

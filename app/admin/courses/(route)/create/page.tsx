@@ -1,4 +1,4 @@
-import PageHeader from "@/components/page/PageHeader";
+import { PageHeader } from "@/components/page/PageHeader";
 
 export default function CoursesPage() {
   return (

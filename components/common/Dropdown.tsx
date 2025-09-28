@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/utils/tailwind-utils";
 
@@ -22,6 +22,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   className = "",
 }) => {
   const triggerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null); // Add ref for dropdown content
   const [coords, setCoords] = useState<{ top: number; left: number } | null>(null);
 
   useLayoutEffect(() => {
@@ -36,12 +37,21 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
   }, [isOpen, align]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (triggerRef.current && !triggerRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+
+      // Check if click is outside both trigger and dropdown content
+      if (
+        triggerRef.current &&
+        !triggerRef.current.contains(target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(target)
+      ) {
         onClose();
       }
     };
+
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
@@ -63,6 +73,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         coords &&
         createPortal(
           <div
+            ref={dropdownRef} // Add the ref here
             role="menu"
             className={cn(
               "absolute z-[9999] mt-2 rounded-xl bg-white shadow-lg ring-1 ring-black/10 transition-all duration-200 ease-in-out",
@@ -71,7 +82,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             style={{
               position: "absolute",
               top: coords.top,
-              left: align === "right" ? coords.left - 208 /* adjust width */ : coords.left,
+              left: align === "right" ? coords.left - 208 : coords.left,
               minWidth: "200px",
             }}
           >
@@ -93,7 +104,7 @@ export const DropdownItem: React.FC<{
       <a
         href={href}
         role="menuitem"
-        className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 rounded-lg"
+        className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg"
       >
         {children}
       </a>
@@ -103,7 +114,7 @@ export const DropdownItem: React.FC<{
     <button
       onClick={onClick}
       role="menuitem"
-      className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 rounded-lg text-left"
+      className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg text-left"
     >
       {children}
     </button>

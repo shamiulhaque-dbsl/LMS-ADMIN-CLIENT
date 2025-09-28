@@ -29,7 +29,6 @@ interface CourseTableActionProps {
 
 export default function CourseTableAction({ item }: CourseTableActionProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(item.status);
@@ -67,44 +66,26 @@ export default function CourseTableAction({ item }: CourseTableActionProps) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         trigger={
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-1 text-white hover:text-gray-900 rounded-full bg-web-primary"
-          >
-            <Icons.ellipsis />
+          <button onClick={() => setIsOpen(!isOpen)} className="p-1 rounded-full bg-secondary">
+            <Icons.ellipsis className="text-gray-700" />
           </button>
         }
         className="w-52 leading-tight rounded-md space-y-2 py-4"
         align="right"
       >
-        <DropdownItem onClick={() => setShowEditModal(true)}>View course on frontend</DropdownItem>
-        <DropdownItem onClick={() => setShowConfirm(true)}>Go to course playing page</DropdownItem>
+        <DropdownItem href={`/courses/${item.id}`}>View course on frontend</DropdownItem>
+        <DropdownItem href={`/courses/${item.id}/play`}>Go to course playing page</DropdownItem>
         <DropdownItem href={`/admin/courses/${item.id}`}>Academic progress</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/lessons`}>Edit course</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/lessons`}>Section & lesson</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/lessons`}>Delete</DropdownItem>
+        <DropdownItem href={`/admin/courses/${item.id}/edit`}>Edit course</DropdownItem>
+        <DropdownItem href={`/admin/courses/${item.id}/details`}>View course</DropdownItem>
+        <DropdownItem href={`/admin/courses/${item.id}/details`}>Section & lesson</DropdownItem>
+        <DropdownItem onClick={() => setShowConfirm(true)}>Delete</DropdownItem>
         <DropdownItem onClick={handleToggleStatus}>
           {status === "active" ? "Deactivate" : "Activate"}
         </DropdownItem>
         <DropdownItem>Send Email</DropdownItem>
         <DropdownItem>Send SMS</DropdownItem>
       </Dropdown>
-
-      {/* Edit Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-md w-96 text-center">
-            <h2 className="text-lg font-semibold mb-4">Edit Course: {item.title}</h2>
-            <p className="mb-4">Edit form goes here...</p>
-            <button
-              onClick={() => setShowEditModal(false)}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Delete Confirmation Modal */}
       {showConfirm && (

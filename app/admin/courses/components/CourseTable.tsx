@@ -67,7 +67,7 @@ export default function CourseTable() {
 
         const response = await fetchCourses({
           ...filters,
-          limit: 10, // You can make this configurable
+          limit: 10,
         });
 
         setCourses(response.data);
