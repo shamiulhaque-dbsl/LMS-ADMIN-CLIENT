@@ -1,10 +1,11 @@
 import { PageHeader } from "@/components/page/PageHeader";
+import ManageCourseCreation from "./components/ManageCourseCreation";
 
-export default function CoursesPage() {
+export default function CourseCreatePage() {
   return (
     <>
       <PageHeader title="Create New Course" />
-      <h1>Welcome to the Create New Course Page!</h1>
+      <ManageCourseCreation />
     </>
   );
 }
