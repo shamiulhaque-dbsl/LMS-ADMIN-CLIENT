@@ -1,6 +1,8 @@
 import type { LucideIcon, LucideProps } from "lucide-react";
 import {
   Send,
+  Upload,
+  Trash,
   Bell,
   Ellipsis,
   Eye,
@@ -84,6 +86,8 @@ export type ValidIcon = keyof typeof Icons;
 
 export const Icons = {
   ellipsis: Ellipsis,
+  upload: Upload,
+  trash: Trash,
   send: Send,
   lightbulb: Lightbulb,
   shoppingBag: ShoppingBag,

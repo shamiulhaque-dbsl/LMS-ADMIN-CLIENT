@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/Button";
 import RequiredFieldIndicator from "@/components/ui/RequiredFieldIndicator";
 import DropImage from "@/components/ui/images/DropImageV2";
 import InputImage from "@/components/ui/images/InputImage";
-import UploadImage from "@/components/ui/images/UploadImageV2";
+import UploadImage from "@/components/ui/images/components/ImageUpload";
 import { Card, CardContent, CardHead, CardTitle } from "@/components/ui/card/Card";
 import { Employee } from "../types";
 

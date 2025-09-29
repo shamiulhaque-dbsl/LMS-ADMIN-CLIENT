@@ -6,9 +6,12 @@ import ScrollableTabs from "@/components/ui/tabs/ScrollableTabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/Button";
 import { Plus, X } from "lucide-react";
+import { ImageUpload } from "@/components/ui/uploads/image";
+import { Icons } from "@/components/Icons";
 
 /*
     # TODO:
+    - Split this component and maintain single responsibility
     - Make reuseable textarea, select & input, textarea, select etc. this css make reuseable
     - Implement form fields for each tab
     - Add validation logic for each tab
@@ -157,7 +160,7 @@ function DynamicProjectList() {
 
 function BasicInfoForm() {
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <Input label="Course Title" name="title" placeholder="Enter course title" required />
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="short_description">
@@ -288,7 +291,42 @@ function InfoForm() {
 }
 
 function MediaForm() {
-  return <div>Settings Form (to be implemented)</div>;
+  return (
+    <div className="space-y-6">
+      <div className="w-full">
+        <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="short_description">
+          Course Demo/Overview Source
+        </label>
+        <select className="h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm">
+          <option value="upload">Upload</option>
+          <option value="youtube">Youtube</option>
+          <option value="external">External</option>
+          <option value="vimeo">Vimeo</option>
+          <option value="google_drive">Google Drive</option>
+          <option value="iframe">Iframe</option>
+        </select>
+      </div>
+      <div className="w-full">
+        <Input
+          label="Course Demo/Overview URL"
+          name="title"
+          placeholder="E.H: hhtps://www.youtube.com/watch?v=example"
+          required
+        />
+      </div>
+      <div className="space-y-4">
+        <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">
+          Course thumbnail
+        </label>
+        <ImageUpload
+          size="lg"
+          variant="circle"
+          showEditButton={false}
+          showUploadGuideline={false}
+        />
+      </div>
+    </div>
+  );
 }
 
 function PricingForm() {
@@ -305,7 +343,7 @@ function PricingForm() {
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input label="Course Price" type="number" step="0.01" placeholder="Enter course price" />
         <Input
           label="Discounted price (if applicable)"
@@ -350,7 +388,41 @@ function PricingForm() {
 }
 
 function SeoForm() {
-  return <div>SEO Form (to be implemented)</div>;
+  return (
+    <div className="space-y-4">
+      <Input
+        label="Meta keywords"
+        type="text"
+        step="0.01"
+        placeholder="Write a list of comma separated meta keywords"
+      />
+      <div className="space-y-1">
+        <label className="block text-sm font-medium text-gray-700" htmlFor="meta_description">
+          Meta Description
+        </label>
+        <textarea
+          name="meta_description"
+          placeholder="Enter meta description"
+          className="border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm"
+          required
+        ></textarea>
+      </div>
+    </div>
+  );
+}
+
+function SubmitForm({ onclick, onReset }: { onclick: () => void; onReset: () => void }) {
+  return (
+    <div className="flex flex-col items-center gap-2">
+      <p className="text-2xl font-semibold">Thank You</p>
+      <span className="text-sm text-gray-600 text-center">
+        You are just one click away from creating a course
+      </span>
+      <Button variant="default" size="sm" className="mt-4" onClick={onclick}>
+        Submit
+      </Button>
+    </div>
+  );
 }
 
 export default function ManageCourseCreation() {
@@ -398,6 +470,7 @@ export default function ManageCourseCreation() {
   };
 
   const canProceedToNext = (currentTab: string) => {
+    return true;
     if (currentTab === "finish") return true;
     return getTabStatus(currentTab) === "complete";
   };
@@ -451,12 +524,15 @@ export default function ManageCourseCreation() {
         return <BasicInfoForm />;
       case "info":
         return <InfoForm />;
-      case "settings":
+      case "media":
         return <MediaForm />;
       case "pricing":
         return <PricingForm />;
       case "seo":
         return <SeoForm />;
+      case "finish":
+        // pass submit function as props
+        return <SubmitForm onclick={() => handleSubmit} onReset={handleReset} />;
       default:
         return null;
     }
@@ -480,54 +556,25 @@ export default function ManageCourseCreation() {
 
       {/* Bottom Navigation */}
       <div className="border-t border-gray-200 px-6 py-4">
-        <div className="flex justify-between items-center">
-          <div>
-            {activeTab !== "basic" && (
-              <button
-                type="button"
-                onClick={handlePrevious}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-sm hover:bg-gray-50"
-              >
-                Previous
-              </button>
-            )}
-          </div>
+        <div className="flex justify-center items-center gap-2">
+          {activeTab !== "basic" && (
+            <Button variant="outlineGray" size="sm" onClick={handlePrevious}>
+              <Icons.chevronLeft className="w-4 h-4 mr-1" />
+              Previous
+            </Button>
+          )}
 
-          <div className="flex space-x-3">
-            {activeTab === "finish" ? (
-              <>
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-sm hover:bg-gray-50"
-                >
-                  Reset Form
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-sm hover:bg-blue-700"
-                >
-                  Create Course
-                </button>
-              </>
-            ) : (
-              <button
-                type="button"
-                onClick={handleNext}
-                disabled={!canProceedToNext(activeTab)}
-                className={`
-                      px-4 py-2 text-sm font-medium rounded-sm
-                      ${
-                        canProceedToNext(activeTab)
-                          ? "text-white bg-blue-600 hover:bg-blue-700"
-                          : "text-gray-400 bg-gray-100 cursor-not-allowed"
-                      }
-                    `}
-              >
-                Next
-              </button>
-            )}
-          </div>
+          {activeTab != "finish" && (
+            <Button
+              variant="outlineGray"
+              size="sm"
+              onClick={handleNext}
+              disabled={!canProceedToNext(activeTab)}
+            >
+              Next
+              <Icons.chevronRight className="w-4 h-4 ml-1" />
+            </Button>
+          )}
         </div>
       </div>
     </Card>
