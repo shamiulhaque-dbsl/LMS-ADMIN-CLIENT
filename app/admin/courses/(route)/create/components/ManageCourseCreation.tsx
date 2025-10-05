@@ -18,6 +18,8 @@ import { Icons } from "@/components/Icons";
     - Handle form submission and reset
     - Implement searchble select box for category, instructor etc.
     - For state manage use zustand
+    - For form validation use react-hook-form or zod
+    - Make type safety
 */
 
 function SectionWrapper({ title, children }: any) {
@@ -447,14 +449,15 @@ export default function ManageCourseCreation() {
   const [validationErrors, setValidationErrors] = useState({});
 
   const validateTab = (tabId: string) => {
-    const errors = {};
+    const errors: any = {};
     switch (tabId) {
       case "basic":
         if (!formData.title) errors.title = "Title is required";
         if (!formData.description) errors.description = "Description is required";
         break;
       case "pricing":
-        if (!formData.price || formData.price <= 0) errors.price = "Valid price is required";
+        if (!formData.price || parseFloat(formData.price) <= 0)
+          errors.price = "Valid price is required";
         break;
       case "media":
         if (formData.images.length === 0) errors.images = "At least one image is required";
