@@ -1,9 +1,10 @@
-import Breadcrumb from "@/components/ui/Breadcrumb";
+import { PageHeader } from "@/components/page/PageHeader";
+import ManageCourseEdit from "./components/ManageCourseEdit";
 export default function Page() {
   return (
     <>
-      <Breadcrumb mode="portal" />
-      <h1>Welcome to the Courses Page!</h1>
+      <PageHeader title="Update Course" />
+      <ManageCourseEdit />
     </>
   );
 }
