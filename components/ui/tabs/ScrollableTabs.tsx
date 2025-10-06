@@ -15,7 +15,7 @@ import { findNextValidTabIndex } from "./utils/tabs.utils";
 import { TabButton } from "./TabButton";
 import { ScrollButton } from "./ScrollButton";
 
-const ScrollableTabs = forwardRef<TabsRef, ScrollableTabsProps>(
+export const ScrollableTabs = forwardRef<TabsRef, ScrollableTabsProps>(
   (
     {
       tabs,
@@ -229,4 +229,3 @@ const ScrollableTabs = forwardRef<TabsRef, ScrollableTabsProps>(
 );
 
 ScrollableTabs.displayName = "ScrollableTabs";
-export default ScrollableTabs;

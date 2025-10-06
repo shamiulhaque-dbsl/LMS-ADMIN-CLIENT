@@ -2,6 +2,7 @@ import type { LucideIcon, LucideProps } from "lucide-react";
 import {
   Send,
   Upload,
+  Loader,
   Trash,
   Bell,
   Ellipsis,
@@ -78,6 +79,9 @@ import {
   Clock,
   PanelBottomClose,
   ShoppingBag,
+  Plus,
+  ArrowDownUp,
+  RotateCcw,
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -85,6 +89,10 @@ export type IconProps = LucideProps;
 export type ValidIcon = keyof typeof Icons;
 
 export const Icons = {
+  rotateCcw: RotateCcw,
+  loader: Loader,
+  arrowDownUp: ArrowDownUp,
+  plus: Plus,
   ellipsis: Ellipsis,
   upload: Upload,
   trash: Trash,

@@ -7,7 +7,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, ...props }, ref) => {
+  ({ className, label, error, required, ...props }, ref) => {
     const errorMessage = Array.isArray(error) ? error.join(", ") : error;
 
     return (
@@ -16,14 +16,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {label && (
             <label className="block text-sm font-medium text-gray-700" htmlFor={props.name}>
               {label}
+              {required && <span className="text-red-500 ml-1">*</span>}
             </label>
           )}
           <input
             {...props}
             ref={ref}
             className={cn(
-              "h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm",
-              error ? "border-[#e74d2e77]" : "border-slate-300",
+              "h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-md border-slate-300 shadow-sm sm:text-sm",
+              error ? "border-red-500" : "border-slate-300",
               className
             )}
           />

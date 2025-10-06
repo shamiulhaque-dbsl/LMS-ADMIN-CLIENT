@@ -9,7 +9,6 @@ import { InfoForm } from "@/app/admin/courses/components/tab-forms/InfoForm";
 import { MediaForm } from "@/app/admin/courses/components/tab-forms/MediaForm";
 import { SeoForm } from "@/app/admin/courses/components/tab-forms/SeoForm";
 import { PricingForm } from "@/app/admin/courses/components/tab-forms/PricingForm";
-import { CurriculumForm } from "@/app/admin/courses/components/tab-forms/CurriculumForm";
 import { SubmitForm } from "@/app/admin/courses/components/tab-forms/SubmitForm";
 import { COURSE_FORM_TABS } from "@/admin/courses/lib/constant";
 import { useCourseFormStore } from "@/admin/courses/store/useCourseFormStore";
@@ -26,14 +25,14 @@ export default function ManageCourseCreation() {
     useTabNavigation();
 
   const handleSubmit = async () => {
-    alert("Course created successfully! 🎉");
+    alert("✅ Course created successfully! 🎉");
     return;
   };
 
   const handleReset = () => {
     if (isDirty) {
       const confirmed = confirm(
-        "Are you sure you want to reset?\n\nAll unsaved changes will be lost."
+        "⚠️ Are you sure you want to reset?\n\nAll unsaved changes will be lost."
       );
       if (!confirmed) return;
     }
@@ -53,8 +52,6 @@ export default function ManageCourseCreation() {
         return <PricingForm />;
       case "seo":
         return <SeoForm />;
-      case "curriculum":
-        return <CurriculumForm />;
       case "finish":
         return <SubmitForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
       default:
@@ -67,7 +64,7 @@ export default function ManageCourseCreation() {
       {/* Tab Header */}
       <Card.Header className="rounded-t-xl p-2 bg-gray-50">
         <ScrollableTabs
-          tabs={COURSE_FORM_TABS}
+          tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
           value={activeTab}
           onValueChange={goToTab}
           showScrollButtons={false}

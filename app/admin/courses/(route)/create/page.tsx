@@ -1,6 +1,10 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import ManageCourseCreation from "./components/ManageCourseCreation";
+import ManageCourseCreation from "@/admin/courses/components/ManageCourseCreation";
 
+/*
+  Todo:
+  1. Fetch categories from api and pass promise to managecoursecreation
+*/
 export default function CourseCreatePage() {
   return (
     <>
