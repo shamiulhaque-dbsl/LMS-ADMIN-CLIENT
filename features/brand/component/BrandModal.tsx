@@ -1,6 +1,6 @@
 import React from "react";
 import { BrandModal as BrandModalProps } from "../types";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@/components/ui/Button";
 import BrandForm from "./BrandCreate";

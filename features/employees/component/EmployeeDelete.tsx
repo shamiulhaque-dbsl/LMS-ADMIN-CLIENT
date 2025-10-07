@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { EmployeeModal as EmployeeModalProps } from "../types";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 
 const EmployeeDelete: React.FC<EmployeeModalProps> = ({
   handleClick,

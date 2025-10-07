@@ -1,6 +1,6 @@
 import React from "react";
 import { EmployeeModal as EmployeeModalProps } from "../types";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import { Button } from "@/components/ui/Button";
 import { IoMdClose } from "react-icons/io";
 import EmployeeForm from "./EmployeeCreate";

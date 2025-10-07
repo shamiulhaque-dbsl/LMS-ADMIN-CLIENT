@@ -1,7 +1,7 @@
 import React from "react";
 import { ProductModal as ProductModalProps } from "../types";
 import ProductForm from "./ProductCreate";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@/components/ui/Button";
 

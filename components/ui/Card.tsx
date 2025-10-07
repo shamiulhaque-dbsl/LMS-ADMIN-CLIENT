@@ -2,6 +2,7 @@ import { HTMLAttributes, ReactNode } from "react";
 import { cn } from "@/utils/tailwind-utils";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>;
   children: ReactNode;
   className?: string;
   hover?: boolean;

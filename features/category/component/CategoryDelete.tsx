@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { CategoryModal as CategoryModalProps } from "../types";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 
 const ProductDelete: React.FC<CategoryModalProps> = ({
   handleClick,

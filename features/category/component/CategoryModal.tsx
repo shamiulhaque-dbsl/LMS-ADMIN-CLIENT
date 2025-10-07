@@ -1,7 +1,7 @@
 import React from "react";
 import { CategoryModal as CategoryModalProps } from "../types";
 import ProductForm from "./CategoryCreate";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import { Button } from "@/components/ui/Button";
 
 const CategoryModal: React.FC<CategoryModalProps> = ({
