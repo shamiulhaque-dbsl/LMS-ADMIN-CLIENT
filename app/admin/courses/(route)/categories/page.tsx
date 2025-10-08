@@ -1,9 +1,11 @@
-import Breadcrumb from "@/components/ui/Breadcrumb";
-export default function Page() {
+import { PageHeader } from "@/components/page/PageHeader";
+import ManageCourseCategory from "@/admin/courses/components/category/ManageCategory";
+
+export default function CoursesPage() {
   return (
     <>
-      <Breadcrumb mode="portal" />
-      <h1>Welcome to the Courses Page!</h1>
+      <PageHeader title="Manage Categories" />
+      <ManageCourseCategory />
     </>
   );
 }
