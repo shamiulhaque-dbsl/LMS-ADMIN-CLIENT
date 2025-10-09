@@ -104,11 +104,11 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.user size={20} />,
     group: "Users",
     children: [
-      { id: "new", label: "New User", href: "/admin/users/create" },
+      { id: "new-user", label: "New User", href: "/admin/users/create" },
       { id: "all-users", label: "All Users", href: "/admin/users" },
-      { id: "staff", label: "Staff", href: "/admin/users/staff" },
-      { id: "students", label: "Students", href: "/admin/users/students" },
-      { id: "instructors", label: "Instructors", href: "/admin/users/instructors" },
+      { id: "manage-admin", label: "Manage Admins", href: "/admin/users/admins" },
+      { id: "instructors", label: "Manage Instructors", href: "/admin/users/instructors" },
+      { id: "students", label: "Manage Students", href: "/admin/users/students" },
     ],
   },
   {

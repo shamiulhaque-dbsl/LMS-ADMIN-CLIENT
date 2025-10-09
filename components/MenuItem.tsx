@@ -37,7 +37,7 @@ export function MenuItem({ item, openMenus, onToggle, level = 0 }: MenuItemProps
       isSubmenu
         ? [
             // Submenu styles
-            "text-gray-600 py-1.5",
+            "text-gray-600 py-1",
             isCurrentActive && "font-medium text-gray-900",
           ]
         : [

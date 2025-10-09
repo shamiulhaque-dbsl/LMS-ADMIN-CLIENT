@@ -1,5 +1,5 @@
-import CoursesFilters from "../components/CourseFilters";
-import CourseTableWrapper from "../components/CourseTableWrapper";
+import CoursesFilters from "@/admin/courses/components/CourseFilters";
+import CourseTableWrapper from "@/admin/courses/components/CourseTableWrapper";
 
 export default function ManageCourse() {
   return (

@@ -1,0 +1,50 @@
+"use client";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/Table";
+import UserTableAction from "@/admin/users/components/UserTableAction";
+
+export default function UserTable() {
+  return (
+    <Table className="bg-white overflow-y-clip">
+      <TableHeader>
+        <TableRow>
+          <TableHead>#</TableHead>
+          <TableHead>Photo</TableHead>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Phone</TableHead>
+          <TableHead>Registration Date</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+
+      <TableBody className="bg-white text-black">
+        <TableRow>
+          <TableCell>1</TableCell>
+          <TableCell>Photo</TableCell>
+          <TableCell>Rahim</TableCell>
+          <TableCell>rahim@gmail.com</TableCell>
+          <TableCell>01892*****</TableCell>
+          <TableCell>2023-01-01</TableCell>
+          <TableCell>
+            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+              active
+            </span>
+          </TableCell>
+          {/* Table action */}
+          <TableCell>
+            <UserTableAction />
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  );
+}
