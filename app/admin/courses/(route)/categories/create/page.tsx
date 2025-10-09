@@ -6,11 +6,11 @@ export default function CategoryCreatePage() {
   return (
     <>
       <PageHeader title="Add new category" />
-      <Card className="bg-white max-w-4xl mx-auto p-6">
+      <Card className="bg-white p-6">
         <Card.Header>
           <Card.Title>Category add form</Card.Title>
         </Card.Header>
-        <Card.Content className="py-4">
+        <Card.Content className="max-w-xl">
           <CategoryForm />
         </Card.Content>
       </Card>

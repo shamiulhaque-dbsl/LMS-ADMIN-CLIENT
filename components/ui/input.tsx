@@ -12,7 +12,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <>
-        <div>
+        <div className="flex-1">
           {label && (
             <label className="label-base" htmlFor={props.id}>
               {label}
