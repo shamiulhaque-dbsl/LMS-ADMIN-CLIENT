@@ -33,7 +33,7 @@ const typeConfig = {
     confirmText: "Delete",
     confirmClass: "bg-red-600 hover:bg-red-700 focus:ring-red-500",
     icon: (
-      <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -50,7 +50,7 @@ const typeConfig = {
     confirmClass: "bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500",
     icon: (
       <svg
-        className="w-6 h-6 text-yellow-600"
+        className="h-6 w-6 text-yellow-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -70,7 +70,7 @@ const typeConfig = {
     confirmText: "Confirm",
     confirmClass: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500",
     icon: (
-      <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -86,7 +86,7 @@ const typeConfig = {
     confirmText: "Confirm",
     confirmClass: "bg-green-600 hover:bg-green-700 focus:ring-green-500",
     icon: (
-      <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -142,18 +142,18 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
           <button
             onClick={handleCancel}
             disabled={isLoading}
-            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {cancelText}
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className={`rounded-md px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${config.confirmClass}`}
+            className={`rounded-md px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ${config.confirmClass}`}
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
                     cx="12"

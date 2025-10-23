@@ -12,9 +12,9 @@ export const QuizzQuestions = () => {
   return (
     <>
       <Grid>
-        <Card className="bg-gray-300/30 rounded-md border-none">
-          <Card.Content className="p-3 flex items-center justify-between flex-wrap gap-2">
-            <div className="text-sm space-x-1 leading-tight">
+        <Card className="rounded-md border-none bg-gray-300/30">
+          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+            <div className="space-x-1 text-sm leading-tight">
               <Text as="span" variant="primary">
                 The Bootstrap grid system is based on how many columns?
               </Text>
@@ -38,9 +38,9 @@ export const QuizzQuestions = () => {
             </div>
           </Card.Content>
         </Card>
-        <Card className="bg-gray-300/30 rounded-md border-none">
-          <Card.Content className="p-3 flex items-center justify-between flex-wrap gap-2">
-            <div className="text-sm space-x-1 leading-tight">
+        <Card className="rounded-md border-none bg-gray-300/30">
+          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+            <div className="space-x-1 text-sm leading-tight">
               <Text as="span" variant="primary">
                 The Bootstrap grid system is based on how many columns?
               </Text>
@@ -60,9 +60,9 @@ export const QuizzQuestions = () => {
             </div>
           </Card.Content>
         </Card>
-        <Card className="bg-gray-300/30 rounded-md border-none">
-          <Card.Content className="p-3 flex items-center justify-between flex-wrap gap-2">
-            <div className="text-sm space-x-1 leading-tight">
+        <Card className="rounded-md border-none bg-gray-300/30">
+          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+            <div className="space-x-1 text-sm leading-tight">
               <Text as="span" variant="primary">
                 The Bootstrap grid system is based on how many columns?
               </Text>
@@ -82,9 +82,9 @@ export const QuizzQuestions = () => {
             </div>
           </Card.Content>
         </Card>
-        <Card className="bg-gray-300/30 rounded-md border-none">
-          <Card.Content className="p-3 flex items-center justify-between flex-wrap gap-2">
-            <div className="text-sm space-x-1 leading-tight">
+        <Card className="rounded-md border-none bg-gray-300/30">
+          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+            <div className="space-x-1 text-sm leading-tight">
               <Text as="span" variant="primary">
                 The Bootstrap grid system is based on how many columns?
               </Text>

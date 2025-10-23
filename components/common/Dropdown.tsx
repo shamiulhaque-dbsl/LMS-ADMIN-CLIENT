@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface DropdownProps {
   isOpen: boolean;
@@ -104,7 +104,7 @@ export const DropdownItem: React.FC<{
       <a
         href={href}
         role="menuitem"
-        className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg"
+        className="block w-full rounded-lg px-4 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800"
       >
         {children}
       </a>
@@ -114,7 +114,7 @@ export const DropdownItem: React.FC<{
     <button
       onClick={onClick}
       role="menuitem"
-      className="block w-full px-4 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-50 rounded-lg text-left"
+      className="block w-full rounded-lg px-4 text-left text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-800"
     >
       {children}
     </button>

@@ -64,7 +64,7 @@ export const TabButton = memo<TabButtonProps>(
           {tab.icon}
           <span>{tab.label}</span>
           {tab.badge && (
-            <span className="inline-flex items-center justify-center px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
+            <span className="inline-flex items-center justify-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
               {tab.badge}
             </span>
           )}

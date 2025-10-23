@@ -60,9 +60,9 @@ export default function ManageCourseCreation() {
   };
 
   return (
-    <Card className="bg-white border-none shadow-lg">
+    <Card className="border-none bg-white shadow-lg">
       {/* Tab Header */}
-      <Card.Header className="rounded-t-xl p-2 bg-gray-50">
+      <Card.Header className="rounded-t-xl bg-gray-50 p-2">
         <ScrollableTabs
           tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
           value={activeTab}
@@ -78,12 +78,12 @@ export default function ManageCourseCreation() {
       )}
 
       {/* Tab Content */}
-      <Card.Content className="my-6 max-w-4xl mx-auto p-6">
+      <Card.Content className="mx-auto my-6 max-w-4xl p-6">
         <div className="min-h-[500px]">{renderTabContent()}</div>
       </Card.Content>
 
       {/* Bottom Navigation */}
-      <Card.Footer className="flex items-center justify-center gap-4 border-t border-gray-200 px-6 py-4 bg-gray-50">
+      <Card.Footer className="flex items-center justify-center gap-4 border-t border-gray-200 bg-gray-50 px-6 py-4">
         <div>
           {canGoPrev && (
             <Button
@@ -93,7 +93,7 @@ export default function ManageCourseCreation() {
               disabled={isSubmitting}
               className="min-w-[120px]"
             >
-              <Icons.chevronLeft className="w-4 h-4 mr-2" />
+              <Icons.chevronLeft className="mr-2 h-4 w-4" />
               Previous
             </Button>
           )}
@@ -120,7 +120,7 @@ export default function ManageCourseCreation() {
               disabled={isSubmitting}
               className="hidden sm:flex"
             >
-              <Icons.rotateCcw className="w-4 h-4 mr-2" />
+              <Icons.rotateCcw className="mr-2 h-4 w-4" />
               Reset
             </Button>
           )}
@@ -134,7 +134,7 @@ export default function ManageCourseCreation() {
               className="min-w-[120px]"
             >
               Next
-              <Icons.chevronRight className="w-4 h-4 ml-2" />
+              <Icons.chevronRight className="ml-2 h-4 w-4" />
             </Button>
           )}
         </div>
@@ -142,8 +142,8 @@ export default function ManageCourseCreation() {
 
       {/* Unsaved changes indicator */}
       {isDirty && (
-        <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 bg-amber-100 text-amber-800 text-xs font-medium rounded-full border border-amber-300">
-          <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+        <div className="absolute right-4 top-4 flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100 px-3 py-1.5 text-xs font-medium text-amber-800">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-amber-500"></span>
           Unsaved changes
         </div>
       )}

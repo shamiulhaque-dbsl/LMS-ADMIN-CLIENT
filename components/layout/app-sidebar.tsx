@@ -7,7 +7,7 @@ import { menuItems } from "@/lib/constants/menuItem";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Icons } from "@/components/Icons";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 export const AppSidebar = () => {
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<Set<string>>(new Set());
@@ -59,7 +59,7 @@ export const AppSidebar = () => {
           "sm:translate-x-0 sm:shadow-lg sm:shadow-gray-900/10"
         )}
       >
-        <div className="relative h-full flex flex-col">
+        <div className="relative flex h-full flex-col">
           {/* Header */}
           <div className="relative border-b border-gray-200/60 px-6 py-4">
             <div className="flex items-center justify-between">

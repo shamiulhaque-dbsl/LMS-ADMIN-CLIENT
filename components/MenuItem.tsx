@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface MenuItemProps {
   item: {

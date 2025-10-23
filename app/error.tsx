@@ -14,13 +14,11 @@ export default function DashboardErrorBoundary({
   }, [error]);
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold text-red-600 mb-3">
-        Error loading dashboard content
-      </h3>
+    <div className="rounded-lg bg-white p-6 shadow-md">
+      <h3 className="mb-3 text-xl font-semibold text-red-600">Error loading dashboard content</h3>
       <button
         onClick={reset}
-        className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+        className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
       >
         Try again
       </button>

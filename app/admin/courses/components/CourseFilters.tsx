@@ -100,7 +100,7 @@ export default function CoursesFilters() {
 
   return (
     <Card className="mb-6 rounded-xl bg-white">
-      <Card.Header className="mb-0 px-4 py-5 sm:px-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-5 rounded-xl">
+      <Card.Header className="mb-0 flex flex-col gap-5 rounded-xl border-b border-gray-200 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center space-x-2">
           <h2 className="text-lg font-medium">Filters</h2>
 
@@ -130,7 +130,7 @@ export default function CoursesFilters() {
           <form onSubmit={applyFilters}>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <div className="mb-4">
-                <label htmlFor="dateFrom" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dateFrom" className="mb-1 block text-sm font-medium text-gray-700">
                   Date From
                 </label>
                 <input
@@ -139,12 +139,12 @@ export default function CoursesFilters() {
                   name="dateFrom"
                   value={localFilters.dateFrom}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="dateTo" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dateTo" className="mb-1 block text-sm font-medium text-gray-700">
                   Date To
                 </label>
                 <input
@@ -153,12 +153,12 @@ export default function CoursesFilters() {
                   name="dateTo"
                   value={localFilters.dateTo}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="category" className="mb-1 block text-sm font-medium text-gray-700">
                   Category
                 </label>
                 <select
@@ -166,7 +166,7 @@ export default function CoursesFilters() {
                   name="category"
                   value={localFilters.category}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
                   <option value="">All Categories</option>
                   <option value="Web Development">Web Development</option>
@@ -180,7 +180,7 @@ export default function CoursesFilters() {
               <div className="mb-4">
                 <label
                   htmlFor="instructor"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="mb-1 block text-sm font-medium text-gray-700"
                 >
                   Instructor
                 </label>
@@ -189,7 +189,7 @@ export default function CoursesFilters() {
                   name="instructor"
                   value={localFilters.instructor}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
                   <option value="">All Instructors</option>
                   <option value="John Doe">John Doe</option>
@@ -200,7 +200,7 @@ export default function CoursesFilters() {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="status" className="mb-1 block text-sm font-medium text-gray-700">
                   Status
                 </label>
                 <select
@@ -208,7 +208,7 @@ export default function CoursesFilters() {
                   name="status"
                   value={localFilters.status}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
                   <option value="">All Status</option>
                   <option value="active">Active</option>

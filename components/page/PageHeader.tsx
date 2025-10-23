@@ -13,7 +13,7 @@ export const PageHeader = memo(function PageHeader({
   showBreadcrumb = true,
 }: PageHeaderProps) {
   return (
-    <Card className="flex justify-between items-center border-none mb-6">
+    <Card className="mb-6 flex items-center justify-between border-none">
       <PageTitle>{title}</PageTitle>
       {showBreadcrumb && <Breadcrumb mode="portal" />}
     </Card>

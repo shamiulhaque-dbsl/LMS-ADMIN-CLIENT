@@ -132,16 +132,16 @@ const CardSkeleton = ({ size = "md" }: { size?: "sm" | "md" | "lg" }) => {
 
   return (
     <div
-      className={`animate-pulse bg-white border border-gray-200 rounded-lg p-6 ${heights[size]}`}
+      className={`animate-pulse rounded-lg border border-gray-200 bg-white p-6 ${heights[size]}`}
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-gray-200 rounded-lg"></div>
-            <div className="w-24 h-4 bg-gray-200 rounded"></div>
+          <div className="mb-3 flex items-center gap-3">
+            <div className="h-10 w-10 rounded-lg bg-gray-200"></div>
+            <div className="h-4 w-24 rounded bg-gray-200"></div>
           </div>
-          <div className="w-20 h-8 bg-gray-200 rounded mb-2"></div>
-          <div className="w-16 h-4 bg-gray-200 rounded"></div>
+          <div className="mb-2 h-8 w-20 rounded bg-gray-200"></div>
+          <div className="h-4 w-16 rounded bg-gray-200"></div>
         </div>
       </div>
     </div>
@@ -183,9 +183,9 @@ const InfoCardItem = ({
   return (
     <div
       className={`
-        bg-white border border-gray-200 rounded-lg shadow-sm transition-all duration-200
+        rounded-lg border border-gray-200 bg-white shadow-sm transition-all duration-200
         ${sizeClasses[card.size || "md"]}
-        ${isClickable ? "cursor-pointer hover:shadow-md hover:border-gray-300" : ""}
+        ${isClickable ? "cursor-pointer hover:border-gray-300 hover:shadow-md" : ""}
         ${variant === "compact" ? "p-4" : ""}
       `}
       onClick={isClickable ? handleClick : undefined}
@@ -196,20 +196,20 @@ const InfoCardItem = ({
       ) : (
         <>
           {/* Header with icon, title, and badge */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center gap-3 flex-1">
+          <div className="mb-3 flex items-start justify-between">
+            <div className="flex flex-1 items-center gap-3">
               {IconComponent && (
-                <div className={`p-2 rounded-lg ${colors.iconBg}`}>
+                <div className={`rounded-lg p-2 ${colors.iconBg}`}>
                   <IconComponent className={`h-5 w-5 ${card.iconColor || colors.text}`} />
                 </div>
               )}
               <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
+                <div className="mb-1 flex items-center gap-2">
                   <h3 className="text-sm font-medium text-gray-900">{card.title}</h3>
                   {card.badge && (
                     <span
                       className={`
-                      px-2 py-1 text-xs font-medium rounded-full border
+                      rounded-full border px-2 py-1 text-xs font-medium
                       ${badgeColors[card.badge.variant || "neutral"]}
                     `}
                     >
@@ -226,8 +226,8 @@ const InfoCardItem = ({
 
           {/* Main value */}
           <div className="mb-3">
-            <span className="text-3xl font-bold text-gray-900 tracking-tight">{card.value}</span>
-            {card.subtitle && <p className="text-sm text-gray-500 mt-1">{card.subtitle}</p>}
+            <span className="text-3xl font-bold tracking-tight text-gray-900">{card.value}</span>
+            {card.subtitle && <p className="mt-1 text-sm text-gray-500">{card.subtitle}</p>}
           </div>
 
           {/* Trend and actions row */}
@@ -284,9 +284,9 @@ const InfoCardItem = ({
                       }}
                       disabled={action.disabled}
                       className={`
-                        px-3 py-1.5 text-xs font-medium rounded-md transition-colors
+                        rounded-md px-3 py-1.5 text-xs font-medium transition-colors
                         ${buttonClasses[action.variant || "ghost"]}
-                        ${action.disabled ? "opacity-50 cursor-not-allowed" : ""}
+                        ${action.disabled ? "cursor-not-allowed opacity-50" : ""}
                       `}
                     >
                       <div className="flex items-center gap-1">

@@ -25,7 +25,7 @@ export default function CourseTable() {
   const [totalRecords, setTotalRecords] = useState(0);
 
   return (
-    <Table className="bg-white overflow-y-clip">
+    <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
@@ -44,7 +44,7 @@ export default function CourseTable() {
             </Link>
           </TableCell>
           <TableCell>
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+            <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
               active
             </span>
           </TableCell>

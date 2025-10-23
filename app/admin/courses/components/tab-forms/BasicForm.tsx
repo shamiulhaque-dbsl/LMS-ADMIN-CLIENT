@@ -76,12 +76,12 @@ export const BasicForm = () => {
       <div className="flex justify-between gap-4">
         <div className="w-full">
           <label
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1 block text-sm font-medium text-gray-700"
             htmlFor="short_description"
           >
-            Course Type <span className="text-red-500 ml-1">*</span>
+            Course Type <span className="ml-1 text-red-500">*</span>
           </label>
-          <select className="h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm required">
+          <select className="required block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
             <option value="live">Live</option>
             <option value="recorded">Recorded</option>
             <option value="blended">Blended</option>
@@ -89,12 +89,12 @@ export const BasicForm = () => {
         </div>
         <div className="w-full">
           <label
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1 block text-sm font-medium text-gray-700"
             htmlFor="short_description"
           >
-            Category <span className="text-red-500 ml-1">*</span>
+            Category <span className="ml-1 text-red-500">*</span>
           </label>
-          <select className="h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm">
+          <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
             <option value="web-design">Web Design</option>
             <option value="development">Development</option>
             <option value="marketing">Marketing</option>
@@ -104,22 +104,22 @@ export const BasicForm = () => {
       <div className="flex justify-between gap-4">
         <div className="w-full">
           <label
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="mb-1 block text-sm font-medium text-gray-700"
             htmlFor="short_description"
           >
             Skill Level
           </label>
-          <select className="h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm">
+          <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
           </select>
         </div>
         <div className="w-full">
-          <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="status">
-            Course Status <span className="text-red-500 ml-1">*</span>
+          <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor="status">
+            Course Status <span className="ml-1 text-red-500">*</span>
           </label>
-          <select className="h-10 border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm">
+          <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
             <option value="active">Active</option>
             <option value="published">Published</option>
             <option value="draft">Draft</option>
@@ -129,7 +129,7 @@ export const BasicForm = () => {
       </div>
 
       {/* Make ui with toggle system with this lavel: Course Forum, Downloadable Content, Certificate Available  */}
-      <div className="space-y-4 border border-gray-200 p-4 rounded-md">
+      <div className="space-y-4 rounded-md border border-gray-200 p-4">
         <div className="flex items-center">
           <input type="checkbox" id="course_forum" className="mr-2" />
           <label htmlFor="course_forum" className="text-sm text-gray-700">

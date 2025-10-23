@@ -79,10 +79,10 @@ export const CurriculumForm = () => {
   return (
     <div className="py-4">
       {/* Top Actions Buttons */}
-      <div className="flex items-center justify-center flex-wrap gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-4">
         <Button
           size="sm"
-          className="border border-gray-300 rounded-full"
+          className="rounded-full border border-gray-300"
           onClick={() => openModal("section-modal")}
         >
           <Icons.plus size={16} />
@@ -92,7 +92,7 @@ export const CurriculumForm = () => {
         </Button>
         <Button
           size="sm"
-          className="border border-gray-300 rounded-full"
+          className="rounded-full border border-gray-300"
           onClick={() => openModal("lesson-modal")}
           sort-section-modal
         >
@@ -103,7 +103,7 @@ export const CurriculumForm = () => {
         </Button>
         <Button
           size="sm"
-          className="border border-gray-300 rounded-full"
+          className="rounded-full border border-gray-300"
           onClick={() => openModal("sort-section-modal")}
         >
           <Icons.arrowDownUp size={16} />
@@ -116,20 +116,20 @@ export const CurriculumForm = () => {
       {/* Section List with Lessons List */}
       <div className="mt-12 space-y-8">
         {sections.map((section, sectionIndex) => (
-          <div key={section.id} className="bg-blue-200/20 p-4 rounded-md">
+          <div key={section.id} className="rounded-md bg-blue-200/20 p-4">
             {/* === Section Header === */}
-            <div className="flex items-center justify-between flex-wrap gap-2 mb-8">
-              <div className="text-sm space-x-1">
+            <div className="mb-8 flex flex-wrap items-center justify-between gap-2">
+              <div className="space-x-1 text-sm">
                 <Text as="span">Section {sectionIndex + 1}:</Text>
                 <Text as="span" className="font-semibold" variant="primary">
                   {section.title}
                 </Text>
               </div>
 
-              <div className="flex items-center justify-end flex-wrap gap-4">
+              <div className="flex flex-wrap items-center justify-end gap-4">
                 <Button
                   size="sm"
-                  className="border border-gray-300 rounded-full space-x-2"
+                  className="space-x-2 rounded-full border border-gray-300"
                   onClick={() => openModal("sort-section-modal")}
                 >
                   <Icons.arrowDownUp size={16} />
@@ -137,7 +137,7 @@ export const CurriculumForm = () => {
                 </Button>
                 <Button
                   size="sm"
-                  className="border border-gray-300 rounded-full space-x-2"
+                  className="space-x-2 rounded-full border border-gray-300"
                   onClick={() => openModal("section-modal")}
                 >
                   <Icons.edit size={16} />
@@ -145,7 +145,7 @@ export const CurriculumForm = () => {
                 </Button>
                 <Button
                   size="sm"
-                  className="border border-gray-300 rounded-full space-x-2"
+                  className="space-x-2 rounded-full border border-gray-300"
                   onClick={() => handleDeleteClick(section.id)}
                 >
                   <Icons.trash size={16} />
@@ -157,9 +157,9 @@ export const CurriculumForm = () => {
             {/* === Lessons === */}
             <Grid>
               {section.lessons.map((lesson, lessonIndex) => (
-                <Card key={lesson.id} className="bg-white rounded-md border-none">
-                  <Card.Content className="p-3 flex items-center justify-between flex-wrap gap-2">
-                    <div className="text-sm space-x-1 leading-tight">
+                <Card key={lesson.id} className="rounded-md border-none bg-white">
+                  <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+                    <div className="space-x-1 text-sm leading-tight">
                       <Text as="span">Lesson {lessonIndex + 1}:</Text>
                       <Text as="span" variant="primary">
                         {lesson.title}

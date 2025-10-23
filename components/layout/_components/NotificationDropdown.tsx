@@ -52,11 +52,11 @@ export const NotificationDropdown: React.FC = () => {
     <button
       type="button"
       onClick={toggle}
-      className="relative text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white focus:outline-none"
+      className="relative text-gray-500 hover:text-gray-700 focus:outline-none dark:text-gray-400 dark:hover:text-white"
     >
-      <Icons.bell className="w-6 h-6" />
+      <Icons.bell className="h-6 w-6" />
       {notifications.some((n) => n.isUnread) && (
-        <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500" />
+        <span className="absolute right-0 top-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
       )}
     </button>
   );
@@ -66,9 +66,9 @@ export const NotificationDropdown: React.FC = () => {
       isOpen={isOpen}
       onClose={close}
       trigger={trigger}
-      className="w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+      className="w-80 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800"
     >
-      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
+      <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-600">
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Notifications</h3>
       </div>
       <div className="max-h-96 overflow-y-auto">
@@ -76,7 +76,7 @@ export const NotificationDropdown: React.FC = () => {
           <NotificationItem key={notification.id} {...notification} />
         ))}
       </div>
-      <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-600">
+      <div className="border-t border-gray-200 px-4 py-2 dark:border-gray-600">
         <Link href="#" className="text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400">
           View all notifications
         </Link>

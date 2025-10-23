@@ -34,7 +34,7 @@ export const ModalContent: React.FC<ModalContentProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto" onClick={() => closeModal(id)}>
       <div className="flex min-h-full items-center justify-center p-4">
         <div
-          className={`relative w-full ${sizeClasses[size]} bg-white rounded-lg shadow-lg my-8 ${className}`}
+          className={`relative w-full ${sizeClasses[size]} my-8 rounded-lg bg-white shadow-lg ${className}`}
           onClick={(e) => e.stopPropagation()}
         >
           {children}

@@ -1,5 +1,5 @@
 import { HTMLAttributes, ReactNode } from "react";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   ref?: React.Ref<HTMLDivElement>;

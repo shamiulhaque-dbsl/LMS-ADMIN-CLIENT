@@ -25,7 +25,7 @@ export const ScrollButton: React.FC<ScrollButtonProps> = ({
 
   return (
     <button
-      className={`absolute ${isLeft ? "left-0" : "right-0"} z-10 flex items-center justify-center w-8 h-8 bg-white border border-gray-200 rounded-full shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50`}
+      className={`absolute ${isLeft ? "left-0" : "right-0"} z-10 flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50`}
       onClick={onClick}
       aria-label={label}
       disabled={disabled}
@@ -35,7 +35,7 @@ export const ScrollButton: React.FC<ScrollButtonProps> = ({
       }}
     >
       <svg
-        className={`w-4 h-4 text-gray-600 ${orientation === "vertical" ? "rotate-90" : ""} ${!isLeft ? "rotate-180" : ""}`}
+        className={`h-4 w-4 text-gray-600 ${orientation === "vertical" ? "rotate-90" : ""} ${!isLeft ? "rotate-180" : ""}`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

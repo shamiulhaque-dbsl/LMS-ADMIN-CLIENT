@@ -7,14 +7,14 @@ export const PricingForm = () => {
         <input
           type="checkbox"
           id="isFree"
-          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
         />
         <label htmlFor="isFree" className="ml-2 block text-sm text-gray-700">
           Check if this is a free course
         </label>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <Input label="Course Price" type="number" step="0.01" placeholder="Enter course price" />
         <Input
           label="Discounted price (if applicable)"
@@ -22,7 +22,7 @@ export const PricingForm = () => {
           placeholder="Enter discounted price"
         />
         {/* Implement radio box of Expiry period: Lifetime or limited time */}
-        <div className="col-span-3 md:col-span-2 space-y-2">
+        <div className="col-span-3 space-y-2 md:col-span-2">
           <label className="block text-sm font-medium text-gray-700">Expiry Period</label>
           <div className="flex gap-4">
             <div className="flex items-center">

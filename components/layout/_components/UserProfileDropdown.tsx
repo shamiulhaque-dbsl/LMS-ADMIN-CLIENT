@@ -29,11 +29,11 @@ export const UserProfileDropdown: React.FC = () => {
     <button
       type="button"
       onClick={toggle}
-      className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+      className="flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
     >
       <span className="sr-only">Open user menu</span>
       <Image
-        className="w-8 h-8 rounded-full"
+        className="h-8 w-8 rounded-full"
         src="/images/profile.jpg"
         alt="user photo"
         width={100}
@@ -47,11 +47,11 @@ export const UserProfileDropdown: React.FC = () => {
       isOpen={isOpen}
       onClose={close}
       trigger={trigger}
-      className="w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5"
+      className="w-48 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800"
     >
-      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-600">
+      <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-600">
         <p className="text-sm text-gray-900 dark:text-white">{user?.name || "Neil Sims"}</p>
-        <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300">
+        <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-300">
           {user?.email || "neil.sims@flowbite.com"}
         </p>
       </div>
@@ -69,7 +69,7 @@ export const UserProfileDropdown: React.FC = () => {
         <li>
           <button
             onClick={handleLogout}
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white w-full text-left"
+            className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Log Out
           </button>

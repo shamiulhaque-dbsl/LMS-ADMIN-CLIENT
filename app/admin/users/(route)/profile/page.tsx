@@ -1,39 +1,37 @@
 import { Icons } from "@/components/Icons";
 import Image from "next/image";
-import { getSession } from "@/lib/auth/session";
 const ProfilePage = async () => {
-  const user = await getSession();
   return (
     <div className="min-h-screen">
       {/* Header Section */}
-      <div className="bg-white shadow-xl rounded-lg p-8 space-y-6">
-        <div className="flex flex-col lg:flex-row items-center gap-6">
+      <div className="space-y-6 rounded-lg bg-white p-8 shadow-xl">
+        <div className="flex flex-col items-center gap-6 lg:flex-row">
           {/* Profile Image */}
-          <div className="relative w-32 h-32 lg:w-40 lg:h-40">
+          <div className="relative h-32 w-32 lg:h-40 lg:w-40">
             <Image
               src="/images/blank-image.svg"
               alt="User Avatar"
-              className="rounded-full border-2 border-red-300/80 shadow-lg transform transition duration-300 hover:scale-105"
+              className="transform rounded-full border-2 border-red-300/80 shadow-lg transition duration-300 hover:scale-105"
               width={100}
               height={80}
             />
-            <button className="absolute bottom-2 right-2 bg-red-500 text-white p-2 rounded-full shadow-lg hover:bg-red-700">
-              <Icons.edit className="w-4 h-4" />
+            <button className="absolute bottom-2 right-2 rounded-full bg-red-500 p-2 text-white shadow-lg hover:bg-red-700">
+              <Icons.edit className="h-4 w-4" />
             </button>
           </div>
 
           {/* User Info */}
           <div className="text-center lg:text-left">
-            <h1 className="text-3xl font-bold text-gray-900">{user?.name}</h1>
-            <p className="text-lg text-indigo-600 mt-1">Senior UX/UI Designer</p>
-            <p className="text-sm text-gray-600 mt-2">{user?.email}</p>
+            <h1 className="text-3xl font-bold text-gray-900">Chayan</h1>
+            <p className="mt-1 text-lg text-indigo-600">Senior UX/UI Designer</p>
+            <p className="mt-2 text-sm text-gray-600">chayan@gmail.com</p>
 
             {/* Action Buttons */}
-            <div className="flex justify-center lg:justify-start gap-6 mt-4">
-              <button className="bg-red-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-red-700 transform transition duration-300">
+            <div className="mt-4 flex justify-center gap-6 lg:justify-start">
+              <button className="transform rounded-lg bg-red-500 px-6 py-3 text-white shadow-md transition duration-300 hover:bg-red-700">
                 Follow
               </button>
-              <button className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg shadow-md hover:bg-gray-300">
+              <button className="rounded-lg bg-gray-200 px-6 py-3 text-gray-800 shadow-md hover:bg-gray-300">
                 Message
               </button>
             </div>
@@ -42,10 +40,10 @@ const ProfilePage = async () => {
       </div>
 
       {/* Main Content */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-3">
         {/* Personal Info */}
-        <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Personal Information</h2>
+        <div className="rounded-lg bg-white p-8 shadow-lg">
+          <h2 className="mb-6 text-xl font-semibold text-gray-900">Personal Information</h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <p className="text-gray-600">Phone:</p>
@@ -63,8 +61,8 @@ const ProfilePage = async () => {
         </div>
 
         {/* Skills & Expertise */}
-        <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Skills & Expertise</h2>
+        <div className="rounded-lg bg-white p-8 shadow-lg">
+          <h2 className="mb-6 text-xl font-semibold text-gray-900">Skills & Expertise</h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <p className="text-gray-600">Design Tools:</p>
@@ -82,9 +80,9 @@ const ProfilePage = async () => {
         </div>
 
         {/* Activity Stats */}
-        <div className="bg-white shadow-lg rounded-lg p-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">Activity Stats</h2>
-          <div className="flex justify-between items-center">
+        <div className="rounded-lg bg-white p-8 shadow-lg">
+          <h2 className="mb-6 text-xl font-semibold text-gray-900">Activity Stats</h2>
+          <div className="flex items-center justify-between">
             <div className="flex flex-col items-center">
               <p className="text-4xl font-bold text-indigo-600">256</p>
               <p className="text-sm text-gray-600">Projects</p>
@@ -102,8 +100,8 @@ const ProfilePage = async () => {
       </div>
 
       {/* Account Settings */}
-      <div className="mt-8 bg-white shadow-lg rounded-lg p-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Account Settings</h2>
+      <div className="mt-8 rounded-lg bg-white p-8 shadow-lg">
+        <h2 className="mb-6 text-xl font-semibold text-gray-900">Account Settings</h2>
         <div className="space-y-6">
           <div className="flex justify-between">
             <p className="text-gray-600">Change Email</p>

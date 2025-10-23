@@ -1,4 +1,4 @@
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface TextProps {
   variant?: "primary" | "muted" | "gray" | "white" | "dark" | "red";

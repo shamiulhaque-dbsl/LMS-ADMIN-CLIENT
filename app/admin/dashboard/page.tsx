@@ -1,11 +1,11 @@
 export default async function DashboardTwo() {
   return (
-    <div className="border-2 border-gray-200 border-dashed rounded-lg">
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+    <div className="rounded-lg border-2 border-dashed border-gray-200">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -21,10 +21,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -40,69 +40,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -119,11 +60,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -139,10 +80,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -158,69 +99,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -237,11 +119,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -257,10 +139,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -276,69 +158,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -355,11 +178,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -375,10 +198,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -394,10 +217,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -413,12 +236,12 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      </div>
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -434,10 +257,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -453,10 +276,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -472,12 +295,12 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      </div>
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -493,10 +316,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -512,10 +335,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -531,12 +354,12 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      </div>
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -552,10 +375,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -571,69 +394,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -650,11 +414,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -670,10 +434,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -689,69 +453,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -768,11 +473,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -788,10 +493,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -807,69 +512,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-      </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 18 18"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 1v16M1 9h16"
-              />
-            </svg>
-          </p>
-        </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
-          <p className="text-2xl text-gray-400">
-            <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -886,11 +532,11 @@ export default async function DashboardTwo() {
           </p>
         </div>
       </div>{" "}
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -906,10 +552,10 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -925,10 +571,364 @@ export default async function DashboardTwo() {
             </svg>
           </p>
         </div>
-        <div className="flex items-center justify-center h-24 rounded bg-gray-50">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
           <p className="text-2xl text-gray-400">
             <svg
-              className="w-3.5 h-3.5"
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+      </div>{" "}
+      <div className="mb-4 grid grid-cols-3 gap-4">
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 18 18"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 1v16M1 9h16"
+              />
+            </svg>
+          </p>
+        </div>
+        <div className="flex h-24 items-center justify-center rounded bg-gray-50">
+          <p className="text-2xl text-gray-400">
+            <svg
+              className="h-3.5 w-3.5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

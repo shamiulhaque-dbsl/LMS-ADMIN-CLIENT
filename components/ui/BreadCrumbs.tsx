@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Breadcrumb = ({ items }: { items: any }) => {
   return (
-    <nav className="flex mt-1" aria-label="Breadcrumb">
+    <nav className="mt-1 flex" aria-label="Breadcrumb">
       <ol className="inline-flex items-center  rtl:space-x-reverse ">
         {items.map((item: any, index: any) => (
           <li key={index} className="inline-flex items-center justify-between">
@@ -13,7 +13,7 @@ const Breadcrumb = ({ items }: { items: any }) => {
               >
                 {index === 0 && (
                   <svg
-                    className="w-3 h-3 me-2.5"
+                    className="me-2.5 h-3 w-3"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -31,7 +31,7 @@ const Breadcrumb = ({ items }: { items: any }) => {
             )}
             {index < items.length - 1 && (
               <svg
-                className="rtl:rotate-180 w-8 h-3 text-gray-400 mx-1 transform"
+                className="mx-1 h-3 w-8 transform text-gray-400 rtl:rotate-180"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

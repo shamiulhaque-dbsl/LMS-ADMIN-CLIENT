@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface Props {
   children: ReactNode;

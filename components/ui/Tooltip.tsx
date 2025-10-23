@@ -43,7 +43,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ content, children, placement =
       {visible && (
         <div
           className={clsx(
-            "absolute z-50 w-max max-w-xs px-3 py-1.5 text-sm text-white bg-gray-900 rounded-lg shadow-lg transition-all duration-200 ease-out transform opacity-100 scale-100",
+            "absolute z-50 w-max max-w-xs scale-100 transform rounded-lg bg-gray-900 px-3 py-1.5 text-sm text-white opacity-100 shadow-lg transition-all duration-200 ease-out",
             placementClasses[placement]
           )}
         >
@@ -51,7 +51,7 @@ export const Tooltip: React.FC<TooltipProps> = ({ content, children, placement =
           {/* Arrow */}
           <div
             className={clsx(
-              "absolute w-0 h-0 border-8 border-transparent",
+              "absolute h-0 w-0 border-8 border-transparent",
               arrowClasses[placement]
             )}
           />

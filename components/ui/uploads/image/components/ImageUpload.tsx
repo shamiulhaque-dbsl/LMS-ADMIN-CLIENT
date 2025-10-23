@@ -49,7 +49,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
   return (
     <div className={`w-full ${className}`}>
       <div
-        className={`flex ${isSmall ? "flex-col sm:flex-row" : "flex-col lg:flex-row"} gap-4 items-start`}
+        className={`flex ${isSmall ? "flex-col sm:flex-row" : "flex-col lg:flex-row"} items-start gap-4`}
       >
         {/* Preview */}
         <div className="flex-shrink-0">
@@ -70,9 +70,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
             <div
               className={`relative flex flex-col items-center justify-center border-2 transition-all duration-200 ${shapeClass} ${
                 isDragging
-                  ? "border-blue-500 bg-blue-50 border-solid"
+                  ? "border-solid border-blue-500 bg-blue-50"
                   : "border-dashed border-gray-300 hover:border-blue-400 hover:bg-gray-50"
-              } ${disabled || readOnly ? "opacity-50 cursor-not-allowed bg-gray-100" : "cursor-pointer bg-white"}`}
+              } ${disabled || readOnly ? "cursor-not-allowed bg-gray-100 opacity-50" : "cursor-pointer bg-white"}`}
               style={{ width: containerSize, height: containerSize }}
               onClick={triggerFileInput}
               onDragEnter={handleDragEnter}
@@ -101,7 +101,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
                 {!isSmall && size !== "md" && (
                   <div className="text-center">
                     <p className="text-sm font-medium text-gray-700">{placeholder}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">or drag & drop</p>
+                    <p className="mt-0.5 text-xs text-gray-500">or drag & drop</p>
                   </div>
                 )}
               </div>
@@ -111,8 +111,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
 
         {/* Info Panel */}
         {!previewUrl && showUploadGuideline && (
-          <div className="flex-1 min-w-0">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <div className="min-w-0 flex-1">
+            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
               <div className="space-y-2.5">
                 <h3 className="text-sm font-semibold text-gray-900">Upload Guidelines</h3>
                 <UploadInfo
@@ -130,9 +130,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
 
       {/* Error */}
       {internalError && (
-        <div className="flex items-center gap-2 p-3 mt-3 bg-red-50 border border-red-200 rounded-lg">
-          <Icons.x size={16} className="text-red-600 flex-shrink-0" />
-          <p className="text-sm text-red-700 font-medium">{internalError}</p>
+        <div className="mt-3 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3">
+          <Icons.x size={16} className="flex-shrink-0 text-red-600" />
+          <p className="text-sm font-medium text-red-700">{internalError}</p>
         </div>
       )}
 
@@ -152,7 +152,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = (props) => {
 
 const UploadInfo = ({ label, value }: { label?: string; value: string }) => (
   <div className="flex items-start gap-2 text-xs text-gray-700">
-    <div className="w-1 h-1 bg-blue-500 rounded-full mt-1.5 flex-shrink-0" />
+    <div className="mt-1.5 h-1 w-1 flex-shrink-0 rounded-full bg-blue-500" />
     <div>
       {label && <span className="font-medium">{label} </span>}
       <span className="text-gray-600">{value}</span>

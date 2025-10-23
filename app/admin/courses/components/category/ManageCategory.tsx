@@ -5,17 +5,18 @@ import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Plus, FileSpreadsheet, FileType } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export default function ManageCourseCategory() {
   return (
-    <Card className="bg-white border-none">
-      <Card.Header className="flex flex-wrap justify-between items-center gap-4 border-b px-4 py-3 sm:px-6 mb-0">
-        <Text className="text-lg font-medium text-dark">Categories List</Text>
+    <Card className="border-none bg-white">
+      <Card.Header className="mb-0 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-6">
+        <Text className="text-dark text-lg font-medium">Categories List</Text>
 
         <div className="flex gap-3">
           <Link href="/admin/courses/categories/create">
             <Button size="sm" variant="default" type="button">
-              <Plus className="w-4 h-4 mr-1" />
+              <Plus className="mr-1 h-4 w-4" />
               Add Category
             </Button>
           </Link>
@@ -23,7 +24,9 @@ export default function ManageCourseCategory() {
       </Card.Header>
 
       <Card.Content className="p-4 sm:p-6">
-        <CourseTable />
+        <Suspense fallback={<div>Loading quizzes...</div>}>
+          <CourseTable />
+        </Suspense>
       </Card.Content>
     </Card>
   );

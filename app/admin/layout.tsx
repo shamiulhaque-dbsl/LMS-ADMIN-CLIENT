@@ -11,12 +11,12 @@ export default function RootLayout({
   return (
     <SessionProvider>
       <SidebarProvider>
-        <div className="flex flex-1 flex-col min-h-screen">
+        <div className="flex min-h-screen flex-1 flex-col">
           <AppSidebar />
           <div className="sm:pl-64">
             <AppHeader />
             <main className="flex flex-1 flex-col">
-              <div className="px-4 sm:px-10 pt-6 pb-16">{children}</div>
+              <div className="px-4 pb-16 pt-6 sm:px-10">{children}</div>
             </main>
           </div>
         </div>

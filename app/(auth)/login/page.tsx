@@ -12,7 +12,7 @@ const loginPageInfo = {
 
 const EmailAuthSection = () => {
   return (
-    <div>
+    <>
       <LoginForm />
       <p className="mt-10 text-center text-xs/5 text-slate-500">
         New to E-FakeFilter?
@@ -23,7 +23,7 @@ const EmailAuthSection = () => {
           Create an account
         </Link>
       </p>
-    </div>
+    </>
   );
 };
 

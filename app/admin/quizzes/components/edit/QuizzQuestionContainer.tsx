@@ -9,9 +9,9 @@ export default function QuizQuestionContainer() {
   const openModal = useModalStore((state) => state.openModal);
 
   return (
-    <div className="max-w-4xl my-10">
+    <div className="my-10 max-w-4xl">
       <Card className="border-none">
-        <Card.Header className="border-b pb-4 flex justify-between">
+        <Card.Header className="flex justify-between border-b pb-4">
           <Card.Title>Quizz Questions</Card.Title>
           <Button variant="default" size="sm" onClick={() => openModal("question-add-modal")}>
             Add New Question

@@ -27,12 +27,12 @@ export const ActionDropdown: React.FC<ActionDropdownProps> = ({ actions, onOpenM
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       trigger={
-        <button onClick={() => setIsOpen(!isOpen)} className="p-2 rounded-full hover:bg-gray-100">
-          <MoreVertical className="w-5 h-5" />
+        <button onClick={() => setIsOpen(!isOpen)} className="rounded-full p-2 hover:bg-gray-100">
+          <MoreVertical className="h-5 w-5" />
         </button>
       }
     >
-      <div className="flex flex-col bg-white rounded-lg shadow-md border">
+      <div className="flex flex-col rounded-lg border bg-white shadow-md">
         {actions.map((action) => (
           <DropdownItem
             key={action.id}

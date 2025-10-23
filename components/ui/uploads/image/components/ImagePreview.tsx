@@ -19,10 +19,10 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
   const isSmall = size <= sizeConfig.sm;
 
   return (
-    <div className="relative group flex-shrink-0" style={{ width: size, height: size }}>
+    <div className="group relative flex-shrink-0" style={{ width: size, height: size }}>
       <Image
-        className={`w-full h-full ${shapeClass} object-cover border-2 border-gray-200 shadow-md transition-all duration-300 ${
-          !readOnly && !disabled ? "group-hover:brightness-90 cursor-pointer" : ""
+        className={`h-full w-full ${shapeClass} border-2 border-gray-200 object-cover shadow-md transition-all duration-300 ${
+          !readOnly && !disabled ? "cursor-pointer group-hover:brightness-90" : ""
         }`}
         src={src}
         alt={alt}
@@ -32,12 +32,12 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
 
       {!readOnly && !isSmall && (
         <div
-          className={`absolute inset-0 ${shapeClass} bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 pointer-events-none`}
+          className={`absolute inset-0 ${shapeClass} pointer-events-none flex items-center justify-center gap-2 bg-black/50 opacity-0 transition-opacity duration-200 group-hover:opacity-100`}
         >
           <div className="pointer-events-auto flex gap-2">
             {showEditButton && (
               <Button
-                className="h-auto bg-white text-gray-700 p-2 rounded-lg shadow-lg hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-auto rounded-lg bg-white p-2 text-gray-700 shadow-lg transition-colors duration-200 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={onEdit}
                 disabled={disabled}
                 aria-label="Edit image"
@@ -48,7 +48,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
 
             {showDeleteButton && (
               <Button
-                className="h-auto bg-white text-red-600 p-2 rounded-lg shadow-lg hover:bg-red-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-auto rounded-lg bg-white p-2 text-red-600 shadow-lg transition-colors duration-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={onDelete}
                 disabled={disabled}
                 aria-label="Remove image"
@@ -61,10 +61,10 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
       )}
 
       {!readOnly && isSmall && (
-        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex gap-1">
+        <div className="absolute -bottom-8 left-1/2 flex -translate-x-1/2 gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
           {showEditButton && (
             <Button
-              className="bg-white text-gray-700 p-1.5 rounded shadow-md hover:bg-gray-100 transition-colors duration-200 disabled:opacity-50"
+              className="rounded bg-white p-1.5 text-gray-700 shadow-md transition-colors duration-200 hover:bg-gray-100 disabled:opacity-50"
               onClick={onEdit}
               disabled={disabled}
               aria-label="Edit image"
@@ -75,7 +75,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
 
           {showDeleteButton && (
             <Button
-              className="bg-white text-red-600 p-1.5 rounded shadow-md hover:bg-red-50 transition-colors duration-200 disabled:opacity-50"
+              className="rounded bg-white p-1.5 text-red-600 shadow-md transition-colors duration-200 hover:bg-red-50 disabled:opacity-50"
               onClick={onDelete}
               disabled={disabled}
               aria-label="Remove image"
@@ -87,7 +87,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
       )}
 
       {!isSmall && (
-        <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1 shadow-md">
+        <div className="absolute -right-1 -top-1 rounded-full bg-green-500 p-1 text-white shadow-md">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path
               d="M2 6L5 9L10 3"

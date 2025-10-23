@@ -10,7 +10,7 @@ export const SubmitForm = ({
   return (
     <div className="flex flex-col items-center gap-2">
       <p className="text-2xl font-semibold">Thank You</p>
-      <span className="text-sm text-gray-600 text-center">
+      <span className="text-center text-sm text-gray-600">
         You are just one click away from creating a course
       </span>
       <Button

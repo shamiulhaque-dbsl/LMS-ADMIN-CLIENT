@@ -1,5 +1,5 @@
 import { COURSE_FORM_TABS } from "../lib/constant";
-import { useCourseFormStore } from "../store/useCourseFormStore";
+import { useCourseFormStore } from "../../courses/store/useCourseFormStore";
 
 export const useTabNavigation = () => {
   const activeTab = useCourseFormStore((state) => state.activeTab);

@@ -12,7 +12,7 @@ import UserTableAction from "@/admin/users/components/UserTableAction";
 
 export default function UserTable() {
   return (
-    <Table className="bg-white overflow-y-clip">
+    <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
@@ -35,7 +35,7 @@ export default function UserTable() {
           <TableCell>01892*****</TableCell>
           <TableCell>2023-01-01</TableCell>
           <TableCell>
-            <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+            <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
               active
             </span>
           </TableCell>

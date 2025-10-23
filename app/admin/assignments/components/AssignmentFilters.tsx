@@ -97,7 +97,7 @@ export default function AssignmentFilter() {
 
   return (
     <Card className="mb-6 rounded-xl bg-white">
-      <Card.Header className="mb-0 px-4 py-5 sm:px-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-5 rounded-xl">
+      <Card.Header className="mb-0 flex flex-col gap-5 rounded-xl border-b border-gray-200 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center space-x-2">
           <h2 className="text-lg font-medium">Filters</h2>
 
@@ -127,7 +127,7 @@ export default function AssignmentFilter() {
           <form onSubmit={applyFilters}>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
               <div className="mb-4">
-                <label htmlFor="dateFrom" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dateFrom" className="mb-1 block text-sm font-medium text-gray-700">
                   Date From
                 </label>
                 <input
@@ -136,12 +136,12 @@ export default function AssignmentFilter() {
                   name="dateFrom"
                   value={localFilters.dateFrom}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="dateTo" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="dateTo" className="mb-1 block text-sm font-medium text-gray-700">
                   Date To
                 </label>
                 <input
@@ -150,12 +150,12 @@ export default function AssignmentFilter() {
                   name="dateTo"
                   value={localFilters.dateTo}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 />
               </div>
 
               <div className="mb-4">
-                <label htmlFor="course" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="course" className="mb-1 block text-sm font-medium text-gray-700">
                   Course
                 </label>
                 <select
@@ -163,7 +163,7 @@ export default function AssignmentFilter() {
                   name="course"
                   value={localFilters.course}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
                   <option value="">All Courses</option>
                   <option value="Web Development">Web Development</option>
@@ -175,7 +175,7 @@ export default function AssignmentFilter() {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="status" className="mb-1 block text-sm font-medium text-gray-700">
                   Status
                 </label>
                 <select
@@ -183,7 +183,7 @@ export default function AssignmentFilter() {
                   name="status"
                   value={localFilters.status}
                   onChange={handleFilterChange}
-                  className="block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="block w-full rounded-md border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                 >
                   <option value="">All Status</option>
                   <option value="active">Active</option>

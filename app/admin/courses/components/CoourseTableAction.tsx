@@ -66,11 +66,11 @@ export default function CourseTableAction({ item }: CourseTableActionProps) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         trigger={
-          <button onClick={() => setIsOpen(!isOpen)} className="p-1 rounded-full bg-secondary">
+          <button onClick={() => setIsOpen(!isOpen)} className="rounded-full bg-secondary p-1">
             <Icons.ellipsis className="text-gray-700" />
           </button>
         }
-        className="w-52 leading-tight rounded-md space-y-2 py-4"
+        className="w-52 space-y-2 rounded-md py-4 leading-tight"
         align="right"
       >
         <DropdownItem href={`/courses/${item.id}`}>View course on frontend</DropdownItem>
@@ -89,21 +89,21 @@ export default function CourseTableAction({ item }: CourseTableActionProps) {
 
       {/* Delete Confirmation Modal */}
       {showConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-md w-80 text-center">
-            <h2 className="text-lg font-semibold mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-80 rounded bg-white p-6 text-center shadow-md">
+            <h2 className="mb-4 text-lg font-semibold">
               Are you sure you want to delete this course?
             </h2>
             <div className="flex justify-center gap-4">
               <button
                 onClick={handleDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
               >
                 {loading ? "Deleting..." : "Yes, Delete"}
               </button>
               <button
                 onClick={() => setShowConfirm(false)}
-                className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+                className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
               >
                 Cancel
               </button>

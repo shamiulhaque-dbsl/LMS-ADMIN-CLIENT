@@ -16,7 +16,7 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
 
   if (!config && !showAllUsers) {
     return (
-      <div className="text-red-600 text-sm p-4 bg-red-50 rounded-lg">
+      <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600">
         ⚠️ Invalid user type: <strong>{userType}</strong>
       </div>
     );
@@ -24,27 +24,27 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
 
   return (
     <>
-      <Card className="bg-white border-none">
-        <Card.Header className="flex flex-wrap justify-between items-center gap-4 border-b px-4 py-3 sm:px-6 mb-0">
-          <Text className="text-lg font-medium text-dark">
+      <Card className="border-none bg-white">
+        <Card.Header className="mb-0 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-6">
+          <Text className="text-dark text-lg font-medium">
             {showAllUsers ? "All Users" : config.title}
           </Text>
 
           <div className="flex gap-3">
             <Tooltip content="Export as CSV" placement="top">
               <Button size="sm" variant="outlineGray" type="button">
-                <FileType className="w-4 h-4 text-blue-500" />
+                <FileType className="h-4 w-4 text-blue-500" />
               </Button>
             </Tooltip>
             <Tooltip content="Export as Excel" placement="top">
               <Button size="sm" variant="outlineGray" type="button">
-                <FileSpreadsheet className="w-4 h-4 text-green-600" />
+                <FileSpreadsheet className="h-4 w-4 text-green-600" />
               </Button>
             </Tooltip>
 
             <Link href={showAllUsers ? "/admin/users/create" : config.createRoute} prefetch={false}>
               <Button size="sm" variant="default" type="button">
-                <Plus className="w-4 h-4 mr-1" />
+                <Plus className="mr-1 h-4 w-4" />
                 {showAllUsers ? "Add User" : config.addLabel}
               </Button>
             </Link>

@@ -18,20 +18,20 @@ export function SortableSectionItem({ section, index }: { section: Section; inde
   return (
     <Card
       ref={setNodeRef as any}
-      className={`bg-white rounded-md border-none shadow-sm p-0 overflow-hidden ${isDragging ? "opacity-90" : ""}`}
+      className={`overflow-hidden rounded-md border-none bg-white p-0 shadow-sm ${isDragging ? "opacity-90" : ""}`}
       style={style}
       aria-label={section.title}
       {...attributes}
     >
-      <Card.Content className="px-4 py-3 flex items-center justify-between gap-2">
+      <Card.Content className="flex items-center justify-between gap-2 px-4 py-3">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded bg-gray-100 flex items-center justify-center text-sm font-medium">
+          <div className="flex h-9 w-9 items-center justify-center rounded bg-gray-100 text-sm font-medium">
             {index + 1}
           </div>
           <div className="text-sm font-medium leading-tight">{section.title}</div>
         </div>
 
-        <div {...listeners} className="cursor-grab p-2 rounded-md hover:bg-gray-50" aria-hidden>
+        <div {...listeners} className="cursor-grab rounded-md p-2 hover:bg-gray-50" aria-hidden>
           <GripVertical size={18} />
         </div>
       </Card.Content>

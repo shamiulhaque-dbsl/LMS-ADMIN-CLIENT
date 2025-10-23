@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 import FallbackSVG from "./fallback/CourseCallback";
 
 interface ReusableImageProps {

@@ -30,7 +30,7 @@ export default function SortSectionModal({ initialSections }: { initialSections?
           <ModalTitle>Sort sections</ModalTitle>
         </ModalHeader>
         <ModalBody className="rounded-md">
-          <Card className="bg-gray-400/20 p-4 border-none">
+          <Card className="border-none bg-gray-400/20 p-4">
             <Card.Header className="text-right">
               <Button variant="outlineGray" onClick={handleSave} disabled={!dirty || saving}>
                 {saving ? "Saving..." : "Update Sorting"}

@@ -6,8 +6,8 @@ import Text from "@/components/ui/Text";
 
 function SectionWrapper({ title, children }: any) {
   return (
-    <div className="border border-gray-200 rounded-lg p-4 mb-6 shadow-sm">
-      <Text as="div" className="text-sm sm:text-lg font-semibold mb-2">
+    <div className="mb-6 rounded-lg border border-gray-200 p-4 shadow-sm">
+      <Text as="div" className="mb-2 text-sm font-semibold sm:text-lg">
         {title}
       </Text>
       {children}
@@ -24,13 +24,13 @@ function DynamicInputList({ label, name }: any) {
   return (
     <>
       {items.map((item, idx) => (
-        <div key={item.id} className="flex items-center gap-2 mb-3 w-full">
+        <div key={item.id} className="mb-3 flex w-full items-center gap-2">
           <Input type="text" name={`${name}[${idx}]`} placeholder={`${label}`} className="w-full" />
           {items.length > 1 && (
             <Button
               onClick={() => removeItem(item.id)}
               size="sm"
-              className="text-red-500 hover:bg-red-100 rounded-md"
+              className="rounded-md text-red-500 hover:bg-red-100"
             >
               <Icons.x size={16} />
             </Button>
@@ -52,13 +52,13 @@ function DynamicFaqList() {
   return (
     <>
       {faqs.map((faq, idx) => (
-        <div key={faq.id} className="mb-4 p-3 border border-gray-200 rounded-md shadow-sm relative">
-          <div className="flex justify-end items-center mb-2">
+        <div key={faq.id} className="relative mb-4 rounded-md border border-gray-200 p-3 shadow-sm">
+          <div className="mb-2 flex items-center justify-end">
             {faqs.length > 1 && (
               <Button
                 onClick={() => removeFaq(faq.id)}
                 size="sm"
-                className="text-red-500 hover:bg-red-100 rounded-md"
+                className="rounded-md text-red-500 hover:bg-red-100"
               >
                 <Icons.x size={16} />
               </Button>
@@ -67,7 +67,7 @@ function DynamicFaqList() {
           <input
             type="text"
             placeholder="FAQ Title"
-            className="w-full mb-2 rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+            className="mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
           />
           <textarea
             placeholder="FAQ Description"
@@ -97,9 +97,9 @@ function DynamicProjectList() {
       {projects.map((project, idx) => (
         <div
           key={project.id}
-          className="mb-4 p-3 border border-gray-200 rounded-md shadow-sm relative"
+          className="relative mb-4 rounded-md border border-gray-200 p-3 shadow-sm"
         >
-          <div className="flex justify-end items-center mb-2">
+          <div className="mb-2 flex items-center justify-end">
             {projects.length > 1 && (
               <Button
                 size="sm"
@@ -115,14 +115,14 @@ function DynamicProjectList() {
             type="file"
             accept="image/*"
             className="mb-2 border-none text-sm text-gray-600 file:mr-4 
-                       file:rounded-md file:border-0 file:text-sm file:font-medium 
-                       file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                       file:rounded-md file:border-0 file:bg-blue-50 file:text-sm 
+                       file:font-medium file:text-blue-700 hover:file:bg-blue-100"
           />
           <textarea
             name="Project Description"
             placeholder="Project Description"
             rows={3}
-            className="border bg-transparent px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 focus:border-[#e74d2e77] focus:ring-[#e74c2e] block w-full rounded-sm border-slate-300 shadow-sm sm:text-sm"
+            className="block w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
           ></textarea>
         </div>
       ))}

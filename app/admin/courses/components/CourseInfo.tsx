@@ -33,13 +33,13 @@ export default function CourseInfo() {
         return (
           <Card
             key={index}
-            className="border-none group relative overflow-hidden transition-all bg-white"
+            className="group relative overflow-hidden border-none bg-white transition-all"
           >
             <Card.Content className="p-4 sm:p-6">
               <Text
                 as="div"
                 variant="muted"
-                className="text-xs sm:text-base font-semibold leading-tight mb-3"
+                className="mb-3 text-xs font-semibold leading-tight sm:text-base"
               >
                 {metric.title}
               </Text>
@@ -48,18 +48,18 @@ export default function CourseInfo() {
                 <Text
                   as="div"
                   variant="dark"
-                  className="text-xl sm:text-2xl font-semibold tabular-nums tracking-tight leading-none"
+                  className="text-xl font-semibold tabular-nums leading-none tracking-tight sm:text-2xl"
                 >
                   {metric.value}
                 </Text>
 
                 {/* Value underline decoration */}
-                <div className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gray-900 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute -bottom-1 left-0 h-0.5 w-8 rounded-full bg-gray-900 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
               </div>
             </Card.Content>
 
             {/* Hover effects */}
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-50/0 via-white/50 to-gray-50/20 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none"></div>
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-gray-50/0 via-white/50 to-gray-50/20 opacity-0 transition-all duration-300 group-hover:opacity-100"></div>
           </Card>
         );
       })}

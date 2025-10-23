@@ -151,7 +151,7 @@ export function QuestionModal({ id, question }: QuestionModalProps) {
                 type="checkbox"
                 checked={opt.isCorrect}
                 onChange={() => handleSelectCorrect(opt.id)}
-                className="h-4 w-4 text-blue-600 cursor-pointer"
+                className="h-4 w-4 cursor-pointer text-blue-600"
               />
             ) : (
               <input
@@ -159,7 +159,7 @@ export function QuestionModal({ id, question }: QuestionModalProps) {
                 name="singleChoice"
                 checked={opt.isCorrect}
                 onChange={() => handleSelectCorrect(opt.id)}
-                className="h-4 w-4 text-blue-600 cursor-pointer"
+                className="h-4 w-4 cursor-pointer text-blue-600"
               />
             )}
 

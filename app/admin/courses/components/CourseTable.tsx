@@ -85,7 +85,7 @@ export default function CourseTable() {
   }, [filters]);
 
   return (
-    <Table className="bg-white overflow-y-clip">
+    <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
@@ -105,19 +105,19 @@ export default function CourseTable() {
       <TableBody className="bg-white text-black">
         {loading ? (
           <TableRow>
-            <TableCell colSpan={11} className="text-center py-8">
+            <TableCell colSpan={11} className="py-8 text-center">
               <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
                 <span className="ml-3">Loading courses...</span>
               </div>
             </TableCell>
           </TableRow>
         ) : error ? (
           <TableRow>
-            <TableCell colSpan={11} className="text-center py-8">
+            <TableCell colSpan={11} className="py-8 text-center">
               <div className="text-red-500">
                 <svg
-                  className="w-6 h-6 mx-auto mb-2"
+                  className="mx-auto mb-2 h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -135,10 +135,10 @@ export default function CourseTable() {
           </TableRow>
         ) : courses.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={11} className="text-center py-8">
+            <TableCell colSpan={11} className="py-8 text-center">
               <div className="text-gray-500">
                 <svg
-                  className="w-6 h-6 mx-auto mb-2"
+                  className="mx-auto mb-2 h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -169,7 +169,7 @@ export default function CourseTable() {
                 <span className="text-gray-600">{course?.sections} Sections</span>
               </TableCell>
               <TableCell>
-                <span className="text-green-600 font-medium">{course?.price}</span>
+                <span className="font-medium text-green-600">{course?.price}</span>
               </TableCell>
               <TableCell>
                 <span className="text-gray-600">{course?.sales} Sales</span>
@@ -184,7 +184,7 @@ export default function CourseTable() {
                 <span className="text-gray-600">{course?.updatedAt}</span>
               </TableCell>
               <TableCell>
-                <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                   {course?.status}
                 </span>
               </TableCell>

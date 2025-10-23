@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
 import { ComponentProps } from "react";
-import { cn } from "@/utils/tailwind-utils";
+import { cn } from "@/lib/utils/tailwind-utils";
 
 interface DynamicIconProps extends ComponentProps<"svg"> {
   name: keyof typeof Icons | string;
