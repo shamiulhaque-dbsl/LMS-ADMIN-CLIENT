@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
-import { InfoSection } from "../_components/InfoSection";
-import { ForgotPasswordForm } from "../_components/form/password/Forgot";
+import { InfoSection } from "@/features/auth/components/InfoSection";
+// import { ForgotPasswordForm } from "@/features/auth/components/form/password/Forgot";
 import Link from "next/link";
 import DotLmsLogo from "@/components/Logo";
 
@@ -26,7 +26,7 @@ export default async function ForgotPasswordPage() {
         </div>
 
         <div className="mt-2 w-full sm:mx-auto sm:w-full sm:max-w-sm">
-          <ForgotPasswordForm />
+          {/* <ForgotPasswordForm /> */}
 
           <div className="mt-3 text-right">
             <div className="text-sm">

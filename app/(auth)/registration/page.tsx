@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { InfoSection } from "../_components/InfoSection";
-import RegistrationForm from "../_components/form/Registration";
+// import { InfoSection } from "../_components/InfoSection";
+// import RegistrationForm from "../_components/form/Registration";
 import DotLmsLogo from "@/components/Logo";
 
 const registerPageInfo = {
@@ -13,7 +13,7 @@ const registerPageInfo = {
 export default function LoginPage() {
   return (
     <>
-      <InfoSection pageInfo={registerPageInfo} />
+      {/* <InfoSection pageInfo={registerPageInfo} /> */}
 
       {/* Right Section */}
       <div className="flex h-screen flex-col items-center justify-center space-y-4 rounded-tl-3xl bg-white p-8  shadow-lg md:h-auto md:w-1/2 md:rounded-none lg:w-1/2 xl:w-3/5">
@@ -27,7 +27,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-10 w-full  sm:mx-auto sm:w-full sm:max-w-sm">
-          <RegistrationForm />
+          {/* <RegistrationForm /> */}
 
           <p className="mt-6 text-center text-xs/5 text-slate-500">
             Already have an account?

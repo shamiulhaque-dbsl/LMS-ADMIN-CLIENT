@@ -1,6 +1,6 @@
 import { Icons } from "@/components/Icons";
-import { InfoSection } from "../_components/InfoSection";
-import ResetPasswordForm from "../_components/form/password/Reset";
+// import { InfoSection } from "../_components/InfoSection";
+// import ResetPasswordForm from "../_components/form/password/Reset";
 import Link from "next/link";
 import DotLmsLogo from "@/components/Logo";
 
@@ -13,7 +13,7 @@ const forgotPageInfo = {
 export default async function ResetPasswordPage() {
   return (
     <>
-      <InfoSection pageInfo={forgotPageInfo} />
+      {/* <InfoSection pageInfo={forgotPageInfo} /> */}
 
       <div className="flex h-screen flex-col items-center justify-center space-y-4 rounded-tl-3xl bg-white p-8 shadow-lg md:w-1/2 md:rounded-none lg:w-1/2 xl:w-3/5">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -26,7 +26,7 @@ export default async function ResetPasswordPage() {
         </div>
 
         <div className="mt-2 w-full sm:mx-auto sm:w-full sm:max-w-sm">
-          <ResetPasswordForm />
+          {/* <ResetPasswordForm /> */}
 
           <div className="mt-3 text-right">
             <div className="text-sm">

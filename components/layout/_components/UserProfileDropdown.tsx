@@ -1,10 +1,11 @@
 "use client";
 
-import { useDropdown } from "@/hooks/useDropdown";
-import { Dropdown } from "@/components/common/Dropdown";
 import Link from "next/link";
 import Image from "next/image";
-import { useSession } from "@/contexts/auth/SessionContext";
+import { useDropdown } from "@/hooks/useDropdown";
+import { Dropdown } from "@/components/common/Dropdown";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
+import { useLoginActions } from "@/features/auth/hooks/useLoginActions";
 
 interface MenuItem {
   label: string;
@@ -13,8 +14,8 @@ interface MenuItem {
 
 export const UserProfileDropdown: React.FC = () => {
   const { isOpen, toggle, close } = useDropdown();
-
-  const { user } = useSession();
+  const { user, isLoading } = useAuthStore();
+  const { logout } = useLoginActions();
 
   const menuItems: MenuItem[] = [
     { label: "My Profile", href: "/admin/users/profile" },
@@ -22,7 +23,8 @@ export const UserProfileDropdown: React.FC = () => {
   ];
 
   const handleLogout = async () => {
-    // await signout();
+    await logout();
+    close();
   };
 
   const trigger = (
@@ -35,7 +37,7 @@ export const UserProfileDropdown: React.FC = () => {
       <Image
         className="h-8 w-8 rounded-full"
         src="/images/profile.jpg"
-        alt="user photo"
+        alt={user?.user_name || "User photo"}
         width={100}
         height={100}
       />
@@ -50,9 +52,9 @@ export const UserProfileDropdown: React.FC = () => {
       className="w-48 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800"
     >
       <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-600">
-        <p className="text-sm text-gray-900 dark:text-white">{user?.name || "Neil Sims"}</p>
+        <p className="text-sm text-gray-900 dark:text-white"> {user?.user_name || "Guest"}</p>
         <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-300">
-          {user?.email || "neil.sims@flowbite.com"}
+          {user?.email || "guest@example.com"}
         </p>
       </div>
       <ul className="py-1">
@@ -71,7 +73,7 @@ export const UserProfileDropdown: React.FC = () => {
             onClick={handleLogout}
             className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
           >
-            Log Out
+            {isLoading ? "Logging out..." : "Log Out"}
           </button>
         </li>
       </ul>

@@ -9,7 +9,6 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, label, error, required, ...props }, ref) => {
     const errorMessage = Array.isArray(error) ? error.join(", ") : error;
-
     return (
       <>
         <div className="flex-1">
@@ -24,18 +23,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             className={cn("input-base", error ? "input-error" : "", className)}
           />
-        </div>
 
-        {error && (
-          <div
-            className={`
-            "error-text",
-            ${error ? "mb-2 max-h-6 opacity-100" : "mb-0 max-h-0 overflow-hidden opacity-0"}
-          `}
-          >
-            {errorMessage}
-          </div>
-        )}
+          {errorMessage && (
+            <div
+              className={cn(
+                "error-text",
+                errorMessage ? "mb-2 max-h-6 opacity-100" : "mb-0 max-h-0 overflow-hidden opacity-0"
+              )}
+            >
+              {errorMessage}
+            </div>
+          )}
+        </div>
       </>
     );
   }

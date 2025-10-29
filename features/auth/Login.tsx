@@ -2,7 +2,7 @@ import Link from "next/link";
 import { InfoSection } from "@/features/auth/components/InfoSection";
 import DotLmsLogo from "@/components/Logo";
 import { loginPageInfo } from "@/features/auth/data";
-import { LoginForm } from "@/features/auth/components/form/Login";
+import { LoginForm } from "@/features/auth/components/form/LoginFrom";
 import { authConfig } from "@/features/auth/config";
 
 export default function Login() {

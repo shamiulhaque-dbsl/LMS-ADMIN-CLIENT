@@ -1,16 +1,15 @@
 import AppHeader from "@/components/layout/app-header";
 import AppSidebar from "@/components/layout/app-sidebar";
 import { SidebarProvider } from "@/contexts/SidebarContext";
-import { SessionProvider } from "@/contexts/auth/SessionContext";
-
+import { AuthProvider } from "@/components/providers/AuthProvider";
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <SessionProvider>
-      <SidebarProvider>
+    <SidebarProvider>
+      <AuthProvider>
         <div className="flex min-h-screen flex-1 flex-col">
           <AppSidebar />
           <div className="sm:pl-64">
@@ -20,7 +19,7 @@ export default function RootLayout({
             </main>
           </div>
         </div>
-      </SidebarProvider>
-    </SessionProvider>
+      </AuthProvider>
+    </SidebarProvider>
   );
 }
