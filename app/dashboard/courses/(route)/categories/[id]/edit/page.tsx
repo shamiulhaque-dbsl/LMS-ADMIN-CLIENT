@@ -1,8 +1,16 @@
 import { PageHeader } from "@/components/page/PageHeader";
 import { CategoryForm } from "@/features/category/components/CategoryForm";
 import { Card } from "@/components/ui/Card";
+import { use } from "react";
+import { getCategory } from "@/api/category";
 
-export default function CategoryCreatePage() {
+export default function CategoryEditPage({ params }: { params: Promise<any> }) {
+  const { id } = use(params);
+  if (!id) return null;
+
+  const { data: category } = use(getCategory(id));
+  if (!category) return null;
+
   return (
     <>
       <PageHeader title="Add new category" />
@@ -11,7 +19,7 @@ export default function CategoryCreatePage() {
           <Card.Title>Category add form</Card.Title>
         </Card.Header>
         <Card.Content className="max-w-xl">
-          <CategoryForm />
+          <CategoryForm category={category} />
         </Card.Content>
       </Card>
     </>
