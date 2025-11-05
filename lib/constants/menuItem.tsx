@@ -5,7 +5,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "dashboard",
     label: "Dashboard",
-    href: "/admin/dashboard",
+    href: "/dashboard/dashboard",
     icon: <Icons.dashboard size={20} />,
   },
 
@@ -16,21 +16,21 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.bookOpen size={20} />,
     group: "Education",
     children: [
-      { id: "new-courses", label: "New Courses", href: "/admin/courses/create" },
-      { id: "manage-courses", label: "Manage Courses", href: "/admin/courses" },
-      { id: "course-category", label: "Course Category", href: "/admin/courses/categories" },
-      { id: "live-classes", label: "Live Classes", href: "/admin/courses/live-classes" },
+      { id: "new-courses", label: "New Courses", href: "/dashboard/courses/create" },
+      { id: "manage-courses", label: "Manage Courses", href: "/dashboard/courses" },
+      { id: "course-category", label: "Course Category", href: "/dashboard/courses/categories" },
+      { id: "live-classes", label: "Live Classes", href: "/dashboard/courses/live-classes" },
       {
         id: "live-session-history",
         label: "Live Session History",
-        href: "/admin/courses/live-session-history",
+        href: "/dashboard/courses/live-session-history",
       },
     ],
   },
   {
     id: "quizzes",
     label: "Quizzes",
-    href: "/admin/quizzes",
+    href: "/dashboard/quizzes",
     group: "Education",
     icon: <Icons.clipboard size={20} />,
   },
@@ -40,18 +40,18 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.award size={20} />,
     group: "Education",
     children: [
-      { id: "quiz-certificates", label: "Quiz Certificates", href: "/admin/certificates" },
+      { id: "quiz-certificates", label: "Quiz Certificates", href: "/dashboard/certificates" },
       {
         id: "completion-certificates",
         label: "Completion Certificates",
-        href: "/admin/certificates",
+        href: "/dashboard/certificates",
       },
     ],
   },
   {
     id: "assignments",
     label: "Assignments",
-    href: "/admin/assignments",
+    href: "/dashboard/assignments",
     group: "Education",
     icon: <Icons.fileText size={20} />,
   },
@@ -61,8 +61,8 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.bell size={20} />,
     group: "Education",
     children: [
-      { id: "new", label: "New", href: "/admin/course-notice/create" },
-      { id: "list", label: "List", href: "/admin/course-notice" },
+      { id: "new", label: "New", href: "/dashboard/course-notice/create" },
+      { id: "list", label: "List", href: "/dashboard/course-notice" },
     ],
   },
   {
@@ -74,9 +74,9 @@ export const menuItems: MenuItem[] = [
       {
         id: "add-student-to-course",
         label: "Add Student to Course",
-        href: "/admin/enrollments/add-student-to-course",
+        href: "/dashboard/enrollments/add-student-to-course",
       },
-      { id: "history", label: "History", href: "/admin/enrollments" },
+      { id: "history", label: "History", href: "/dashboard/enrollments" },
     ],
   },
   // {
@@ -85,14 +85,14 @@ export const menuItems: MenuItem[] = [
   //   icon: <Icons.folder size={20} />,
   //   group: "Education",
   //   children: [
-  //     { id: "new", label: "New", href: "/admin/categories/create" },
-  //     { id: "list", label: "List", href: "/admin/categories" },
+  //     { id: "new", label: "New", href: "/dashboard/categories/create" },
+  //     { id: "list", label: "List", href: "/dashboard/categories" },
   //   ],
   // },
   {
     id: "reviews",
     label: "Reviews",
-    href: "/admin/reviews",
+    href: "/dashboard/reviews",
     group: "Education",
     icon: <Icons.star size={20} />,
   },
@@ -104,11 +104,11 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.user size={20} />,
     group: "Users",
     children: [
-      { id: "new-user", label: "New User", href: "/admin/users/create" },
-      { id: "all-users", label: "All Users", href: "/admin/users" },
-      { id: "manage-admin", label: "Manage Admins", href: "/admin/users/admins" },
-      { id: "instructors", label: "Manage Instructors", href: "/admin/users/instructors" },
-      { id: "students", label: "Manage Students", href: "/admin/users/students" },
+      { id: "new-user", label: "New User", href: "/dashboard/users/create" },
+      { id: "all-users", label: "All Users", href: "/dashboard/users" },
+      { id: "manage-admin", label: "Manage Admins", href: "/dashboard/users/dashboards" },
+      { id: "instructors", label: "Manage Instructors", href: "/dashboard/users/instructors" },
+      { id: "students", label: "Manage Students", href: "/dashboard/users/students" },
     ],
   },
   {
@@ -117,8 +117,8 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.shield size={20} />,
     group: "Users",
     children: [
-      { id: "logins-history", label: "Logins History", href: "/admin/users/login-history" },
-      { id: "ip-restriction", label: "IP Restriction", href: "/admin/users/ip-restriction" },
+      { id: "logins-history", label: "Logins History", href: "/dashboard/users/login-history" },
+      { id: "ip-restriction", label: "IP Restriction", href: "/dashboard/users/ip-restriction" },
     ],
   },
 
@@ -126,7 +126,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "contact-messages",
     label: "Contact Messages",
-    href: "/admin/contacts",
+    href: "/dashboard/contacts",
     group: "CRM",
     icon: <Icons.mail size={20} />,
   },
@@ -136,8 +136,8 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.clipboard size={20} />,
     group: "CRM",
     children: [
-      { id: "list", label: "List", href: "/admin/notices" },
-      { id: "new", label: "New", href: "/admin/notices/create" },
+      { id: "list", label: "List", href: "/dashboard/notices" },
+      { id: "new", label: "New", href: "/dashboard/notices/create" },
     ],
   },
 
@@ -145,7 +145,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "testimonials",
     label: "Testimonials",
-    href: "/admin/testimonials",
+    href: "/dashboard/testimonials",
     group: "Content",
     icon: <Icons.messageSquare size={20} />,
   },
@@ -157,9 +157,9 @@ export const menuItems: MenuItem[] = [
     icon: <Icons.send size={20} />, // better semantic icon
     group: "Marketing",
     children: [
-      { id: "list", label: "List", href: "/admin/newsletters" },
-      { id: "send", label: "Send", href: "/admin/newsletters/send" },
-      { id: "history", label: "History", href: "/admin/newsletters/history" },
+      { id: "list", label: "List", href: "/dashboard/newsletters" },
+      { id: "send", label: "Send", href: "/dashboard/newsletters/send" },
+      { id: "history", label: "History", href: "/dashboard/newsletters/history" },
     ],
   },
 
@@ -167,7 +167,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "settings",
     label: "Settings",
-    href: "/admin/settings",
+    href: "/dashboard/settings",
     group: "Settings",
     icon: <Icons.settings size={20} />,
   },

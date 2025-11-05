@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/constants/*": ["./lib/constants/*"],
-      "@/admin/*": ["./app/admin/*"],
+      "@/dashboard/*": ["./app/dashboard/*"],
       "@/features/*": ["./features/*"]
     }
   },
