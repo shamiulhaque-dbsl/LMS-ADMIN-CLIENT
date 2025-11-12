@@ -1,34 +1,63 @@
 "use client";
 
-import { createCategory } from "@/api/category";
+import { createCategory, updateCategory, deleteCategory } from "@/api/category";
 import { useState } from "react";
+import { FormData } from "@/features/category/types";
 
+/*
+  #TODO:
+  1. Make reuseable error response handler
+*/
 export const useCategoryAction = () => {
   const [loading, setLoading] = useState(false);
 
-  const create = async (formData: any) => {
+  const create = async (formData: FormData) => {
     setLoading(true);
     try {
-      const res = await createCategory({
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      console.log("resr-es", res);
-      return { success: true };
+      const res = await createCategory(formData);
+      return { success: true, data: res };
     } catch (err: any) {
-      const apiResponse = err.response?.data || err.response || { message: "Create failed" };
       return {
         success: false,
-        response: {
-          message: apiResponse.message,
-          errors: apiResponse.errors,
-        },
+        message: err.message ?? "Failed to create category",
+        errors: err.errors ?? {},
       };
     } finally {
       setLoading(false);
     }
   };
 
-  return { create, loading };
+  const update = async (id: number | string, formData: FormData) => {
+    setLoading(true);
+    try {
+      const res = await updateCategory(id, formData);
+      return { success: true, data: res };
+    } catch (err: any) {
+      return {
+        success: false,
+        message: err.message ?? "Failed to update category",
+        errors: err.errors ?? {},
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const removeCategory = async (id: number | string) => {
+    setLoading(true);
+    try {
+      const res = await deleteCategory(id);
+      return { success: true, data: res };
+    } catch (err: any) {
+      return {
+        success: false,
+        message: err.message ?? "Failed to delete category",
+        errors: err.errors ?? {},
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { create, update, removeCategory, loading };
 };

@@ -16,15 +16,17 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
 
     const { message, errors } = response;
 
-    if (message && !errors) {
-      setError("root", { type: "server", message });
-    }
-
-    if (errors) {
+    // Handle field-level errors first
+    if (errors && Object.keys(errors).length > 0) {
       Object.entries(errors).forEach(([field, value]) => {
         const messageText = Array.isArray(value) ? value[0] : value;
         setError(field as Path<T>, { type: "server", message: messageText });
       });
+    }
+
+    // Handle global / root message separately
+    if (message && (!errors || Object.keys(errors).length === 0)) {
+      setError("root", { type: "server", message });
     }
   };
 

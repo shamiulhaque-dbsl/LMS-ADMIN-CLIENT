@@ -5,20 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useForm } from "react-hook-form";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
-import { useCategoryAction } from "../hooks/useCategoryAction";
-import { Category } from "../types";
-
-type FormData = {
-  name: string;
-  description: string;
-};
+import { useCategoryAction } from "@/features/category/hooks/useCategoryAction";
+import { Category, FormData } from "@/features/category/types";
 
 type CategoryFormProps = {
   category?: Category;
 };
 
 export const CategoryForm = ({ category }: CategoryFormProps) => {
-  const { create, loading } = useCategoryAction();
+  const { create, update, loading } = useCategoryAction();
   const { handleApiErrors } = useHandleApiErrors<FormData>();
 
   const {
@@ -28,24 +23,33 @@ export const CategoryForm = ({ category }: CategoryFormProps) => {
     setError,
     reset,
   } = useForm<FormData>({
-    defaultValues: category ? { name: category.name, description: category.description } : {},
+    defaultValues: category
+      ? {
+          name: category.name,
+          description: category.description,
+          status: category.status,
+          sort_order: category.sort_order,
+        }
+      : {},
   });
 
   const onSubmit = async (data: FormData) => {
-    const res = await create(data);
-    if (res && !res.success) {
-      handleApiErrors(res.response, setError);
+    const response = category ? await update(category.id, data) : await create(data);
+    if (response && !response.success) {
+      return handleApiErrors(response, setError);
     }
 
-    reset();
+    if (!category) reset();
   };
 
   return (
     <>
       {errors.root?.message && <p className="text-red-500 text-center">{errors.root.message}</p>}
-      {isSubmitSuccessful && (
-        <p className="text-green-600 text-center">Category created successfully.</p>
+
+      {isSubmitSuccessful && !errors.root && (
+        <p className="text-green-600 text-center">Category submitted successfully.</p>
       )}
+
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <Input
           id="name"
@@ -57,8 +61,30 @@ export const CategoryForm = ({ category }: CategoryFormProps) => {
           error={errors.name?.message}
         />
         <Textarea id="description" label="Category Description" {...register("description")} />
+        {category && (
+          <>
+            <div>
+              <label className="label-base">Status</label>
+              <select className="input-base" {...register("status", { valueAsNumber: true })}>
+                <option value={1}>Active</option>
+                <option value={0}>Inactive</option>
+              </select>
+              {errors.status?.message && <p className="error-text">{errors.status.message}</p>}
+            </div>
+
+            <Input
+              id="sort_order"
+              label="Sort Order"
+              required
+              {...register("sort_order", { valueAsNumber: true })}
+              type="number"
+              error={errors.sort_order?.message}
+            />
+          </>
+        )}
+
         <Button type="submit" variant="default" size="sm" disabled={loading}>
-          {loading ? "Creating..." : "Create"}
+          {loading ? "Submitting..." : "Submit"}
         </Button>
       </form>
     </>

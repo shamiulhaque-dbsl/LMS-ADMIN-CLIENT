@@ -8,19 +8,27 @@ import {
 } from "@/components/ui/Table";
 import CategoryTableAction from "@/features/category/components/CategoryTableAction";
 import { Category } from "@/features/category/types";
+import { EmptyList } from "@/components/EmptyList";
+import { use } from "react";
 
 const getStatusColor = (status: number) => {
   switch (status) {
     case 1:
       return "bg-green-100 text-green-800";
-    case 2:
+    case 0:
       return "bg-red-100 text-red-800";
     default:
       return "bg-gray-100 text-gray-800";
   }
 };
 
-export default function CategoryTable({ categories }: { categories: Category[] }) {
+type CategoryProps = {
+  fetchCategories: () => Promise<Category[]>;
+};
+
+export default function CategoryTable({ fetchCategories }: CategoryProps) {
+  const categories = use(fetchCategories());
+  if (!categories || categories.length === 0) return <EmptyList />;
   return (
     <Table className="overflow-y-clip bg-white">
       <TableHeader>
@@ -31,10 +39,9 @@ export default function CategoryTable({ categories }: { categories: Category[] }
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
-
       <TableBody className="bg-white text-black">
-        {categories.map((category: any, index: number) => (
-          <TableRow key={index}>
+        {categories.map((category: Category, index: number) => (
+          <TableRow key={category.id}>
             <TableCell>{index + 1}</TableCell>
             <TableCell>{category.name}</TableCell>
             <TableCell>
