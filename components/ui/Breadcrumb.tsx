@@ -13,63 +13,77 @@ interface BreadcrumbItem {
 interface BreadcrumbProps {
   items?: BreadcrumbItem[];
   className?: string;
-  // Choose which mode to use
   mode: "website" | "portal";
-  // Base URLs
   websiteHomeUrl?: string;
   portalHomeUrl?: string;
 }
 
+/**
+ * Detects if a path segment looks like an ID.
+ * Handles numeric IDs (e.g., "69") and UUID-like strings (hex or dashed forms).
+ */
+const isIdSegment = (segment: string): boolean => {
+  return (
+    /^\d+$/.test(segment) || // numeric IDs
+    /^[0-9a-fA-F]{8,}$/.test(segment) || // long hex strings
+    /^[0-9a-fA-F-]{36}$/.test(segment) // UUIDs (with dashes)
+  );
+};
+
+/**
+ * Formats a breadcrumb label for readability.
+ * Converts kebab-case to Title Case and skips ID-like segments.
+ */
+const formatLabel = (segment: string): string =>
+  segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ");
+
+/**
+ * Main breadcrumb component for both website and portal routes.
+ */
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   items = [],
   className = "",
   mode = "website",
   websiteHomeUrl = "/",
-  portalHomeUrl = "/admin",
+  portalHomeUrl = "/dashboard",
 }) => {
   const pathname = usePathname();
 
-  // Generate breadcrumb items if none provided
   const breadcrumbItems = React.useMemo(() => {
-    // If items are provided, use them
-    if (items.length > 0) return items;
+    if (items.length > 0) return items; // Prefer custom items if provided
 
-    // Otherwise generate from current path
     const pathSegments = pathname.split("/").filter(Boolean);
     let currentPath = "";
 
-    // For portal mode, we start after the dashboard segment
+    // --- Portal Mode ---
     if (mode === "portal") {
-      const portalBaseSegment = portalHomeUrl.split("/").filter(Boolean)[0]; // 'dashboard'
-      const portalIndex = pathSegments.findIndex((segment) => segment === portalBaseSegment);
-      // Only process segments after the portal base (dashboard)
+      const portalBase = portalHomeUrl.split("/").filter(Boolean)[0]; // usually 'dashboard'
+      const portalIndex = pathSegments.findIndex((seg) => seg === portalBase);
+
       if (portalIndex !== -1) {
         const relevantSegments = pathSegments.slice(portalIndex + 1);
         currentPath = portalHomeUrl;
 
-        return relevantSegments.map((segment) => {
-          currentPath += `/${segment}`;
-          // Format: replace hyphens with spaces and capitalize
-          return {
-            label: segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " "),
-            href: currentPath,
-          };
-        });
+        return relevantSegments
+          .filter((seg) => !isIdSegment(seg))
+          .map((seg) => {
+            currentPath += `/${seg}`;
+            return { label: formatLabel(seg), href: currentPath };
+          });
       }
       return [];
     }
 
-    // Standard website behavior - include all segments
-    return pathSegments.map((segment) => {
-      currentPath += `/${segment}`;
-      return {
-        label: segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " "),
-        href: currentPath,
-      };
-    });
+    // --- Website Mode ---
+    return pathSegments
+      .filter((seg) => !isIdSegment(seg))
+      .map((seg) => {
+        currentPath += `/${seg}`;
+        return { label: formatLabel(seg), href: currentPath };
+      });
   }, [pathname, items, mode, portalHomeUrl]);
 
-  // Determine the "home" element based on mode
+  // Home element
   const homeElement =
     mode === "portal" ? (
       <Link
@@ -92,35 +106,32 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   return (
     <nav className={`flex items-center text-sm ${className}`} aria-label="Breadcrumb">
       <ol className="flex flex-wrap items-center">
-        {/* Home/Dashboard link */}
+        {/* Home/Dashboard */}
         <li className="flex items-center">{homeElement}</li>
 
-        {/* Render breadcrumb items only if there are any */}
         {breadcrumbItems.length > 0 && (
           <>
-            {/* Separator after home/dashboard */}
             <li className="mx-1 text-gray-400">
               <DynamicIcon name="chevronRight" />
             </li>
 
-            {/* Map through the breadcrumb items */}
             {breadcrumbItems.map((item, index) => (
               <React.Fragment key={index}>
                 <li>
                   {index === breadcrumbItems.length - 1 ? (
-                    // Last item (current page) - not clickable
                     <span className="font-medium text-gray-400" aria-current="page">
                       {item.label}
                     </span>
                   ) : (
-                    // Clickable breadcrumb item
-                    <Link href={item.href} className="text-muted-foreground hover:text-primary">
+                    <Link
+                      href={item.href}
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
                       {item.label}
                     </Link>
                   )}
                 </li>
 
-                {/* Add separator between items, but not after the last item */}
                 {index < breadcrumbItems.length - 1 && (
                   <li className="mx-1 text-gray-400">
                     <DynamicIcon name="chevronRight" />
