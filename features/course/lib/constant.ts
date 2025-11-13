@@ -7,3 +7,11 @@ export const COURSE_FORM_TABS = [
   { id: "curriculum", label: "Curriculum", showInEdit: true },
   { id: "finish", label: "Finish & Submit" },
 ];
+
+export const COURSE_METRIC_TITLE = {
+  ACTIVE_COURSES: "Active Courses",
+  UPCOMING_COURSES: "Upcoming Courses",
+  PENDING_COURSES: "Pending Courses",
+  FREE_COURSES: "Free Courses",
+  PAID_COURSES: "Paid Courses",
+} as const;

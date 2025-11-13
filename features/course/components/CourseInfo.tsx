@@ -1,35 +1,23 @@
+import { use } from "react";
 import { Card } from "@/components/ui/Card";
 import { Grid } from "@/components/ui/grid";
 import Text from "@/components/ui/Text";
-import { CourseMetric } from "@/features/course/types";
+import type { CourseMetricResponse } from "@/features/course/types";
+import { formatCourseMetrics } from "@/features/course/lib/utils";
 
-const courseMetrics: CourseMetric[] = [
-  {
-    title: "Active Courses",
-    value: "1,234",
-  },
-  {
-    title: "Upcoming Courses",
-    value: "567",
-  },
-  {
-    title: "Pending Courses",
-    value: "89",
-  },
-  {
-    title: "Free Courses",
-    value: "20",
-  },
-  {
-    title: "Paid Courses",
-    value: "30",
-  },
-];
+type CourseMetricProps = {
+  fetchCourseMetrics: () => Promise<CourseMetricResponse | null>;
+};
 
-export default function CourseInfo() {
+export default function CourseInfo({ fetchCourseMetrics }: CourseMetricProps) {
+  const metrics = use(fetchCourseMetrics());
+  const formattedMetrics = formatCourseMetrics(metrics);
+
+  if (!formattedMetrics.length) return null;
+
   return (
     <Grid cols={2} md={4} lg={5} className="mb-6">
-      {courseMetrics.map((metric, index) => {
+      {formattedMetrics.map((metric, index) => {
         return (
           <Card
             key={index}
