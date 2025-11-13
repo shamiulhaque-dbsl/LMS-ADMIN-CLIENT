@@ -10,12 +10,12 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import Link from "next/link";
-import Pagination from "./Pagination";
-import CoourseTableAction from "./CoourseTableAction";
-import { useCourseStore } from "../store/courseStore";
+import Pagination from "@/features/course/components/Pagination";
+import CoourseTableAction from "@/features/course/components/CoourseTableAction";
+import { useCourseStore } from "@/features/course/stores/courseStore";
 import { useEffect, useState } from "react";
 
-import { Course, fetchCourses } from "../lib/api";
+import { Course, fetchCourses } from "@/features/course/lib/api";
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 

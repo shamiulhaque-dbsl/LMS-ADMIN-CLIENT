@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import { useCourseFormStore } from "@/dashboard/courses/store/useCourseFormStore";
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import { cn } from "@/lib/utils/tailwind-utils";
 import { Textarea } from "@/components/ui/Textarea";
 

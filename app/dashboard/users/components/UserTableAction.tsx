@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
-import { useCourseStore } from "@/dashboard/courses/store/courseStore";
+// import { useCourseStore } from "@/dashboard/courses/store/courseStore";
 import { Icons } from "@/components/Icons";
 
 const deleteCourseAPI = async (id: number) => new Promise((res) => setTimeout(res, 500));
@@ -33,7 +33,7 @@ export default function CategoryTable() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("active");
 
-  const store = useCourseStore();
+  // const store = useCourseStore();
 
   const handleDelete = async () => {};
 

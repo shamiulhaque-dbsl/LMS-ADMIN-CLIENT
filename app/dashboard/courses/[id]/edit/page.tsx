@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import ManageCourseEdit from "./components/ManageCourseEdit";
+import { ManageCourseEdit } from "@/features/course";
 export default function Page() {
   return (
     <>

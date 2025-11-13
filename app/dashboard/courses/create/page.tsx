@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import ManageCourseCreation from "@/dashboard/courses/components/ManageCourseCreation";
+import ManageCourseCreation from "@/features/course/components/ManageCourseCreation";
 
 /*
   Todo:

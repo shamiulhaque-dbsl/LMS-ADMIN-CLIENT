@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
-import { useCourseStore } from "@/dashboard/courses/store/courseStore";
+import { useCourseStore } from "@/features/course/stores/courseStore";
 import { Icons } from "@/components/Icons";
 
 const deleteCourseAPI = async (id: number) => new Promise((res) => setTimeout(res, 500));
@@ -75,10 +75,10 @@ export default function CourseTableAction({ item }: CourseTableActionProps) {
       >
         <DropdownItem href={`/courses/${item.id}`}>View course on frontend</DropdownItem>
         <DropdownItem href={`/courses/${item.id}/play`}>Go to course playing page</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}`}>Academic progress</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/edit`}>Edit course</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/details`}>View course</DropdownItem>
-        <DropdownItem href={`/admin/courses/${item.id}/details`}>Section & lesson</DropdownItem>
+        <DropdownItem href={`/dashboard/courses/${item.id}`}>Academic progress</DropdownItem>
+        <DropdownItem href={`/dashboard/courses/${item.id}/edit`}>Edit course</DropdownItem>
+        <DropdownItem href={`/dashboard/courses/${item.id}/details`}>View course</DropdownItem>
+        <DropdownItem href={`/dashboard/courses/${item.id}/details`}>Section & lesson</DropdownItem>
         <DropdownItem onClick={() => setShowConfirm(true)}>Delete</DropdownItem>
         <DropdownItem onClick={handleToggleStatus}>
           {status === "active" ? "Deactivate" : "Activate"}

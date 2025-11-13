@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/Button";
-import CourseTable from "./CourseTable";
+import CourseTable from "@/features/course/components/CourseTable";
 import { Card } from "@/components/ui/Card";
 import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
@@ -26,7 +26,7 @@ export default function CourseTableWrapper() {
           </Tooltip>
 
           {/* Add Course */}
-          <Link href="/admin/courses/create">
+          <Link href="/dashboard/courses/create">
             <Button size="sm" variant="default" type="button">
               <Plus className="mr-1 h-4 w-4" />
               Add Course

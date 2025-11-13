@@ -4,12 +4,12 @@ import { Card } from "@/components/ui/Card";
 import { Tooltip } from "@/components/ui/Tooltip";
 import Text from "@/components/ui/Text";
 import { Grid } from "@/components/ui/grid";
-import { SectionModal } from "@/dashboard/courses/components/modals/SectionModal";
-import { LessonModal } from "@/dashboard/courses/components/modals/LessonModal";
+import { SectionModal } from "@/features/course/components/modals/SectionModal";
+import { LessonModal } from "@/features/course/components/modals/LessonModal";
 import { useState } from "react";
 import { useModalStore } from "@/stores/modal-store";
-import SortSectionModal from "@/dashboard/courses/components/modals/section-sort/SortSectionModal";
-import { ConfirmationModal } from "../modals/ConfirmationModal";
+import SortSectionModal from "@/features/course/components/modals/section-sort/SortSectionModal";
+import { ConfirmationModal } from "@/features/course/components/modals/ConfirmationModal";
 
 /*
   TODO:

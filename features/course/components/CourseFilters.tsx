@@ -6,7 +6,7 @@ import { Icons } from "@/components/Icons";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
-import { useCourseStore } from "../store/courseStore";
+import { useCourseStore } from "@/features/course/stores/courseStore";
 
 export default function CoursesFilters() {
   const { filters, setFilters } = useCourseStore();

@@ -4,17 +4,17 @@ import { Card } from "@/components/ui/Card";
 import { ScrollableTabs } from "@/components/ui/tabs/ScrollableTabs";
 import { Button } from "@/components/ui/Button";
 import { Icons } from "@/components/Icons";
-import { BasicForm } from "@/dashboard/courses/components/tab-forms/BasicForm";
-import { InfoForm } from "@/dashboard/courses/components/tab-forms/InfoForm";
-import { MediaForm } from "@/dashboard/courses/components/tab-forms/MediaForm";
-import { SeoForm } from "@/dashboard/courses/components/tab-forms/SeoForm";
-import { PricingForm } from "@/dashboard/courses/components/tab-forms/PricingForm";
-import { CurriculumForm } from "@/dashboard/courses/components/tab-forms/CurriculumForm";
-import { SubmitForm } from "@/dashboard/courses/components/tab-forms/SubmitForm";
-import { COURSE_FORM_TABS } from "@/dashboard/courses/lib/constant";
-import { useCourseFormStore } from "@/dashboard/courses/store/useCourseFormStore";
-import { useTabNavigation } from "@/dashboard/courses/hooks/useTabNavigation";
-import { ErrorSummary } from "@/dashboard/courses/components/ErrorSummary";
+import { BasicForm } from "@/features/course/components/tab-forms/BasicForm";
+import { InfoForm } from "@/features/course/components/tab-forms/InfoForm";
+import { MediaForm } from "@/features/course/components/tab-forms/MediaForm";
+import { SeoForm } from "@/features/course/components/tab-forms/SeoForm";
+import { PricingForm } from "@/features/course/components/tab-forms/PricingForm";
+import { CurriculumForm } from "@/features/course/components/tab-forms/CurriculumForm";
+import { SubmitForm } from "@/features/course/components/tab-forms/SubmitForm";
+import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+import { useTabNavigation } from "@/features/course/hooks/useTabNavigation";
+import { ErrorSummary } from "@/features/course/components/ErrorSummary";
 
 export default function ManageCourseCreation() {
   const resetForm = useCourseFormStore((state) => state.resetForm);

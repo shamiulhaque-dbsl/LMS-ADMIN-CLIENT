@@ -1,4 +1,4 @@
-import { useCourseFormStore } from "../../courses/store/useCourseFormStore";
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 
 export const useTabStatus = () => {
   const validationErrors = useCourseFormStore((state) => state.validationErrors);

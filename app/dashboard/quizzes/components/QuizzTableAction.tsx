@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
-import { useCourseStore } from "@/dashboard/courses/store/courseStore";
+// import { useCourseStore } from "@/dashboard/courses/store/courseStore";
 import { Icons } from "@/components/Icons";
 
 const deleteCourseAPI = async (id: number) => new Promise((res) => setTimeout(res, 500));
@@ -33,13 +33,13 @@ export default function QuizzTableAction({ item }: QuizzTableActionProps) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(item.status);
 
-  const store = useCourseStore();
+  // const store = useCourseStore();
 
   const handleDelete = async () => {
     setLoading(true);
     try {
       await deleteCourseAPI(item.id);
-      store.setFilters({ page: store.filters.page });
+      // store.setFilters({ page: store.filters.page });
     } catch (err) {
     } finally {
       setLoading(false);
