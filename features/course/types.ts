@@ -30,6 +30,22 @@ export type CourseMetric = {
   value: string | number;
 };
 
+export interface CourseMetadata {
+  courseResourcesType: string[];
+  lessonContentType: string[];
+  moduleStatus: string[];
+  videoDemoSources: string[];
+  courseStatus: string[];
+  courseTypes: string[];
+  coursesSkillLevels: string[];
+}
+
+export type CourseResourceType = CourseMetadata["courseResourcesType"][number];
+export type CourseStatus = CourseMetadata["courseStatus"][number];
+export type CourseType = CourseMetadata["courseTypes"][number];
+export type VideoDemoSource = CourseMetadata["videoDemoSources"][number];
+export type CourseLevel = CourseMetadata["coursesSkillLevels"][number];
+
 export type ActionItem =
   | { id: string; label: string; type: "link"; href: string }
   | { id: string; label: string; type: "modal"; modalKey: string }

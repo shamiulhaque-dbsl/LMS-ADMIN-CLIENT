@@ -14,8 +14,18 @@ import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import { useTabNavigation } from "@/features/course/hooks/useTabNavigation";
 import { ErrorSummary } from "@/features/course/components/ErrorSummary";
+import type { Category } from "@/features/category/types";
+import type { CourseMetadata } from "@/features/course/types";
 
-export default function ManageCourseCreation() {
+type ManageCourseCreationProps = {
+  categories: Category[];
+  courseMetadata: CourseMetadata | null;
+};
+
+export default function ManageCourseCreation({
+  categories,
+  courseMetadata,
+}: ManageCourseCreationProps) {
   const resetForm = useCourseFormStore((state) => state.resetForm);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
   const isDirty = useCourseFormStore((state) => state.isDirty);
@@ -43,7 +53,7 @@ export default function ManageCourseCreation() {
   const renderTabContent = () => {
     switch (activeTab) {
       case "basic":
-        return <BasicForm />;
+        return <BasicForm categories={categories} courseMetadata={courseMetadata} />;
       case "info":
         return <InfoForm />;
       case "media":

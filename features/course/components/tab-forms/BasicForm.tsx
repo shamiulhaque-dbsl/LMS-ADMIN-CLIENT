@@ -2,8 +2,17 @@ import { Input } from "@/components/ui/input";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import { cn } from "@/lib/utils/tailwind-utils";
 import { Textarea } from "@/components/ui/Textarea";
+import type { Category } from "@/features/category/types";
+import type { CourseMetadata } from "@/features/course/types";
 
-export const BasicForm = () => {
+export const BasicForm = ({
+  categories,
+  courseMetadata,
+}: {
+  categories: Category[];
+  courseMetadata: CourseMetadata | null;
+}) => {
+  console.log("courseMetadata", courseMetadata);
   const formData = useCourseFormStore((state) => state.formData);
   const updateField = useCourseFormStore((state) => state.updateField);
   const validationErrors = useCourseFormStore((state) => state.validationErrors);
@@ -82,9 +91,14 @@ export const BasicForm = () => {
             Course Type <span className="ml-1 text-red-500">*</span>
           </label>
           <select className="required block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
-            <option value="live">Live</option>
-            <option value="recorded">Recorded</option>
-            <option value="blended">Blended</option>
+            <option value="" disabled>
+              Select a course type
+            </option>
+            {courseMetadata?.courseTypes.map((type) => (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            ))}
           </select>
         </div>
         <div className="w-full">
@@ -95,9 +109,14 @@ export const BasicForm = () => {
             Category <span className="ml-1 text-red-500">*</span>
           </label>
           <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
-            <option value="web-design">Web Design</option>
-            <option value="development">Development</option>
-            <option value="marketing">Marketing</option>
+            <option value="" disabled>
+              Select a category
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -110,9 +129,11 @@ export const BasicForm = () => {
             Skill Level
           </label>
           <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
+            {courseMetadata?.coursesSkillLevels.map((type) => (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            ))}
           </select>
         </div>
         <div className="w-full">
@@ -120,10 +141,11 @@ export const BasicForm = () => {
             Course Status <span className="ml-1 text-red-500">*</span>
           </label>
           <select className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm">
-            <option value="active">Active</option>
-            <option value="published">Published</option>
-            <option value="draft">Draft</option>
-            <option value="archived">Archived</option>
+            {courseMetadata?.courseStatus.map((type) => (
+              <option value={type} key={type}>
+                {type}
+              </option>
+            ))}
           </select>
         </div>
       </div>
