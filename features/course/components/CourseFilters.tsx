@@ -91,7 +91,6 @@ export default function CoursesFilters() {
     };
 
     // Update both local state and store
-    setLocalFilters(newFilters);
     setFilters({
       ...newFilters,
       page: 1,

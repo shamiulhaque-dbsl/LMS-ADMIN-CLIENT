@@ -82,13 +82,18 @@ import {
   Plus,
   ArrowDownUp,
   RotateCcw,
+  FileType,
+  FileSpreadsheet
 } from "lucide-react";
+import { file } from "zod";
 
 export type Icon = LucideIcon;
 export type IconProps = LucideProps;
 export type ValidIcon = keyof typeof Icons;
 
 export const Icons = {
+  fileType: FileType,
+  fileSpreadsheet: FileSpreadsheet,
   rotateCcw: RotateCcw,
   loader: Loader,
   arrowDownUp: ArrowDownUp,

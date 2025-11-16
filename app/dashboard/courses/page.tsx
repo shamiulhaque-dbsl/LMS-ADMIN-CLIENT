@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { PageHeader } from "@/components/page/PageHeader";
 import { CourseInfo, ManageCourse, CourseInfoSkeleton } from "@/features/course";
 import { getCourseMetric } from "@/api/course";
-import { CourseMetricResponse } from "@/features/course/types";
+import type { CourseMetricResponse } from "@/features/course/types";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 export const revalidate = 0;

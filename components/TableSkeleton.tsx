@@ -18,7 +18,7 @@ export function TableSkeleton({ columns = 4, rowCount = 4 }: TableSkeletonProps)
     <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
-          {Array.from({ length: rowCount }).map((_, idx) => (
+          {Array.from({ length: columns }).map((_, idx) => (
             <TableHead key={idx}>
               <Skeleton className="h-4 w-24" />
             </TableHead>

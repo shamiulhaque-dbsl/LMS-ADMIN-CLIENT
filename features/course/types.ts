@@ -1,5 +1,5 @@
-type ID = string | number;
-type STATUS = "active" | "inactive" | "deleted";
+export type ID = string | number;
+export type STATUS = "active" | "inactive" | "deleted";
 type COURSE_TYPE = "blended" | "self-paced" | "live" | "recorded";
 
 export type Course = {
@@ -13,7 +13,8 @@ export type Course = {
   status: STATUS;
   course_type: COURSE_TYPE;
   uuid: string;
-  createdAt: Date;
+  enrollment_count?: number;
+  created_at?: string;
 };
 
 export type CourseMetricResponse = {
