@@ -3,6 +3,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Icons } from "@/components/Icons";
 import Text from "@/components/ui/Text";
+import { useFormContext } from "react-hook-form";
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 
 function SectionWrapper({ title, children }: any) {
   return (
@@ -15,7 +17,8 @@ function SectionWrapper({ title, children }: any) {
   );
 }
 
-function DynamicInputList({ label, name }: any) {
+function DynamicInputList({ label, name, required = false }: any) {
+  const { register } = useFormContext();
   const [items, setItems] = useState([{ id: Date.now(), value: "" }]);
 
   const addItem = () => setItems([...items, { id: Date.now(), value: "" }]);
@@ -25,7 +28,14 @@ function DynamicInputList({ label, name }: any) {
     <>
       {items.map((item, idx) => (
         <div key={item.id} className="mb-3 flex w-full items-center gap-2">
-          <Input type="text" name={`${name}[${idx}]`} placeholder={`${label}`} className="w-full" />
+          <Input
+            type="text"
+            placeholder={label}
+            {...register(`${name}[${idx}]`, {
+              required: required ? `${label} is required` : false,
+            })}
+            className="w-full"
+          />
           {items.length > 1 && (
             <Button
               onClick={() => removeItem(item.id)}
@@ -45,6 +55,7 @@ function DynamicInputList({ label, name }: any) {
 }
 
 function DynamicFaqList() {
+  const { register } = useFormContext();
   const [faqs, setFaqs] = useState([{ id: Date.now(), title: "", description: "" }]);
   const addFaq = () => setFaqs([...faqs, { id: Date.now(), title: "", description: "" }]);
   const removeFaq = (id: number) => setFaqs(faqs.filter((f) => f.id !== id));
@@ -67,11 +78,13 @@ function DynamicFaqList() {
           <input
             type="text"
             placeholder="FAQ Title"
+            {...register(`faqsTitle[${idx}]`)}
             className="mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
           />
           <textarea
             placeholder="FAQ Description"
             rows={3}
+            {...register(`faqsDescription[${idx}]`)}
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
           ></textarea>
         </div>
@@ -85,6 +98,7 @@ function DynamicFaqList() {
 }
 
 function DynamicProjectList() {
+  const { register } = useFormContext();
   const [projects, setProjects] = useState([
     { id: Date.now(), title: "", image: "", description: "" },
   ]);
@@ -110,18 +124,24 @@ function DynamicProjectList() {
               </Button>
             )}
           </div>
-          <Input type="text" placeholder="Project Title" className="mb-2" />
+          <Input
+            type="text"
+            placeholder="Project Title"
+            {...register(`projectsTitle[${idx}]`)}
+            className="mb-2"
+          />
           <Input
             type="file"
             accept="image/*"
+            {...register(`projectsImage[${idx}]`)}
             className="mb-2 border-none text-sm text-gray-600 file:mr-4 
                        file:rounded-md file:border-0 file:bg-blue-50 file:text-sm 
                        file:font-medium file:text-blue-700 hover:file:bg-blue-100"
           />
           <textarea
-            name="Project Description"
             placeholder="Project Description"
             rows={3}
+            {...register(`projectsDescription[${idx}]`)}
             className="block w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
           ></textarea>
         </div>
@@ -135,19 +155,61 @@ function DynamicProjectList() {
 }
 
 export const InfoForm = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <div className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl font-bold text-gray-900">Course Details & Content</h2>
+        <p className="text-gray-600">
+          Add requirements, learning outcomes, target audience, FAQs, and projects.
+        </p>
+      </div>
+
       <SectionWrapper title="Course Requirements">
         <DynamicInputList label="Requirement" name="requirements" />
       </SectionWrapper>
 
       <SectionWrapper title="What You'll Learn">
-        <DynamicInputList label="Learning Outcome" name="learning" />
+        <DynamicInputList label="Learning Outcome" name="learningOutcomes" />
       </SectionWrapper>
 
       <SectionWrapper title="Who This Course is For">
-        <DynamicInputList label="Target Audience" name="audience" />
+        <DynamicInputList label="Target Audience" name="targetAudience" />
       </SectionWrapper>
+
+      <div className="w-full">
+        <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor="language">
+          Language <span className="ml-1 text-red-500">*</span>
+        </label>
+        <select
+          id="language"
+          {...register("language", { required: "Language is required" })}
+          className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e]"
+        >
+          <option value="">Select Language</option>
+          <option value="English">English</option>
+          <option value="Spanish">Spanish</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+          <option value="Bengali">Bengali</option>
+        </select>
+        {errors.language && (
+          <p className="mt-1 text-xs text-red-500">{errors.language?.message?.toString()}</p>
+        )}
+      </div>
+
+      <Input
+        id="duration"
+        label="Course Duration (in hours)"
+        type="number"
+        placeholder="e.g., 40"
+        {...register("duration", { required: "Duration is required" })}
+        error={errors.duration?.message?.toString()}
+      />
 
       <SectionWrapper title="FAQs">
         <DynamicFaqList />

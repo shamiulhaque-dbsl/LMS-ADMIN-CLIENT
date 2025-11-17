@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/page/PageHeader";
 import ManageCourseCreation from "@/features/course/components/ManageCourseCreation";
 
 import { getCategories } from "@/api/category";
-import { getCourseMetadata } from "@/api/course";
+import { getFormattedCourseMetadata } from "@/api/course";
 import { use } from "react";
 
 /*
@@ -11,7 +11,7 @@ import { use } from "react";
 */
 
 const fetchCategories = async () => (await getCategories()).data ?? [];
-const fetchCourseMetadata = async () => (await getCourseMetadata()).data ?? null;
+const fetchCourseMetadata = async () => (await getFormattedCourseMetadata()).data ?? null;
 
 export default function CourseCreatePage() {
   const categories = use(fetchCategories());

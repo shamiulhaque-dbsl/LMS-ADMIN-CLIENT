@@ -1,111 +1,67 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-
-export interface CourseFormData {
-  // Basic Info
-  title: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-
-  // Info
-  category: string;
-  level: "beginner" | "intermediate" | "advanced" | "";
-  language: string;
-  duration: string;
-
-  // Media
-  thumbnail: string;
-  previewVideo: string;
-  images: string[];
-
-  // Pricing
-  price: string;
-  discountPrice: string;
-  currency: string;
-
-  // SEO
-  metaTitle: string;
-  metaDescription: string;
-  metaKeywords: string[];
-  ogImage: string;
-}
+import type { CourseFormData } from "@/features/course/types";
 
 export interface ValidationErrors {
   [key: string]: string;
 }
 
-interface CompletedTabs {
-  [key: string]: boolean;
-}
-
 interface CourseFormState {
-  // Form Data
   formData: CourseFormData;
-
-  // UI State
   activeTab: string;
-  validationErrors: ValidationErrors;
-  completedTabs: CompletedTabs;
+  completedTabs: Record<string, boolean>;
   isSubmitting: boolean;
   isDirty: boolean;
+  validationErrors: ValidationErrors;
 
-  // Actions
   setFormData: (data: Partial<CourseFormData>) => void;
   updateField: <K extends keyof CourseFormData>(field: K, value: CourseFormData[K]) => void;
   setActiveTab: (tab: string) => void;
-  setValidationErrors: (errors: ValidationErrors) => void;
-  clearValidationErrors: () => void;
   markTabCompleted: (tabId: string) => void;
   setIsSubmitting: (value: boolean) => void;
-  //   validateCurrentTab: () => { success: boolean; errors: ValidationErrors };
-  //   submitForm: () => Promise<{ success: boolean; data?: CourseFormData; errors?: ValidationErrors }>;
+  setValidationErrors: (errors: ValidationErrors) => void;
+  clearValidationErrors: () => void;
   resetForm: () => void;
 }
 
 const initialFormData: CourseFormData = {
-  // Basic
   title: "",
   slug: "",
-  description: "",
   shortDescription: "",
-
-  // Info
+  description: "",
+  courseType: "",
+  status: "",
   category: "",
   level: "",
   language: "",
   duration: "",
-
-  // Media
   thumbnail: "",
   previewVideo: "",
+  previewUrl: "",
   images: [],
-
-  // Pricing
   price: "",
   discountPrice: "",
   currency: "USD",
-
-  // SEO
   metaTitle: "",
   metaDescription: "",
   metaKeywords: [],
   ogImage: "",
+  courseForum: false,
+  downloadableContent: false,
+  certificateAvailable: false,
 };
 
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
     persist(
-      (set, get) => ({
-        // Initial State
+      (set) => ({
         formData: initialFormData,
         activeTab: "basic",
-        validationErrors: {},
         completedTabs: {},
         isSubmitting: false,
         isDirty: false,
+        validationErrors: {},
 
-        // Actions
         setFormData: (data) =>
           set((state) => ({
             formData: { ...state.formData, ...data },
@@ -114,14 +70,8 @@ export const useCourseFormStore = create<CourseFormState>()(
 
         updateField: <K extends keyof CourseFormData>(field: K, value: CourseFormData[K]) =>
           set((state) => {
-            // Copy current validation errors
-            const newErrors: ValidationErrors = { ...state.validationErrors };
-
-            // Remove the field error if it exists
-            if (newErrors[field as string]) {
-              delete newErrors[field as string];
-            }
-
+            const newErrors = { ...state.validationErrors };
+            delete newErrors[field as string];
             return {
               formData: { ...state.formData, [field]: value },
               isDirty: true,
@@ -130,38 +80,32 @@ export const useCourseFormStore = create<CourseFormState>()(
           }),
 
         setActiveTab: (tab) => set({ activeTab: tab }),
-
-        setValidationErrors: (errors) => set({ validationErrors: errors }),
-
-        clearValidationErrors: () => set({ validationErrors: {} }),
-
         markTabCompleted: (tabId) =>
           set((state) => ({
             completedTabs: { ...state.completedTabs, [tabId]: true },
           })),
-
         setIsSubmitting: (value) => set({ isSubmitting: value }),
-
+        setValidationErrors: (errors) => set({ validationErrors: errors }),
+        clearValidationErrors: () => set({ validationErrors: {} }),
         resetForm: () =>
           set({
             formData: initialFormData,
             activeTab: "basic",
-            validationErrors: {},
             completedTabs: {},
             isSubmitting: false,
             isDirty: false,
+            validationErrors: {},
           }),
       }),
       {
-        name: "course-form-storage", // localStorage key
+        name: "course-form-storage",
         partialize: (state) => ({
           formData: state.formData,
           activeTab: state.activeTab,
           completedTabs: state.completedTabs,
         }),
       }
-    ),
-    { name: "CourseFormStore" }
+    )
   )
 );
 

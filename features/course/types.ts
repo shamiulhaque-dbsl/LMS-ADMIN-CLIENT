@@ -17,6 +17,44 @@ export type Course = {
   created_at?: string;
 };
 
+export interface CourseFormData {
+  // Basic Info
+  title: string;
+  slug: string;
+  description: string;
+  shortDescription: string;
+  courseType: string;
+  status: string;
+
+  // Info
+  category: string;
+  level: "beginner" | "intermediate" | "advanced" | "";
+  language: string;
+  duration: string;
+
+  // Media
+  thumbnail: string;
+  previewVideo: string;
+  previewUrl: string;
+  images: string[];
+
+  // Pricing
+  price: string;
+  discountPrice: string;
+  currency: string;
+
+  // SEO
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords: string[];
+  ogImage: string;
+
+  // Features
+  courseForum: boolean;
+  downloadableContent: boolean;
+  certificateAvailable: boolean;
+}
+
 export type CourseMetricResponse = {
   activeCourses: number;
   upcomingCourses: number;
@@ -30,6 +68,12 @@ export type CourseMetric = {
   value: string | number;
 };
 
+export type ActionItem =
+  | { id: string; label: string; type: "link"; href: string }
+  | { id: string; label: string; type: "modal"; modalKey: string }
+  | { id: string; label: string; type: "action"; actionKey: string };
+
+// Course Metadata
 export interface CourseMetadata {
   courseResourcesType: string[];
   lessonContentType: string[];
@@ -46,7 +90,6 @@ export type CourseType = CourseMetadata["courseTypes"][number];
 export type VideoDemoSource = CourseMetadata["videoDemoSources"][number];
 export type CourseLevel = CourseMetadata["coursesSkillLevels"][number];
 
-export type ActionItem =
-  | { id: string; label: string; type: "link"; href: string }
-  | { id: string; label: string; type: "modal"; modalKey: string }
-  | { id: string; label: string; type: "action"; actionKey: string };
+export type CourseMetadataFormatted = {
+  [k in keyof CourseMetadata]: { value: string; label: string }[];
+};
