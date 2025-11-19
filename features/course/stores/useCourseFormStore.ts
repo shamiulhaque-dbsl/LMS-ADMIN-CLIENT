@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import type { CourseFormData } from "@/features/course/types";
+import { CourseFormData, CourseMetadataFormatted } from "../types";
+import type { Category } from "@/features/category/types";
 
 export interface ValidationErrors {
   [key: string]: string;
@@ -10,109 +11,112 @@ interface CourseFormState {
   formData: CourseFormData;
   activeTab: string;
   completedTabs: Record<string, boolean>;
+  validationErrors: ValidationErrors;
   isSubmitting: boolean;
   isDirty: boolean;
-  validationErrors: ValidationErrors;
+
+  categories: Category[];
+  courseMetadata: CourseMetadataFormatted | null;
 
   setFormData: (data: Partial<CourseFormData>) => void;
-  updateField: <K extends keyof CourseFormData>(field: K, value: CourseFormData[K]) => void;
   setActiveTab: (tab: string) => void;
-  markTabCompleted: (tabId: string) => void;
-  setIsSubmitting: (value: boolean) => void;
-  setValidationErrors: (errors: ValidationErrors) => void;
+  markTabCompleted: (tab: string) => void;
   clearValidationErrors: () => void;
+  setIsSubmitting: (v: boolean) => void;
+  setCategories: (categories: Category[]) => void;
+  setCourseMetadata: (metadata: CourseMetadataFormatted | null) => void;
   resetForm: () => void;
 }
 
-const initialFormData: CourseFormData = {
+export const INITIAL: CourseFormData = {
+  // Basic Info
   title: "",
-  slug: "",
-  shortDescription: "",
   description: "",
+  longDescription: "",
+  category: null,
+  level: "",
   courseType: "",
   status: "",
-  category: "",
-  level: "",
-  language: "",
-  duration: "",
+
+  // Media
   thumbnail: "",
-  previewVideo: "",
-  previewUrl: "",
-  images: [],
-  price: "",
-  discountPrice: "",
-  currency: "USD",
-  metaTitle: "",
-  metaDescription: "",
-  metaKeywords: [],
-  ogImage: "",
+  videoDemoSource: "youtube",
+  videoDemoUrl: "",
+
+  // Details
+  durationHours: undefined,
+  requirements: [],
+  learningOutcomes: [],
+  targetAudience: [],
+  faqs: [],
+  projects: [],
+  moneyBackDays: undefined,
+
+  // Pricing
+  price: 0,
+  discountPrice: 0,
+  isPaid: false,
+
+  // Features
   courseForum: false,
   downloadableContent: false,
   certificateAvailable: false,
+
+  // SEO
+  metaTitle: "",
+  metaDescription: "",
+  metaKeywords: "",
 };
 
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
     persist(
       (set) => ({
-        formData: initialFormData,
+        formData: INITIAL,
         activeTab: "basic",
         completedTabs: {},
+        validationErrors: {},
         isSubmitting: false,
         isDirty: false,
-        validationErrors: {},
+
+        categories: [],
+        courseMetadata: null,
 
         setFormData: (data) =>
-          set((state) => ({
-            formData: { ...state.formData, ...data },
-            isDirty: true,
-          })),
-
-        updateField: <K extends keyof CourseFormData>(field: K, value: CourseFormData[K]) =>
-          set((state) => {
-            const newErrors = { ...state.validationErrors };
-            delete newErrors[field as string];
-            return {
-              formData: { ...state.formData, [field]: value },
-              isDirty: true,
-              validationErrors: newErrors,
-            };
-          }),
-
+          set((s) => ({ formData: { ...s.formData, ...data }, isDirty: true })),
         setActiveTab: (tab) => set({ activeTab: tab }),
-        markTabCompleted: (tabId) =>
-          set((state) => ({
-            completedTabs: { ...state.completedTabs, [tabId]: true },
-          })),
-        setIsSubmitting: (value) => set({ isSubmitting: value }),
-        setValidationErrors: (errors) => set({ validationErrors: errors }),
+        markTabCompleted: (tab) =>
+          set((s) => ({ completedTabs: { ...s.completedTabs, [tab]: true } })),
         clearValidationErrors: () => set({ validationErrors: {} }),
+        setIsSubmitting: (v) => set({ isSubmitting: v }),
+        setCategories: (categories) => set({ categories }),
+        setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
+
         resetForm: () =>
           set({
-            formData: initialFormData,
+            formData: INITIAL,
             activeTab: "basic",
             completedTabs: {},
+            validationErrors: {},
             isSubmitting: false,
             isDirty: false,
-            validationErrors: {},
           }),
       }),
       {
         name: "course-form-storage",
-        partialize: (state) => ({
-          formData: state.formData,
-          activeTab: state.activeTab,
-          completedTabs: state.completedTabs,
+        partialize: (s) => ({
+          formData: s.formData,
+          activeTab: s.activeTab,
+          completedTabs: s.completedTabs,
         }),
       }
     )
   )
 );
 
-// Selectors
-export const useFormData = () => useCourseFormStore((state) => state.formData);
-export const useActiveTab = () => useCourseFormStore((state) => state.activeTab);
-export const useValidationErrors = () => useCourseFormStore((state) => state.validationErrors);
-export const useIsSubmitting = () => useCourseFormStore((state) => state.isSubmitting);
-export const useIsDirty = () => useCourseFormStore((state) => state.isDirty);
-export const useCompletedTabs = () => useCourseFormStore((state) => state.completedTabs);
+// selectors
+export const useFormData = () => useCourseFormStore((s) => s.formData);
+export const useActiveTab = () => useCourseFormStore((s) => s.activeTab);
+export const useValidationErrors = () => useCourseFormStore((s) => s.validationErrors);
+export const useIsSubmitting = () => useCourseFormStore((s) => s.isSubmitting);
+export const useIsDirty = () => useCourseFormStore((s) => s.isDirty);

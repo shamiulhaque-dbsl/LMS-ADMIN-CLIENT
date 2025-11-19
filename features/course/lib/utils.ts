@@ -6,6 +6,7 @@ import type {
 } from "@/features/course/types";
 import { COURSE_METRIC_TITLE } from "@/features/course/lib/constant";
 import { formatEnumOptions } from "@/lib/utils/enumFormatter";
+import { CourseFormData } from "@/features/course/types";
 
 export function formatCourseMetrics(data: CourseMetricResponse | null): CourseMetric[] {
   if (!data) return [];
@@ -33,4 +34,34 @@ export function formatCourseMetadata(metadata: CourseMetadata): {
 
   metadataCache.set("course", formatted);
   return formatted;
+}
+
+export function transformToApiFormat(formData: CourseFormData) {
+  return {
+    title: formData?.title,
+    description: formData?.description,
+    long_description: formData?.longDescription,
+    category_id: formData?.category != null ? Number(formData.category) : null,
+    skill_level: formData?.level,
+    price: formData?.price,
+    thumbnail_url: formData?.thumbnail,
+    video_demo_source: formData?.videoDemoSource,
+    video_demo_url: formData?.videoDemoUrl,
+    duration_hours: formData?.durationHours != null ? Number(formData.durationHours) : null,
+    status: formData?.status,
+    course_type: formData?.courseType,
+    is_paid: formData?.isPaid,
+    course_forum: formData?.courseForum,
+    downloadable_content: formData?.downloadableContent,
+    certificate_available: formData?.certificateAvailable,
+    tags: formData?.metaKeywords,
+    course_details: {
+      requirements: formData?.requirements,
+      what_you_learn: formData?.learningOutcomes,
+      for_whom: formData?.targetAudience,
+      faqs: formData?.faqs,
+      projects: formData?.projects,
+      money_back_days: formData?.moneyBackDays,
+    },
+  };
 }

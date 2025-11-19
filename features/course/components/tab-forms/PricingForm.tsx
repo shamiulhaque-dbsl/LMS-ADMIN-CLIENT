@@ -1,17 +1,25 @@
 import { Input } from "@/components/ui/input";
-import { useFormContext } from "react-hook-form";
-import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
-import { cn } from "@/lib/utils/tailwind-utils";
+import { useFormContext, useWatch } from "react-hook-form";
+import { useEffect } from "react";
 
 export const PricingForm = () => {
   const {
     register,
     formState: { errors },
-    watch,
+    setValue,
   } = useFormContext();
-  const updateField = useCourseFormStore((state) => state.updateField);
-  const price = watch("price");
-  const discountPrice = watch("discountPrice");
+
+  const isFree = useWatch({ name: "isFree" });
+  const expiry = useWatch({ name: "expiryPeriod" });
+  const month = useWatch({ name: "month" });
+
+  // If user selects "lifetime", clear months — do this inside an effect
+  // to avoid calling setValue during render which can cause render loops.
+  useEffect(() => {
+    if (expiry === "lifetime" && month) {
+      setValue("month", "", { shouldValidate: true, shouldDirty: true });
+    }
+  }, [expiry, month, setValue]);
 
   return (
     <div className="space-y-6">
@@ -20,81 +28,100 @@ export const PricingForm = () => {
         <p className="text-gray-600">Set your course price and discount options.</p>
       </div>
 
-      <div className="flex gap-4">
-        <div className="w-full">
-          <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor="currency">
-            Currency <span className="ml-1 text-red-500">*</span>
-          </label>
-          <select
-            id="currency"
-            {...register("currency", { required: "Currency is required" })}
-            onChange={(e) => updateField("currency", e.target.value)}
-            className={cn(
-              "block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm",
-              errors.currency && "border-red-500"
-            )}
-          >
-            <option value="">Select currency</option>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-            <option value="GBP">GBP</option>
-            <option value="BDT">BDT</option>
-            <option value="INR">INR</option>
-          </select>
-          {errors.currency && (
-            <p className="mt-1 text-xs text-red-500">{errors.currency?.message?.toString()}</p>
+      {/* FREE COURSE CHECKBOX */}
+      <div className="flex items-center">
+        <input
+          type="checkbox"
+          id="isFree"
+          {...register("isFree")}
+          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        />
+        <label htmlFor="isFree" className="ml-2 block text-sm text-gray-700">
+          Check if this is a free course
+        </label>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <Input
+          label="Course Price"
+          type="number"
+          step="0.01"
+          placeholder="Enter course price"
+          disabled={isFree}
+          {...register("price")}
+          error={errors.price?.message?.toString()}
+        />
+
+        <Input
+          label="Discounted Price (if applicable)"
+          type="number"
+          step="0.01"
+          placeholder="Enter discounted price"
+          disabled={isFree}
+          {...register("discountedPrice")}
+        />
+
+        <div className="col-span-3 space-y-2 md:col-span-2">
+          <label className="block text-sm font-medium text-gray-700">Expiry Period</label>
+
+          <div className="flex gap-4">
+            <div className="flex items-center">
+              <input
+                type="radio"
+                id="expiry_lifetime"
+                value="lifetime"
+                className="mr-2"
+                {...register("expiryPeriod")}
+              />
+              <label htmlFor="expiry_lifetime" className="text-sm text-gray-700">
+                Lifetime
+              </label>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="radio"
+                id="expiry_limited"
+                value="limited"
+                className="mr-2"
+                {...register("expiryPeriod")}
+              />
+              <label htmlFor="expiry_limited" className="text-sm text-gray-700">
+                Limited Time
+              </label>
+            </div>
+          </div>
+
+          {errors.expiryPeriod && (
+            <p className="text-xs text-red-500">{errors.expiryPeriod.message?.toString()}</p>
           )}
         </div>
 
-        <div className="w-full">
-          <Input
-            id="price"
-            label="Regular Price"
-            type="number"
-            placeholder="99.99"
-            step="0.01"
-            {...register("price", {
-              required: "Price is required",
-              validate: (value) => parseFloat(value) > 0 || "Price must be greater than 0",
-            })}
-            onChange={(e) => updateField("price", e.target.value)}
-            error={errors.price?.message?.toString()}
-          />
-        </div>
-      </div>
-
-      <div className="w-full">
         <Input
-          id="discountPrice"
-          label="Discount Price (Optional)"
-          type="number"
-          placeholder="79.99"
-          step="0.01"
-          {...register("discountPrice", {
-            validate: (value) => {
-              if (!value) return true;
-              if (parseFloat(value) >= parseFloat(price)) {
-                return "Discount price must be less than regular price";
-              }
-              return true;
-            },
-          })}
-          onChange={(e) => updateField("discountPrice", e.target.value)}
-          error={errors.discountPrice?.message?.toString()}
+          label="Course Duration"
+          placeholder="E.g., 10 hours"
+          {...register("courseDuration")}
         />
-      </div>
 
-      {price && discountPrice && parseFloat(discountPrice) < parseFloat(price) && (
-        <div className="rounded-md border border-green-200 bg-green-50 p-4">
-          <p className="text-sm text-green-700">
-            <strong>Discount:</strong>{" "}
-            {(((parseFloat(price) - parseFloat(discountPrice)) / parseFloat(price)) * 100).toFixed(
-              0
-            )}
-            % off
-          </p>
-        </div>
-      )}
+        {expiry === "limited" && (
+          <Input
+            label="Number of Months"
+            type="number"
+            placeholder="E.g., 20"
+            required
+            {...register("month", {
+              required: "Month is required for limited time expiry",
+              validate: (v) => {
+                if (expiry === "limited" && !v) {
+                  return "Month is required for limited time expiry";
+                }
+                return true;
+              },
+            })}
+            error={errors.month?.message?.toString()}
+          />
+        )}
+      </div>
     </div>
   );
 };

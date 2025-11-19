@@ -1,6 +1,7 @@
 export type ID = string | number;
-export type STATUS = "active" | "inactive" | "deleted";
-type COURSE_TYPE = "blended" | "self-paced" | "live" | "recorded";
+export type STATUS = "active" | "inactive" | "deleted" | null | "";
+type COURSE_TYPE = "blended" | "self-paced" | "live" | "recorded" | "";
+type COURSE_LAVEL = "beginner" | "intermediate" | "advanced" | "";
 
 export type Course = {
   id: ID;
@@ -9,7 +10,7 @@ export type Course = {
   slug: string;
   category_id: ID;
   thumbnail_url?: string;
-  price: string;
+  price: string | number;
   status: STATUS;
   course_type: COURSE_TYPE;
   uuid: string;
@@ -20,39 +21,54 @@ export type Course = {
 export interface CourseFormData {
   // Basic Info
   title: string;
-  slug: string;
-  description: string;
-  shortDescription: string;
-  courseType: string;
-  status: string;
+  description?: string | null;
+  longDescription?: string | null;
+  courseType: COURSE_TYPE;
+  level?: COURSE_LAVEL;
+  category: number | null;
+  status: STATUS;
 
   // Info
-  category: string;
-  level: "beginner" | "intermediate" | "advanced" | "";
-  language: string;
-  duration: string;
-
+  duration?: string;
+  requirements?: string[] | null;
+  learningOutcomes?: string[] | null;
+  targetAudience?: string[] | null;
+  faqs:
+    | {
+        question: string;
+        answer: string;
+      }[]
+    | undefined;
+  projects:
+    | {
+        title: string;
+        image?: string;
+        description: string;
+      }[]
+    | undefined;
+  moneyBackDays?: string;
   // Media
-  thumbnail: string;
-  previewVideo: string;
-  previewUrl: string;
-  images: string[];
+  thumbnail?: string;
+  videoDemoSource?: string;
+  videoDemoUrl?: string;
+  images?: string[];
 
   // Pricing
-  price: string;
-  discountPrice: string;
-  currency: string;
+  price: string | number;
+  discountPrice?: string | number;
+  currency?: string;
+  isPaid?: boolean;
+  durationHours?: number | undefined;
 
   // SEO
-  metaTitle: string;
-  metaDescription: string;
-  metaKeywords: string[];
-  ogImage: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
 
   // Features
-  courseForum: boolean;
-  downloadableContent: boolean;
-  certificateAvailable: boolean;
+  courseForum?: boolean;
+  downloadableContent?: boolean;
+  certificateAvailable?: boolean;
 }
 
 export type CourseMetricResponse = {

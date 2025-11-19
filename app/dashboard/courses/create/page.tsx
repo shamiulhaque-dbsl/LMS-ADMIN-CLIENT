@@ -5,11 +5,6 @@ import { getCategories } from "@/api/category";
 import { getFormattedCourseMetadata } from "@/api/course";
 import { use } from "react";
 
-/*
-  Todo:
-  1. Fetch categories from api and pass promise to managecoursecreation
-*/
-
 const fetchCategories = async () => (await getCategories()).data ?? [];
 const fetchCourseMetadata = async () => (await getFormattedCourseMetadata()).data ?? null;
 

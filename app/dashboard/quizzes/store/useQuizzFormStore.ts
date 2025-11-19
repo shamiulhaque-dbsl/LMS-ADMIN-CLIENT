@@ -4,7 +4,6 @@ import { devtools, persist } from "zustand/middleware";
 export interface CourseFormData {
   // Basic Info
   title: string;
-  slug: string;
   description: string;
   shortDescription: string;
 
@@ -28,7 +27,6 @@ export interface CourseFormData {
   metaTitle: string;
   metaDescription: string;
   metaKeywords: string[];
-  ogImage: string;
 }
 
 export interface ValidationErrors {
@@ -66,7 +64,6 @@ interface CourseFormState {
 const initialFormData: CourseFormData = {
   // Basic
   title: "",
-  slug: "",
   description: "",
   shortDescription: "",
 
@@ -90,7 +87,6 @@ const initialFormData: CourseFormData = {
   metaTitle: "",
   metaDescription: "",
   metaKeywords: [],
-  ogImage: "",
 };
 
 export const useCourseFormStore = create<CourseFormState>()(

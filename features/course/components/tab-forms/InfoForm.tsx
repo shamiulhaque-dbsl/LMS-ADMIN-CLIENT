@@ -1,10 +1,11 @@
+"use client";
+
+import { useEffect } from "react";
+import { useFormContext, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import { Icons } from "@/components/Icons";
 import Text from "@/components/ui/Text";
-import { useFormContext } from "react-hook-form";
-import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 
 function SectionWrapper({ title, children }: any) {
   return (
@@ -17,149 +18,162 @@ function SectionWrapper({ title, children }: any) {
   );
 }
 
-function DynamicInputList({ label, name, required = false }: any) {
-  const { register } = useFormContext();
-  const [items, setItems] = useState([{ id: Date.now(), value: "" }]);
-
-  const addItem = () => setItems([...items, { id: Date.now(), value: "" }]);
-  const removeItem = (id: number) => setItems(items.filter((i) => i.id !== id));
+// ---------------------
+// Dynamic Input List
+// ---------------------
+function DynamicInputList({ label, name }: any) {
+  const { register, control, watch } = useFormContext();
+  const { fields, append, remove } = useFieldArray({ control, name });
 
   return (
     <>
-      {items.map((item, idx) => (
+      {fields.map((item, idx) => (
         <div key={item.id} className="mb-3 flex w-full items-center gap-2">
           <Input
             type="text"
             placeholder={label}
-            {...register(`${name}[${idx}]`, {
-              required: required ? `${label} is required` : false,
-            })}
+            {...register(`${name}.${idx}`)}
             className="w-full"
           />
-          {items.length > 1 && (
+          {fields.length > 1 && (
             <Button
-              onClick={() => removeItem(item.id)}
+              type="button"
               size="sm"
-              className="rounded-md text-red-500 hover:bg-red-100"
+              onClick={() => remove(idx)}
+              className="text-red-500 hover:bg-red-100"
             >
               <Icons.x size={16} />
             </Button>
           )}
         </div>
       ))}
-      <Button onClick={addItem} className="p-0 text-sm text-blue-600 hover:text-blue-800">
+
+      <Button
+        type="button"
+        onClick={() => append("")}
+        className="p-0 text-sm text-blue-600 hover:text-blue-800"
+      >
         <Icons.plus size={16} className="mr-1" /> Add {label}
       </Button>
     </>
   );
 }
 
+// ---------------------
+// Dynamic FAQ List
+// ---------------------
 function DynamicFaqList() {
-  const { register } = useFormContext();
-  const [faqs, setFaqs] = useState([{ id: Date.now(), title: "", description: "" }]);
-  const addFaq = () => setFaqs([...faqs, { id: Date.now(), title: "", description: "" }]);
-  const removeFaq = (id: number) => setFaqs(faqs.filter((f) => f.id !== id));
+  const { control, register } = useFormContext();
+  const { fields, append, remove } = useFieldArray({ control, name: "faqs" });
+
+  useEffect(() => {
+    if (fields.length === 0) append({ question: "", answer: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {faqs.map((faq, idx) => (
-        <div key={faq.id} className="relative mb-4 rounded-md border border-gray-200 p-3 shadow-sm">
-          <div className="mb-2 flex items-center justify-end">
-            {faqs.length > 1 && (
+      {fields.map((faq, idx) => (
+        <div key={faq.id} className="relative mb-4 rounded-md border p-3 shadow-sm">
+          <div className="mb-2 flex justify-end">
+            {fields.length > 1 && (
               <Button
-                onClick={() => removeFaq(faq.id)}
+                type="button"
                 size="sm"
-                className="rounded-md text-red-500 hover:bg-red-100"
-              >
-                <Icons.x size={16} />
-              </Button>
-            )}
-          </div>
-          <input
-            type="text"
-            placeholder="FAQ Title"
-            {...register(`faqsTitle[${idx}]`)}
-            className="mb-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-          />
-          <textarea
-            placeholder="FAQ Description"
-            rows={3}
-            {...register(`faqsDescription[${idx}]`)}
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-          ></textarea>
-        </div>
-      ))}
-
-      <Button onClick={addFaq} className="p-0 text-sm text-blue-600 hover:text-blue-800">
-        <Icons.plus size={16} className="mr-1" /> Add FAQ
-      </Button>
-    </>
-  );
-}
-
-function DynamicProjectList() {
-  const { register } = useFormContext();
-  const [projects, setProjects] = useState([
-    { id: Date.now(), title: "", image: "", description: "" },
-  ]);
-  const addProject = () =>
-    setProjects([...projects, { id: Date.now(), title: "", image: "", description: "" }]);
-  const removeProject = (id: number) => setProjects(projects.filter((p) => p.id !== id));
-
-  return (
-    <>
-      {projects.map((project, idx) => (
-        <div
-          key={project.id}
-          className="relative mb-4 rounded-md border border-gray-200 p-3 shadow-sm"
-        >
-          <div className="mb-2 flex items-center justify-end">
-            {projects.length > 1 && (
-              <Button
-                size="sm"
-                onClick={() => removeProject(project.id)}
+                onClick={() => remove(idx)}
                 className="text-red-500 hover:bg-red-100"
               >
                 <Icons.x size={16} />
               </Button>
             )}
           </div>
-          <Input
-            type="text"
-            placeholder="Project Title"
-            {...register(`projectsTitle[${idx}]`)}
-            className="mb-2"
-          />
-          <Input
-            type="file"
-            accept="image/*"
-            {...register(`projectsImage[${idx}]`)}
-            className="mb-2 border-none text-sm text-gray-600 file:mr-4 
-                       file:rounded-md file:border-0 file:bg-blue-50 file:text-sm 
-                       file:font-medium file:text-blue-700 hover:file:bg-blue-100"
-          />
+
+          <Input placeholder="Question" {...register(`faqs.${idx}.question`)} className="mb-2" />
           <textarea
-            placeholder="Project Description"
+            placeholder="Answer"
             rows={3}
-            {...register(`projectsDescription[${idx}]`)}
-            className="block w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e] disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
-          ></textarea>
+            {...register(`faqs.${idx}.answer`)}
+            className="w-full rounded-md border px-3 py-2 text-sm"
+          />
         </div>
       ))}
 
-      <Button onClick={addProject} className="p-0 text-sm text-blue-600 hover:text-blue-800">
+      <Button
+        type="button"
+        onClick={() => append({ question: "", answer: "" })}
+        className="p-0 text-sm text-blue-600 hover:text-blue-800"
+      >
+        <Icons.plus size={16} className="mr-1" /> Add FAQ
+      </Button>
+    </>
+  );
+}
+
+// ---------------------
+// Dynamic Project List
+// ---------------------
+function DynamicProjectList() {
+  const { control, register } = useFormContext();
+  const { fields, append, remove } = useFieldArray({ control, name: "projects" });
+
+  useEffect(() => {
+    if (fields.length === 0) append({ title: "", image: "", description: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <>
+      {fields.map((project, idx) => (
+        <div
+          key={project.id}
+          className="relative mb-4 rounded-md border border-gray-200 p-3 shadow-sm"
+        >
+          <div className="mb-2 flex justify-end">
+            {fields.length > 1 && (
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => remove(idx)}
+                className="text-red-500 hover:bg-red-100"
+              >
+                <Icons.x size={16} />
+              </Button>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Input type="text" placeholder="Project Title" {...register(`projects.${idx}.title`)} />
+            <Input
+              type="file"
+              accept="image/*"
+              {...register(`projects.${idx}.image`)}
+              className="input-base"
+            />
+            <textarea
+              placeholder="Project Description"
+              rows={3}
+              {...register(`projects.${idx}.description`)}
+              className="input-base"
+            />
+          </div>
+        </div>
+      ))}
+
+      <Button
+        type="button"
+        onClick={() => append({ title: "", image: "", description: "" })}
+        className="p-0 text-sm text-blue-600 hover:text-blue-800"
+      >
         <Icons.plus size={16} className="mr-1" /> Add Project
       </Button>
     </>
   );
 }
 
+// ---------------------
+// Main InfoForm
+// ---------------------
 export const InfoForm = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
-
   return (
     <div className="space-y-6">
       <div className="space-y-2">
@@ -180,36 +194,6 @@ export const InfoForm = () => {
       <SectionWrapper title="Who This Course is For">
         <DynamicInputList label="Target Audience" name="targetAudience" />
       </SectionWrapper>
-
-      <div className="w-full">
-        <label className="mb-1 block text-sm font-medium text-gray-700" htmlFor="language">
-          Language <span className="ml-1 text-red-500">*</span>
-        </label>
-        <select
-          id="language"
-          {...register("language", { required: "Language is required" })}
-          className="block h-10 w-full rounded-sm border border-slate-300 bg-transparent px-3 py-2 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-[#e74d2e77] focus:outline-none focus:ring-[#e74c2e]"
-        >
-          <option value="">Select Language</option>
-          <option value="English">English</option>
-          <option value="Spanish">Spanish</option>
-          <option value="French">French</option>
-          <option value="German">German</option>
-          <option value="Bengali">Bengali</option>
-        </select>
-        {errors.language && (
-          <p className="mt-1 text-xs text-red-500">{errors.language?.message?.toString()}</p>
-        )}
-      </div>
-
-      <Input
-        id="duration"
-        label="Course Duration (in hours)"
-        type="number"
-        placeholder="e.g., 40"
-        {...register("duration", { required: "Duration is required" })}
-        error={errors.duration?.message?.toString()}
-      />
 
       <SectionWrapper title="FAQs">
         <DynamicFaqList />

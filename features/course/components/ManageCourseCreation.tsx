@@ -1,48 +1,71 @@
 "use client";
 
-import { useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Card } from "@/components/ui/Card";
 import { ScrollableTabs } from "@/components/ui/tabs/ScrollableTabs";
 import { Button } from "@/components/ui/Button";
 import { Icons } from "@/components/Icons";
 
-import { BasicForm } from "@/features/course/components/tab-forms/BasicForm";
-import { InfoForm } from "@/features/course/components/tab-forms/InfoForm";
-import { MediaForm } from "@/features/course/components/tab-forms/MediaForm";
-import { SeoForm } from "@/features/course/components/tab-forms/SeoForm";
-import { PricingForm } from "@/features/course/components/tab-forms/PricingForm";
-import { SubmitForm } from "@/features/course/components/tab-forms/SubmitForm";
+import {
+  BasicForm,
+  InfoForm,
+  MediaForm,
+  PricingForm,
+  SeoForm,
+  SubmitForm,
+} from "@/features/course/components/tab-forms";
 
 import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import { useTabNavigation } from "@/features/course/hooks/useTabNavigation";
-import { ErrorSummary } from "@/features/course/components/ErrorSummary";
 
-import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { CourseFormSchema } from "@/features/course/courseSchemas";
 
 import type { Category } from "@/features/category/types";
 import { CourseMetadataFormatted } from "../types";
 
-type ManageCourseCreationProps = {
+import { useCourseAction } from "../hooks/useCourseAction";
+import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
+
+import type { CourseFormData } from "../types";
+import { JSX, useEffect } from "react";
+
+type Props = {
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
 };
 
-export default function ManageCourseCreation({
-  categories,
-  courseMetadata,
-}: ManageCourseCreationProps) {
+const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
+  basic: <BasicForm />,
+  info: <InfoForm />,
+  media: <MediaForm />,
+  pricing: <PricingForm />,
+  seo: <SeoForm />,
+  finish: null,
+};
+
+export default function ManageCourseCreation({ categories, courseMetadata }: Props) {
   const formData = useCourseFormStore((state) => state.formData);
-  const setFormData = useCourseFormStore((state) => state.setFormData);
   const resetForm = useCourseFormStore((state) => state.resetForm);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
 
+  const setCategories = useCourseFormStore((s) => s.setCategories);
+  const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
+
+  const { create } = useCourseAction();
+  const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
+
+  useEffect(() => {
+    setCategories(categories);
+    setCourseMetadata(courseMetadata);
+  }, [categories, courseMetadata, setCategories, setCourseMetadata]);
+
   const methods = useForm({
     mode: "onChange",
-    reValidateMode: "onChange", // auto-clear errors when field is corrected
+    reValidateMode: "onChange",
     resolver: zodResolver(CourseFormSchema) as any,
     defaultValues: formData,
     shouldUnregister: false,
@@ -52,82 +75,50 @@ export default function ManageCourseCreation({
     methods.trigger
   );
 
-  // Sync RHF data to Zustand
-  useEffect(() => {
-    const subscription = methods.watch((values) => {
-      setFormData(values as any);
-    });
-    return () => subscription.unsubscribe();
-  }, [methods, setFormData]);
-
-  const handleSubmit = methods.handleSubmit(async (data) => {
+  const handleSubmitForm = methods.handleSubmit(async (data) => {
     try {
-      useCourseFormStore.getState().setIsSubmitting(true);
+      const response = await create(data);
 
-      const res = await fetch("/api/courses", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const result = await res.json();
-
-      if (!res.ok) {
-        if (result.errors) {
-          for (const [field, message] of Object.entries(result.errors)) {
-            methods.setError(field as any, { type: "server", message: message as string });
-          }
-        }
-        return;
+      if (!response.success) {
+        useCourseFormStore.setState({ activeTab: "finish" });
+        return handleApiErrors(response, methods.setError);
       }
 
-      alert("✅ Course created successfully!");
       resetForm();
-      methods.reset(); // reset react-hook-form state
+      methods.reset();
     } catch (err) {
       console.error(err);
-      alert("Something went wrong!");
+      useCourseFormStore.setState({ activeTab: "finish" });
     } finally {
-      useCourseFormStore.getState().setIsSubmitting(false);
+      useCourseFormStore.setState({ isSubmitting: false });
     }
   });
 
   const handleReset = () => {
-    if (isDirty) {
-      if (!confirm("⚠️ Unsaved changes will be lost. Are you sure?")) return;
-    }
-    resetForm();
+    if (methods.formState.isDirty && !confirm("⚠️ Unsaved changes will be lost. Are you sure?"))
+      return;
+
     methods.reset();
   };
 
   const handleNext = async () => await goToNext();
   const handleTabChange = async (tab: string) => await goToTab(tab);
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "basic":
-        return <BasicForm categories={categories} courseMetadata={courseMetadata} />;
-      case "info":
-        return <InfoForm />;
-      case "media":
-        return <MediaForm videoSources={courseMetadata?.videoDemoSources} />;
-      case "pricing":
-        return <PricingForm />;
-      case "seo":
-        return <SeoForm />;
-      case "finish":
-        return <SubmitForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
-      default:
-        return null;
+  const renderContent = () => {
+    if (activeTab === "finish") {
+      return <SubmitForm onSubmit={handleSubmitForm} isSubmitting={isSubmitting} />;
     }
+
+    return TAB_COMPONENTS[activeTab] || null;
   };
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitForm}>
         <Card className="border-none bg-white shadow-lg">
           <Card.Header className="rounded-t-xl bg-gray-50 p-2">
             <ScrollableTabs
-              tabs={COURSE_FORM_TABS}
+              tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
               value={activeTab}
               onValueChange={handleTabChange}
               showScrollButtons={false}
@@ -136,7 +127,7 @@ export default function ManageCourseCreation({
           </Card.Header>
 
           <Card.Content className="mx-auto my-6 max-w-4xl p-6">
-            <div className="min-h-[500px]">{renderTabContent()}</div>
+            <div className="min-h-[500px]">{renderContent()}</div>
           </Card.Content>
 
           <Card.Footer className="flex items-center justify-center gap-4 border-t border-gray-200 bg-gray-50 px-6 py-4">

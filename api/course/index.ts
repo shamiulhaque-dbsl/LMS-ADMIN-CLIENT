@@ -3,6 +3,7 @@ import type {
   Course,
   CourseMetadata,
   CourseMetadataFormatted,
+  CourseFormData,
 } from "@/features/course/types";
 import { ApiResponse, apiRequest } from "@/api";
 import { formatCourseMetadata } from "@/features/course/lib/utils";
@@ -33,6 +34,10 @@ export async function getFormattedCourseMetadata(): Promise<ApiResponse<CourseMe
   if (!response.data) return { ...response, data: {} as CourseMetadataFormatted };
   const formatted = formatCourseMetadata(response.data);
   return { ...response, data: formatted };
+}
+
+export async function createCourse(body: Partial<CourseFormData>): Promise<ApiResponse<Course>> {
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/create`, "POST", { body });
 }
 
 export async function deleteCourse(id: number | string): Promise<ApiResponse<null>> {
