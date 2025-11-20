@@ -6,7 +6,7 @@ const optionalString = z
   .trim()
   .nullish() // accepts string | null | undefined
   .transform((val) => {
-    if (val === null || val === undefined || val === "") return undefined;
+    if (val === null || val === undefined || val === "") return null;
     return val;
   });
 
@@ -27,25 +27,28 @@ const decimalValidator = z
   })
   .optional();
 
+const numberValidator = z.coerce.number().nonnegative().optional();
+
 export const CourseFormSchema = z.object({
   title: z.string().trim().min(5, "Title must be at least 5 characters").optional(),
-  shortDescription: optionalString,
+  longDescription: optionalString,
   description: optionalString,
   courseType: nonEmptyString,
   status: nonEmptyString,
   category: z.coerce.number().min(1, "This field is required").positive("Invalid category"),
   level: optionalString,
 
-  language: optionalString,
-  duration: optionalString,
+  durationHours: numberValidator,
 
   thumbnail: optionalString,
-  previewVideo: optionalString,
-  previewUrl: optionalUrl,
+  videoDemoSource: optionalString,
+  videoDemoUrl: optionalUrl,
   images: z.array(z.string()).optional().default([]),
 
+  isFree: z.boolean().optional().default(false),
   price: decimalValidator,
   discountPrice: decimalValidator,
+  numberOfMonths: numberValidator,
 
   // Meta fields: optional, only check if provided
   metaTitle: optionalString,
@@ -67,9 +70,9 @@ export const CourseFormSchema = z.object({
 
   projects: z
     .array(z.object({ title: optionalString, image: optionalString, description: optionalString }))
-    .optional()
     .default([])
-    .nullish(),
+    .nullish()
+    .optional(),
 });
 
 // import { z } from "zod";

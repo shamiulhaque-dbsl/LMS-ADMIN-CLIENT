@@ -27,9 +27,9 @@ export const MediaForm = () => {
         </label>
 
         <select
-          id="previewVideo"
-          {...register("previewVideo")}
-          className={cn("input-base", errors.previewVideo && "border-red-500")}
+          id="videoDemoSource"
+          {...register("videoDemoSource")}
+          className={cn("input-base", errors.videoDemoSource && "border-red-500")}
         >
           <option value="">Select a source</option>
           {videoSources?.map((source) => (
@@ -39,19 +39,19 @@ export const MediaForm = () => {
           ))}
         </select>
 
-        {errors.previewVideo && (
-          <p className="error-text">{errors.previewVideo.message?.toString()}</p>
+        {errors.videoDemoSource && (
+          <p className="error-text">{errors.videoDemoSource.message?.toString()}</p>
         )}
       </div>
 
       {/* Preview URL */}
       <Input
-        id="previewUrl"
+        id="videoDemoUrl"
         label="Course Demo/Overview URL"
         type="url"
         placeholder="https://www.youtube.com/watch?v=example"
-        {...register("previewUrl")}
-        error={errors.previewUrl?.message?.toString()}
+        {...register("videoDemoUrl")}
+        error={errors.videoDemoUrl?.message?.toString()}
       />
 
       {/* Thumbnail Upload */}

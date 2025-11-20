@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { CourseFormData, CourseMetadataFormatted } from "../types";
+import type { CourseFormData, CourseMetadataFormatted } from "../types";
 import type { Category } from "@/features/category/types";
 
 export interface ValidationErrors {
@@ -55,7 +55,9 @@ export const INITIAL: CourseFormData = {
   // Pricing
   price: 0,
   discountPrice: 0,
-  isPaid: false,
+  isFree: false,
+  numberOfMonths: 0,
+  expiryPeriod: "lifetime",
 
   // Features
   courseForum: false,

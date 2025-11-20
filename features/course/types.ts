@@ -1,22 +1,134 @@
 export type ID = string | number;
 export type STATUS = "active" | "inactive" | "deleted" | null | "";
-type COURSE_TYPE = "blended" | "self-paced" | "live" | "recorded" | "";
+export type COURSE_TYPE = "blended" | "self-paced" | "live" | "recorded" | "";
 type COURSE_LAVEL = "beginner" | "intermediate" | "advanced" | "";
 
-export type Course = {
-  id: ID;
-  title: string;
-  description: string;
-  slug: string;
-  category_id: ID;
-  thumbnail_url?: string;
-  price: string | number;
-  status: STATUS;
-  course_type: COURSE_TYPE;
+export interface Course {
+  id: number;
   uuid: string;
-  enrollment_count?: number;
-  created_at?: string;
+  title: string;
+  slug: string;
+  description?: string | null;
+  long_description?: string | null;
+  category_id: number;
+  skill_level?: string | null;
+  price?: string | null; // Decimal stored as string
+  selling_price?: string | null;
+  thumbnail_url?: string | null;
+  video_demo_source?: "youtube" | "vimeo" | "upload" | null;
+  video_demo_url?: string | null;
+  duration_hours?: number | null;
+  status: "draft" | "published" | "archived";
+  course_type: "recorded" | "live";
+  is_free?: boolean | null;
+  sort_order?: number | null;
+  rating?: string | null;
+  enrollment_count?: number | null;
+  course_forum?: boolean | null;
+  downloadable_content?: boolean | null;
+  expiry_period?: boolean | null;
+  number_of_months?: number | null;
+  certificate_available?: boolean | null;
+  estimated_completion_time?: number | null;
+  tags?: string | null;
+  created_at: string;
+  updated_at: string;
+  published_at?: string | null;
+  deleted_at?: string | null;
+
+  assignments?: Assignment[];
+  certificates?: Certificate[];
+  course_details?: CourseDetail[];
+  course_instructors?: CourseInstructor[];
+  course_modules?: CourseModule[];
+  course_ratings?: CourseRating[];
+  enrollments?: Enrollment[];
+  forums?: Forum[];
+  live_sessions?: LiveSession[];
+  payments?: Payment[];
+}
+
+export type CourseDetails = {
+  requirements?: string[] | null;
+  what_you_learn?: string[] | null;
+  target_audience?: string[] | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+      }[]
+    | null;
+  projects?:
+    | {
+        title: string;
+        image?: string;
+        description: string;
+      }[]
+    | null;
+  duration?: string;
+  money_back_days?: string | null;
 };
+
+export interface CourseModule {
+  id: number;
+  course_id: number;
+  title: string;
+  description?: string | null;
+  sort_order?: number | null;
+  status: "draft" | "published" | "archived";
+  created_at: string;
+  updated_at: string;
+  assignments?: Assignment[];
+  course_lessons?: CourseLesson[];
+  course_resources?: CourseResource[];
+  quizzes?: Quiz[];
+}
+
+export interface CourseResource {
+  id: number;
+  module_id?: number | null;
+  lesson_id?: number | null;
+  resources_type: "pdf" | "image" | "video" | "audio" | "link";
+  resource_url?: string | null;
+  title?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// Placeholder types for relations
+export interface Assignment {
+  id: number;
+}
+export interface Certificate {
+  id: number;
+}
+export interface CourseDetail {
+  id: number;
+}
+export interface CourseInstructor {
+  id: number;
+}
+export interface CourseRating {
+  id: number;
+}
+export interface Enrollment {
+  id: number;
+}
+export interface Forum {
+  id: number;
+}
+export interface LiveSession {
+  id: number;
+}
+export interface Payment {
+  id: number;
+}
+export interface CourseLesson {
+  id: number;
+}
+export interface Quiz {
+  id: number;
+}
 
 export interface CourseFormData {
   // Basic Info
@@ -29,7 +141,6 @@ export interface CourseFormData {
   status: STATUS;
 
   // Info
-  duration?: string;
   requirements?: string[] | null;
   learningOutcomes?: string[] | null;
   targetAudience?: string[] | null;
@@ -56,9 +167,10 @@ export interface CourseFormData {
   // Pricing
   price: string | number;
   discountPrice?: string | number;
-  currency?: string;
-  isPaid?: boolean;
+  isFree?: boolean;
   durationHours?: number | undefined;
+  numberOfMonths?: number;
+  expiryPeriod?: string;
 
   // SEO
   metaTitle?: string;

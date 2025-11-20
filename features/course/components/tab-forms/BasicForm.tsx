@@ -34,25 +34,25 @@ export const BasicForm = () => {
         </div>
         <div className="space-y-2">
           <Textarea
-            id="shortDescription"
-            label="Short Description"
+            id="description"
+            label="Description"
             placeholder="A brief, compelling summary of your course (1-2 sentences)"
-            {...register("shortDescription")}
+            {...register("description")}
             rows={3}
             maxLength={200}
-            error={errors.shortDescription?.message?.toString()}
+            error={errors.description?.message?.toString()}
           />
         </div>
 
         <div className="space-y-2">
           <Textarea
-            id="description"
-            label="Description"
+            id="longDescription"
+            label="Long Description"
             placeholder="A detailed overview of what students will learn and achieve in this course"
-            {...register("description")}
+            {...register("longDescription")}
             rows={5}
             maxLength={200}
-            error={errors.description?.message?.toString()}
+            error={errors.longDescription?.message?.toString()}
           />
         </div>
 

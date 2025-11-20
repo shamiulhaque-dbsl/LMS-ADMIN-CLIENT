@@ -37,9 +37,18 @@ export async function getFormattedCourseMetadata(): Promise<ApiResponse<CourseMe
 }
 
 export async function createCourse(body: Partial<CourseFormData>): Promise<ApiResponse<Course>> {
+  console.log("API createCourse body:", body);
   return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/create`, "POST", { body });
+}
+
+export async function updateCourse(id: number | string, body: Partial<CourseFormData>) {
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "PUT", { body });
 }
 
 export async function deleteCourse(id: number | string): Promise<ApiResponse<null>> {
   return apiRequest<ApiResponse<null>>(`${COURSE_API_PREFIX}/${id}`, "DELETE");
+}
+
+export async function getCourse(id: number | string): Promise<ApiResponse<Course>> {
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "GET");
 }

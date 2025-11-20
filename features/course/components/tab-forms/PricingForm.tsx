@@ -100,7 +100,7 @@ export const PricingForm = () => {
         <Input
           label="Course Duration"
           placeholder="E.g., 10 hours"
-          {...register("courseDuration")}
+          {...register("durationHours")}
         />
 
         {expiry === "limited" && (
@@ -109,7 +109,7 @@ export const PricingForm = () => {
             type="number"
             placeholder="E.g., 20"
             required
-            {...register("month", {
+            {...register("numberOfMonths", {
               required: "Month is required for limited time expiry",
               validate: (v) => {
                 if (expiry === "limited" && !v) {
