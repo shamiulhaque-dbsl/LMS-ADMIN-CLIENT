@@ -11,22 +11,24 @@ interface ModalStore {
 export const useModalStore = create<ModalStore>((set) => ({
   modals: {},
   payloads: {},
-  openModal: (id, payload) =>
+  openModal: (modalId, payload) => {
+    console.log("Opening modal:", modalId, "with payload:", payload);
     set((state) => ({
-      modals: { ...state.modals, [id]: true },
-      payloads: { ...state.payloads, [id]: payload },
-    })),
-  closeModal: (id) =>
+      modals: { ...state.modals, [modalId]: true },
+      payloads: { ...state.payloads, [modalId]: payload },
+    }));
+  },
+  closeModal: (modalId) =>
     set((state) => {
       const nextPayloads = { ...state.payloads };
-      delete nextPayloads[id];
+      delete nextPayloads[modalId];
       return {
-        modals: { ...state.modals, [id]: false },
+        modals: { ...state.modals, [modalId]: false },
         payloads: nextPayloads,
       };
     }),
-  toggleModal: (id) =>
+  toggleModal: (modalId) =>
     set((state) => ({
-      modals: { ...state.modals, [id]: !state.modals[id] },
+      modals: { ...state.modals, [modalId]: !state.modals[modalId] },
     })),
 }));
