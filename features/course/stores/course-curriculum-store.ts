@@ -1,17 +1,19 @@
 import { create } from "zustand";
-
+import type { ID } from "../types";
 export interface CurriculumLesson {
-  id: string | number;
+  id?: ID;
   title: string;
   description?: string;
 }
 
 export interface CurriculumSection {
-  id: string | number;
+  id?: string | number;
   title: string;
   description?: string;
   lessons: CurriculumLesson[];
-  sort_order: number;
+  sort_order: number | null | undefined;
+  status?: string;
+  course_id?: string | number;
 }
 
 interface CurriculumState {
@@ -36,7 +38,6 @@ export const useCurriculumStore = create<CurriculumState>((set) => ({
       sections: [
         ...state.sections,
         {
-          id: crypto.randomUUID(),
           title,
           description: "",
           lessons: [],

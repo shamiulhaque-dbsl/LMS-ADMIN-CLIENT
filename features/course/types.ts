@@ -125,6 +125,7 @@ export interface Payment {
 }
 export interface CourseLesson {
   id: number;
+  title: string;
 }
 export interface Quiz {
   id: number;

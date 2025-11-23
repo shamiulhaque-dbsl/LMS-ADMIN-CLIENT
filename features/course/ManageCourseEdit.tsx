@@ -59,6 +59,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
 
+  const setCourseId = useCourseFormStore((s) => s.setCourseId);
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
   const setFormData = useCourseFormStore((s) => s.setFormData);
@@ -79,12 +80,12 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
   );
 
   const normalized = useMemo(() => normalizeCourseToForm(course), [course]);
-  console.log("Normalized course for form:", normalized);
 
   useEffect(() => {
     setFormData(normalized);
     setCategories(categories);
     setCourseMetadata(courseMetadata);
+    setCourseId(course.id);
 
     if (course.course_modules) {
       const normalized = course.course_modules.map((m) => ({
@@ -93,6 +94,8 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
         description: m.description || "",
         lessons: m.course_lessons || [],
         sort_order: m.sort_order,
+        status: m.status,
+        course_id: m.course_id,
       }));
 
       useCurriculumStore.getState().setSections(normalized);

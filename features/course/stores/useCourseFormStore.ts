@@ -14,10 +14,12 @@ interface CourseFormState {
   validationErrors: ValidationErrors;
   isSubmitting: boolean;
   isDirty: boolean;
+  courseId?: string | number | undefined;
 
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
 
+  setCourseId: (id: string | number | undefined) => void;
   setFormData: (data: Partial<CourseFormData>) => void;
   setActiveTab: (tab: string) => void;
   markTabCompleted: (tab: string) => void;
@@ -80,10 +82,12 @@ export const useCourseFormStore = create<CourseFormState>()(
         validationErrors: {},
         isSubmitting: false,
         isDirty: false,
+        courseId: undefined,
 
         categories: [],
         courseMetadata: null,
 
+        setCourseId: (id) => set({ courseId: id }),
         setFormData: (data) =>
           set((s) => ({ formData: { ...s.formData, ...data }, isDirty: true })),
         setActiveTab: (tab) => set({ activeTab: tab }),
