@@ -2,12 +2,13 @@
 
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { JSX, useEffect, useMemo } from "react";
 
 import { Card } from "@/components/ui/Card";
 import { ScrollableTabs } from "@/components/ui/tabs/ScrollableTabs";
 import { Button } from "@/components/ui/Button";
 import { Icons } from "@/components/Icons";
-import { toast } from "sonner";
 
 import {
   BasicForm,
@@ -26,13 +27,10 @@ import { useTabNavigation } from "@/features/course/hooks/useTabNavigation";
 import { CourseFormSchema } from "@/features/course/courseSchemas";
 
 import type { Category } from "@/features/category/types";
-import { CourseMetadataFormatted } from "@/features/course/types";
+import type { Course, CourseFormData, CourseMetadataFormatted } from "@/features/course/types";
 
 import { useCourseAction } from "@/features/course/hooks/useCourseAction";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
-
-import type { Course, CourseFormData } from "@/features/course/types";
-import { JSX, useEffect, useMemo } from "react";
 
 import { normalizeCourseToForm } from "@/features/course/lib/utils";
 import { useCurriculumStore } from "@/features/course/stores/course-curriculum-store";
@@ -55,7 +53,6 @@ const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
 
 export default function ManageCourseEdit({ course, categories, courseMetadata }: props) {
   const formData = useCourseFormStore((state) => state.formData);
-  const resetForm = useCourseFormStore((state) => state.resetForm);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
 
@@ -92,8 +89,8 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
         id: m.id,
         title: m.title,
         description: m.description || "",
-        lessons: m.course_lessons || [],
         sort_order: m.sort_order,
+        lessons: m.course_lessons || [],
         status: m.status,
         course_id: m.course_id,
       }));
@@ -101,12 +98,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
       useCurriculumStore.getState().setSections(normalized);
     }
 
-    // Reset RHF with normalized values (populates inputs)
     methods.reset(normalized);
-
-    // mark not-dirty after loading edit data
-    // Option: you can set isDirty false in store if you track it - use resetForm or dedicated setter
-    // If you want to preserve persisted storage, consider not resetting persisted store here.
   }, [
     normalized,
     categories,

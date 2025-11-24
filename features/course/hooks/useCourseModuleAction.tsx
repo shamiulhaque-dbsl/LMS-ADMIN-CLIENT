@@ -2,8 +2,7 @@
 
 import { createCourseModule, updateCourseModule, deleteCourseModule } from "@/api/course/module";
 import { useState } from "react";
-import { CourseFormData } from "../types";
-import { transformToApiFormat } from "../lib/utils";
+import type { CourseModule, ID } from "@/features/course/types";
 
 /*
   #TODO:
@@ -12,7 +11,7 @@ import { transformToApiFormat } from "../lib/utils";
 export const useCourseModuleAction = () => {
   const [loading, setLoading] = useState(false);
 
-  const create = async (formData: CourseFormData) => {
+  const create = async (formData: CourseModule) => {
     try {
       const res = await createCourseModule(formData);
       return { success: true, data: res };
@@ -27,7 +26,7 @@ export const useCourseModuleAction = () => {
     }
   };
 
-  const update = async (id: number | string, formData: CourseFormData) => {
+  const update = async (id: ID, formData: CourseModule) => {
     setLoading(true);
     try {
       const res = await updateCourseModule(id, formData);
@@ -42,7 +41,7 @@ export const useCourseModuleAction = () => {
       setLoading(false);
     }
   };
-  const remove = async (id: number | string) => {
+  const remove = async (id: ID) => {
     setLoading(true);
     try {
       const res = await deleteCourseModule(id);

@@ -1,9 +1,9 @@
+import { use } from "react";
 import { PageHeader } from "@/components/page/PageHeader";
 import { ManageCourseEdit } from "@/features/course";
 import { getCourse } from "@/api/course";
 import { getCategories } from "@/api/category";
 import { getFormattedCourseMetadata } from "@/api/course";
-import { use } from "react";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 const fetchCourse = async (id: string) => {
@@ -37,6 +37,11 @@ type props = {
   params: Promise<{ id: string }>;
 };
 
+/*
+  #TODO:
+  1. Implement proper error handling and loading states.
+  2. Implement proper data fetching strategies as needed.
+*/
 export default function CourseEditPage({ params }: props) {
   const { id } = use(params);
   if (!id) return <ErrorMessage message="Missing category ID" />;
@@ -52,6 +57,9 @@ export default function CourseEditPage({ params }: props) {
   }
 
   const courseMetadata = use(fetchCourseMetadata());
+  if (!courseMetadata) {
+    return <div>Course metadata not found</div>;
+  }
 
   return (
     <>

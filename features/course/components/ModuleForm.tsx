@@ -9,14 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 import { useModalStore } from "@/stores/modal-store";
-import { useCourseModuleAction } from "../hooks/useCourseModuleAction";
-import { useCourseFormStore } from "../stores/useCourseFormStore";
-
-type CourseModuleFormProps = {
-  title?: string;
-  description?: string;
-  status?: string;
-};
+import { useCourseModuleAction } from "@/features/course/hooks/useCourseModuleAction";
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+import type { CourseModule } from "@/features/course/types";
 
 const SectionSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -24,13 +19,11 @@ const SectionSchema = z.object({
   status: z.string().optional(),
 });
 
-export type SectionFormValues = z.infer<typeof SectionSchema>;
-
 export const ModuleForm = ({
   section,
   mode,
 }: {
-  section?: SectionFormValues & { id?: string };
+  section?: CourseModule & { id?: string };
   mode: "create" | "edit";
 }) => {
   const {
@@ -38,22 +31,21 @@ export const ModuleForm = ({
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-    reset,
-  } = useForm<CourseModuleFormProps>({
+  } = useForm<CourseModule>({
     defaultValues: {
       title: section?.title ?? "",
       description: section?.description ?? "",
-      status: section?.status ?? "",
+      status: section?.status ?? undefined,
     },
   });
 
   const courseId = useCourseFormStore((s) => s.courseId);
-  const { handleApiErrors } = useHandleApiErrors<CourseModuleFormProps>();
+  const { handleApiErrors } = useHandleApiErrors<CourseModule>();
   const { create, update } = useCourseModuleAction();
   const sectionStatus = useCourseFormStore((s) => s.courseMetadata?.moduleStatus ?? []);
   const closeModal = useModalStore((s) => s.closeModal);
 
-  const onSubmit = async (data: CourseModuleFormProps) => {
+  const onSubmit = async (data: CourseModule) => {
     try {
       const response =
         section && section.id

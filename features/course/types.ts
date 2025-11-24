@@ -11,15 +11,15 @@ export interface Course {
   description?: string | null;
   long_description?: string | null;
   category_id: number;
-  skill_level?: string | null;
+  skill_level?: COURSE_LAVEL;
   price?: string | null; // Decimal stored as string
   selling_price?: string | null;
   thumbnail_url?: string | null;
   video_demo_source?: "youtube" | "vimeo" | "upload" | null;
   video_demo_url?: string | null;
   duration_hours?: number | null;
-  status: "draft" | "published" | "archived";
-  course_type: "recorded" | "live";
+  status: STATUS;
+  course_type: COURSE_TYPE;
   is_free?: boolean | null;
   sort_order?: number | null;
   rating?: string | null;
@@ -38,7 +38,7 @@ export interface Course {
 
   assignments?: Assignment[];
   certificates?: Certificate[];
-  course_details?: CourseDetail[];
+  course_details?: CourseDetails[];
   course_instructors?: CourseInstructor[];
   course_modules?: CourseModule[];
   course_ratings?: CourseRating[];
@@ -67,21 +67,18 @@ export type CourseDetails = {
     | null;
   duration?: string;
   money_back_days?: string | null;
+  for_whom?: string[] | null;
 };
 
 export interface CourseModule {
-  id: number;
-  course_id: number;
+  id?: ID;
   title: string;
   description?: string | null;
   sort_order?: number | null;
-  status: "draft" | "published" | "archived";
-  created_at: string;
-  updated_at: string;
-  assignments?: Assignment[];
+  status?: "draft" | "published" | "archived";
   course_lessons?: CourseLesson[];
-  course_resources?: CourseResource[];
-  quizzes?: Quiz[];
+  lessons: CourseLesson[];
+  course_id?: ID;
 }
 
 export interface CourseResource {
@@ -95,7 +92,6 @@ export interface CourseResource {
   updated_at: string;
 }
 
-// Placeholder types for relations
 export interface Assignment {
   id: number;
 }
@@ -126,6 +122,7 @@ export interface Payment {
 export interface CourseLesson {
   id: number;
   title: string;
+  description?: string | null;
 }
 export interface Quiz {
   id: number;
@@ -158,7 +155,7 @@ export interface CourseFormData {
         description: string;
       }[]
     | undefined;
-  moneyBackDays?: string;
+  moneyBackDays?: string | null;
   // Media
   thumbnail?: string;
   videoDemoSource?: string;

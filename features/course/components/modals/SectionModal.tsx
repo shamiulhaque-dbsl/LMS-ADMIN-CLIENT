@@ -32,16 +32,6 @@ export function SectionModal() {
         <ModalBody>
           <ModuleForm section={section} mode={mode} />
         </ModalBody>
-
-        {/* <ModalFooter>
-          <Button type="button" size="sm" variant="outline" onClick={handleClose}>
-            Cancel
-          </Button>
-
-          <Button size="sm" variant="default" onClick={handleSubmit(onSubmit)}>
-            {mode === "edit" ? "Save Changes" : "Add Section"}
-          </Button>
-        </ModalFooter> */}
       </ModalContent>
     </Modal>
   );

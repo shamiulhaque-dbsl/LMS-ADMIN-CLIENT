@@ -11,6 +11,10 @@ import { SectionModal } from "@/features/course/components/modals/SectionModal";
 import { useCurriculumStore } from "@/features/course/stores/course-curriculum-store";
 import { useModalStore } from "@/stores/modal-store";
 
+/*
+  #TODO: 
+  1. Modal id implement in centralized way not to repeat string literals.
+*/
 export const CurriculumForm = () => {
   const sections = useCurriculumStore((s) => s.sections);
   const modal = useModalStore((s) => s.modals);

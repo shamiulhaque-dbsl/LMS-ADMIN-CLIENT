@@ -14,12 +14,12 @@ interface CourseFormState {
   validationErrors: ValidationErrors;
   isSubmitting: boolean;
   isDirty: boolean;
-  courseId?: string | number | undefined;
+  courseId?: string | number;
 
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
 
-  setCourseId: (id: string | number | undefined) => void;
+  setCourseId: (id: string | number) => void;
   setFormData: (data: Partial<CourseFormData>) => void;
   setActiveTab: (tab: string) => void;
   markTabCompleted: (tab: string) => void;

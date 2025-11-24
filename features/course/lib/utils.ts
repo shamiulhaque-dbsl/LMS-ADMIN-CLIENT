@@ -6,8 +6,7 @@ import type {
 } from "@/features/course/types";
 import { COURSE_METRIC_TITLE } from "@/features/course/lib/constant";
 import { formatEnumOptions } from "@/lib/utils/enumFormatter";
-import type { Course, CourseFormData, STATUS, COURSE_TYPE } from "@/features/course/types";
-import { number } from "zod";
+import type { Course, CourseFormData } from "@/features/course/types";
 
 export function formatCourseMetrics(data: CourseMetricResponse | null): CourseMetric[] {
   if (!data) return [];
@@ -85,25 +84,9 @@ function safeParseJSON<T>(value: any): T | undefined {
 }
 
 /**
- * Map course_modules to a curriculum-friendly structure:
- * We keep each module as a "section" with possible lectures (empty for now).
- */
-function mapModulesToSections(modules: any[] | undefined) {
-  if (!Array.isArray(modules)) return [];
-  return modules.map((m) => ({
-    id: m.id,
-    title: m.title ?? "",
-    description: m.description ?? "",
-    sortOrder: m.sort_order ?? m.sortOrder ?? 0,
-    lectures: Array.isArray(m.course_lessons) ? m.course_lessons : [],
-  }));
-}
-
-/**
  * Top-level mapper from API course response to your CourseFormData shape.
  */
 export function normalizeCourseToForm(course: Course): CourseFormData {
-  // course.course_details is an array (backend shape). Usually there's one object we care about.
   const details =
     Array.isArray(course.course_details) && course.course_details.length > 0
       ? course.course_details[0]
@@ -114,7 +97,6 @@ export function normalizeCourseToForm(course: Course): CourseFormData {
   const targetAudience = safeParseJSON<string[]>(details?.for_whom) ?? [];
 
   const faqsParsed = safeParseJSON<{ question: string; answer: string }[]>(details?.faqs) ?? [];
-  // backend projects string contains objects with title/description (+maybe image)
   const projectsParsed =
     safeParseJSON<{ title: string; description: string; image?: string }[]>(details?.projects) ??
     [];
@@ -122,55 +104,38 @@ export function normalizeCourseToForm(course: Course): CourseFormData {
   // Some backends provide both `category` and `category_id` — prefer `category_id` if present
   const categoryValue = (course as any).category_id ?? (course as any).category ?? null;
 
-  // Map modules -> curriculum sections
-  const sections = mapModulesToSections(course.course_modules);
-  console.log("normalizeCourseToForm mapped sections:", sections);
-
   // Compose normalized form
   const normalized: CourseFormData = {
     title: course.title ?? "",
     description: course.description ?? "",
-    longDescription: course.longDescription ?? course.long_description ?? "",
-    category: categoryValue,
-    level: course.level ?? course.skill_level ?? "",
-    courseType: (course.course_type ?? course.courseType ?? "") as COURSE_TYPE,
+    longDescription: course.long_description ?? "", // FIXED
+    category: course.category_id ?? null,
+    level: course.skill_level ?? "",
+    courseType: course.course_type ?? "",
     status: course.status ?? "",
+
     // media
-    thumbnail: course.thumbnail_url ?? course.thumbnail ?? "",
-    videoDemoSource: course.videoDemoSource ?? course.video_demo_source ?? "",
-    videoDemoUrl: course.videoDemoUrl ?? course.video_demo_url ?? "",
+    thumbnail: course.thumbnail_url ?? "",
+    videoDemoSource: course.video_demo_source ?? "",
+    videoDemoUrl: course.video_demo_url ?? "",
+
     // details
-    durationHours: (course.duration_hours ?? course.duration ?? undefined) as any,
+    durationHours: course.duration_hours ?? undefined,
     requirements,
     learningOutcomes,
     targetAudience,
     faqs: faqsParsed,
     projects: projectsParsed,
     moneyBackDays: details?.money_back_days ?? null,
+
     // pricing & features
-    price: typeof course.price === "number" ? course.price : parseFloat(course.price ?? "0") || 0,
-    discountPrice:
-      typeof course.discountPrice === "number"
-        ? course.discountPrice
-        : parseFloat((course.discountPrice ?? course.selling_price ?? 0) as any) || 0,
-    isFree: Boolean(course.isFree ?? course.is_free),
-    numberOfMonths: (course.numberOfMonths ?? course.number_of_months ?? 0) as any,
-    courseForum: Boolean(course.courseForum ?? course.course_forum),
-    downloadableContent: Boolean(course.downloadableContent ?? course.downloadable_content),
-    certificateAvailable: Boolean(course.certificateAvailable ?? course.certificate_available),
-    // seo
-    // metaTitle: course.metaTitle ?? course.meta_title ?? "",
-    // metaDescription: course.metaDescription ?? course.meta_description ?? "",
-    // metaKeywords:
-    //   typeof course.metaKeywords === "string"
-    //     ? course.metaKeywords
-    //     : Array.isArray(course.metaKeywords)
-    //       ? (course.metaKeywords as string[]).join(", ")
-    //       : (course.metaKeywords ?? ""),
-    // curriculum (sections)
-    sections,
-    // keep backward-compatible fields if your form expects them
-    // NOTE: depending on your CourseFormData type adjust field names
+    price: parseFloat(course.price ?? "0"),
+    discountPrice: parseFloat(course.selling_price ?? "0"),
+    isFree: !!course.is_free,
+    numberOfMonths: course.number_of_months ?? 0,
+    courseForum: !!course.course_forum,
+    downloadableContent: !!course.downloadable_content,
+    certificateAvailable: !!course.certificate_available,
   };
 
   return normalized;
