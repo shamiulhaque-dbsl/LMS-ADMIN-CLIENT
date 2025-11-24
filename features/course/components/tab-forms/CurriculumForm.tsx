@@ -7,7 +7,7 @@ import Text from "@/components/ui/Text";
 import { Grid } from "@/components/ui/grid";
 
 import { Tooltip } from "@/components/ui/Tooltip";
-import { SectionModal } from "@/features/course/components/modals/SectionModal";
+import { SectionModal, LessonModal } from "@/features/course/components/modals";
 import { useCurriculumStore } from "@/features/course/stores/course-curriculum-store";
 import { useModalStore } from "@/stores/modal-store";
 
@@ -57,7 +57,7 @@ export const CurriculumForm = () => {
                 <Button
                   type="button"
                   className="px-0"
-                  onClick={() => openModal("lesson-modal", { sectionIndex })}
+                  onClick={() => openModal("lesson-modal", { moduleId: section.id })}
                 >
                   <Icons.plus size={16} />
                   <Text as="span" className="ml-1">
@@ -103,7 +103,7 @@ export const CurriculumForm = () => {
                       Lesson {lessonIndex + 1}: {lesson.title || "Untitled"}{" "}
                     </Text>
                     <div className="flex items-center justify-end">
-                      <Tooltip content="Edit Lesson">
+                      <Tooltip content="Resources Files">
                         <Button
                           type="button"
                           size="sm"
@@ -113,13 +113,13 @@ export const CurriculumForm = () => {
                           <Icons.fileText size={16} />
                         </Button>
                       </Tooltip>
-                      <Tooltip content="Resources Files">
+                      <Tooltip content="Edit Lesson">
                         <Button
                           type="button"
                           size="sm"
                           className="px-2 text-indigo-700"
                           onClick={() =>
-                            openModal("confirm-delete-lesson", { sectionIndex, lessonIndex })
+                            openModal("lesson-modal", { moduleId: section.id, lesson })
                           }
                         >
                           <Icons.edit size={16} />
@@ -148,6 +148,9 @@ export const CurriculumForm = () => {
 
       {/* Section Modal */}
       {modal["section-modal"] && <SectionModal />}
+
+      {/* Lesson Modal */}
+      {modal["lesson-modal"] && <LessonModal />}
     </div>
   );
 };

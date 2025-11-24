@@ -81,6 +81,30 @@ export interface CourseModule {
   course_id?: ID;
 }
 
+export interface CourseLesson {
+  id?: ID;
+  module_id?: ID;
+  title: string;
+  description?: string | null;
+  content_type: string;
+  content_url?: string | null;
+  notes?: string | null;
+  duration?: string | null;
+  sort_order?: number | null;
+  is_preview?: number | null;
+}
+
+export interface LessonFormData {
+  title: string;
+  description?: string | null;
+  moduleId?: ID;
+  contentType: string;
+  contentUrl?: string | null;
+  notes?: string | null;
+  duration?: string | null;
+  isPreview?: number | null;
+}
+
 export interface CourseResource {
   id: number;
   module_id?: number | null;
@@ -119,11 +143,7 @@ export interface LiveSession {
 export interface Payment {
   id: number;
 }
-export interface CourseLesson {
-  id: number;
-  title: string;
-  description?: string | null;
-}
+
 export interface Quiz {
   id: number;
 }
