@@ -1,7 +1,7 @@
+import type { Category } from "@/features/category/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { CourseFormData, CourseMetadataFormatted } from "../types";
-import type { Category } from "@/features/category/types";
 
 export interface ValidationErrors {
   [key: string]: string;
@@ -13,7 +13,6 @@ interface CourseFormState {
 
   activeTabCreate: string;
   activeTabEdit: string;
-  activeTab: (s: CourseFormState) => string;
 
   completedTabs: Record<string, boolean>;
   validationErrors: ValidationErrors;
@@ -86,8 +85,6 @@ export const useCourseFormStore = create<CourseFormState>()(
         activeTabCreate: "basic",
         activeTabEdit: "basic",
 
-        activeTab: (s) => (s.mode === "create" ? s.activeTabCreate : s.activeTabEdit),
-
         completedTabs: {},
         validationErrors: {},
         isSubmitting: false,
@@ -116,15 +113,18 @@ export const useCourseFormStore = create<CourseFormState>()(
           })),
 
         clearValidationErrors: () => set({ validationErrors: {} }),
+
         setIsSubmitting: (v) => set({ isSubmitting: v }),
+
         setCategories: (categories) => set({ categories }),
+
         setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
 
         resetForm: () =>
           set((s) => ({
             formData: INITIAL,
             activeTabCreate: "basic",
-            activeTabEdit: s.activeTabEdit === "finish" ? "basic" : s.activeTabEdit, // keep edit progress intact
+            activeTabEdit: s.activeTabEdit === "finish" ? "basic" : s.activeTabEdit,
             completedTabs: {},
             validationErrors: {},
             isSubmitting: false,
@@ -144,7 +144,13 @@ export const useCourseFormStore = create<CourseFormState>()(
   )
 );
 
-// Selectors
+// ---------------------------
+// Selectors (SAFE + CLEAN)
+// ---------------------------
+
 export const useFormData = () => useCourseFormStore((s) => s.formData);
-export const useActiveTab = () => useCourseFormStore((s) => s.activeTab(s));
+
 export const useMode = () => useCourseFormStore((s) => s.mode);
+
+export const useActiveTab = () =>
+  useCourseFormStore((s) => (s.mode === "create" ? s.activeTabCreate : s.activeTabEdit));

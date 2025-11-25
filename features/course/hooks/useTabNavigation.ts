@@ -1,6 +1,6 @@
 import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
-import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
-import type { UseFormTrigger, FieldValues } from "react-hook-form";
+import { useActiveTab, useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+import type { FieldValues, UseFormTrigger } from "react-hook-form";
 
 const TAB_REQUIRED_FIELDS: Record<string, string[]> = {
   basic: ["title", "courseType", "category", "status"],
@@ -15,7 +15,9 @@ export const useTabNavigation = <T extends FieldValues = FieldValues>(
   trigger?: UseFormTrigger<T>
 ) => {
   const mode = useCourseFormStore((s) => s.mode);
-  const activeTab = useCourseFormStore((s) => s.activeTab(s));
+  const activeTab = useActiveTab();
+
+  const setActiveTab = useCourseFormStore((s) => s.setActiveTab);
   const markTabCompleted = useCourseFormStore((s) => s.markTabCompleted);
 
   const tabs = COURSE_FORM_TABS.filter((t) => (mode === "create" ? !t.showInEdit : true));
@@ -24,23 +26,23 @@ export const useTabNavigation = <T extends FieldValues = FieldValues>(
   const canGoNext = currentIndex < tabs.length - 1;
   const canGoPrev = currentIndex > 0;
 
+  // Validate fields for current tab
   const validateCurrentTab = async () => {
     if (!trigger) return true;
-    const fields = TAB_REQUIRED_FIELDS[activeTab] || [];
+    const fields = TAB_REQUIRED_FIELDS[activeTab] ?? [];
     if (fields.length === 0) return true;
+
     return trigger(fields as any);
   };
 
   const goToNext = async () => {
-    const ok = await validateCurrentTab();
-    if (!ok) return false;
-
     if (!canGoNext) return false;
 
-    markTabCompleted(activeTab);
+    const isValid = await validateCurrentTab();
+    if (!isValid) return false;
 
-    const next = tabs[currentIndex + 1];
-    useCourseFormStore.getState().setActiveTab(next.id);
+    markTabCompleted(activeTab);
+    setActiveTab(tabs[currentIndex + 1].id);
 
     return true;
   };
@@ -48,9 +50,7 @@ export const useTabNavigation = <T extends FieldValues = FieldValues>(
   const goToPrev = () => {
     if (!canGoPrev) return false;
 
-    const prev = tabs[currentIndex - 1];
-    useCourseFormStore.getState().setActiveTab(prev.id);
-
+    setActiveTab(tabs[currentIndex - 1].id);
     return true;
   };
 
@@ -58,13 +58,13 @@ export const useTabNavigation = <T extends FieldValues = FieldValues>(
     const targetIndex = tabs.findIndex((t) => t.id === tabId);
     if (targetIndex === -1) return false;
 
+    // Only validate when moving forward
     if (targetIndex > currentIndex) {
-      const ok = await validateCurrentTab();
-      if (!ok) return false;
+      const isValid = await validateCurrentTab();
+      if (!isValid) return false;
     }
 
-    useCourseFormStore.getState().setActiveTab(tabId);
-
+    setActiveTab(tabId);
     return true;
   };
 
