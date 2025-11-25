@@ -5,7 +5,7 @@ import { useModalStore } from "@/stores/modal-store";
 import type { ModalCloseProps } from "./types";
 import { Button } from "../Button";
 
-export const ModalClose: React.FC<ModalCloseProps> = ({ id, className = "" }) => {
+export const ModalCloseButton: React.FC<ModalCloseProps> = ({ id, className = "" }) => {
   const closeModal = useModalStore((state) => state.closeModal);
 
   return (
