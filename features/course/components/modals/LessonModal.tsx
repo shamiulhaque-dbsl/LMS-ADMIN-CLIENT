@@ -8,8 +8,10 @@ import {
   ModalClose,
   ModalHeader,
   ModalTitle,
+  ModalFooter,
 } from "@/components/ui/modal";
 import { useModalStore } from "@/stores/modal-store";
+import { ModalCloseButton } from "@/components/ui/modal/ModalCloseButton";
 import { LessonForm } from "../LessonForm";
 
 const MODAL_ID = "lesson-modal";
@@ -27,11 +29,14 @@ export function LessonModal() {
       <ModalContent id={MODAL_ID}>
         <ModalClose id={MODAL_ID} />
         <ModalHeader className="border-b">
-          <ModalTitle>Add New Lesson</ModalTitle>
+          <ModalTitle>{mode === "edit" ? "Edit Lesson" : "Add Lesson"}</ModalTitle>
         </ModalHeader>
         <ModalBody>
           <LessonForm moduleId={moduleId} lesson={lesson} mode={mode} />
         </ModalBody>
+        <ModalFooter>
+          <ModalCloseButton id={MODAL_ID} />
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

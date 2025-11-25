@@ -13,7 +13,9 @@ import Text from "@/components/ui/Text";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 /*
-  #TODO: Add filters
+  #TODO: 
+  1. Add Pagination, Filtering, and Sorting functionalities.
+  2. Implement Export functionalities for CSV and Excel.
 */
 const fetchCourses = async (): Promise<Course[] | null> => (await getCourses()).data ?? [];
 

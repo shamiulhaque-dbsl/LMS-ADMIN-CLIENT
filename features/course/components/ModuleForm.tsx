@@ -2,22 +2,16 @@
 
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import z from "zod";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
-import { useModalStore } from "@/stores/modal-store";
 import { useCourseModuleAction } from "@/features/course/hooks/useCourseModuleAction";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import type { CourseModule } from "@/features/course/types";
-
-const SectionSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
-  status: z.string().optional(),
-});
+import { useRouter } from "next/navigation";
+import { useModalStore } from "@/stores/modal-store";
 
 export const ModuleForm = ({
   section,
@@ -30,6 +24,7 @@ export const ModuleForm = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
     setError,
   } = useForm<CourseModule>({
     defaultValues: {
@@ -39,6 +34,7 @@ export const ModuleForm = ({
     },
   });
 
+  const router = useRouter();
   const courseId = useCourseFormStore((s) => s.courseId);
   const { handleApiErrors } = useHandleApiErrors<CourseModule>();
   const { create, update } = useCourseModuleAction();
@@ -54,7 +50,7 @@ export const ModuleForm = ({
 
       if (!response?.success) {
         toast.error(mode === "edit" ? "Failed to update section." : "Failed to create section.");
-        useCourseFormStore.setState({ activeTab: "curriculum" });
+        useCourseFormStore.setState({ activeTabEdit: "curriculum" });
         return handleApiErrors(response, setError);
       }
 
@@ -62,10 +58,12 @@ export const ModuleForm = ({
         mode === "edit" ? "Section updated successfully." : "Section created successfully."
       );
 
+      reset();
+      router.refresh();
       closeModal("section-modal");
     } catch (err) {
       console.error(err);
-      useCourseFormStore.setState({ activeTab: "curriculum" });
+      useCourseFormStore.setState({ activeTabEdit: "curriculum" });
     }
   };
 
@@ -97,32 +95,21 @@ export const ModuleForm = ({
         </select>
       </div>
 
-      <div className="flex justify-end gap-4">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          onClick={() => closeModal("section-modal")}
-        >
-          Cancel
-        </Button>
-
-        <Button
-          type="button"
-          size="sm"
-          variant="default"
-          disabled={isSubmitting}
-          onClick={handleSubmit(onSubmit)}
-        >
-          {isSubmitting
-            ? mode === "edit"
-              ? "Saving..."
-              : "Adding..."
-            : mode === "edit"
-              ? "Save Changes"
-              : "Add Section"}
-        </Button>
-      </div>
+      <Button
+        type="button"
+        size="sm"
+        variant="default"
+        disabled={isSubmitting}
+        onClick={handleSubmit(onSubmit)}
+      >
+        {isSubmitting
+          ? mode === "edit"
+            ? "Saving..."
+            : "Adding..."
+          : mode === "edit"
+            ? "Save Changes"
+            : "Add Section"}
+      </Button>
     </form>
   );
 };

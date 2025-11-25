@@ -6,6 +6,7 @@ interface ApiErrorResponse {
   message?: string;
   errors?: Record<string, string[] | string>;
 }
+const snakeToCamel = (str: string) => str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
 
 export const useHandleApiErrors = <T extends FieldValues>() => {
   const handleApiErrors = (
@@ -17,10 +18,18 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
     const { message, errors } = response;
 
     // Handle field-level errors first
-    if (errors && Object.keys(errors).length > 0) {
+    // if (errors && Object.keys(errors).length > 0) {
+    //   Object.entries(errors).forEach(([field, value]) => {
+    //     const messageText = Array.isArray(value) ? value[0] : value;
+    //     setError(field as Path<T>, { type: "server", message: messageText });
+    //   });
+    // }
+    if (errors) {
       Object.entries(errors).forEach(([field, value]) => {
+        const camelField = snakeToCamel(field) as Path<T>;
         const messageText = Array.isArray(value) ? value[0] : value;
-        setError(field as Path<T>, { type: "server", message: messageText });
+
+        setError(camelField, { type: "server", message: messageText });
       });
     }
 

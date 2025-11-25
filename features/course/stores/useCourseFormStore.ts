@@ -9,7 +9,12 @@ export interface ValidationErrors {
 
 interface CourseFormState {
   formData: CourseFormData;
-  activeTab: string;
+  mode: "create" | "edit";
+
+  activeTabCreate: string;
+  activeTabEdit: string;
+  activeTab: (s: CourseFormState) => string;
+
   completedTabs: Record<string, boolean>;
   validationErrors: ValidationErrors;
   isSubmitting: boolean;
@@ -19,19 +24,23 @@ interface CourseFormState {
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
 
-  setCourseId: (id: string | number) => void;
-  setFormData: (data: Partial<CourseFormData>) => void;
-  setActiveTab: (tab: string) => void;
-  markTabCompleted: (tab: string) => void;
-  clearValidationErrors: () => void;
-  setIsSubmitting: (v: boolean) => void;
-  setCategories: (categories: Category[]) => void;
-  setCourseMetadata: (metadata: CourseMetadataFormatted | null) => void;
-  resetForm: () => void;
+  setCourseId(id: string | number): void;
+  setFormData(data: Partial<CourseFormData>): void;
+
+  setMode(mode: "create" | "edit"): void;
+  setActiveTab(tab: string): void;
+
+  markTabCompleted(tab: string): void;
+  clearValidationErrors(): void;
+
+  setIsSubmitting(v: boolean): void;
+  setCategories(categories: Category[]): void;
+  setCourseMetadata(metadata: CourseMetadataFormatted | null): void;
+
+  resetForm(): void;
 }
 
 export const INITIAL: CourseFormData = {
-  // Basic Info
   title: "",
   description: "",
   longDescription: "",
@@ -40,12 +49,10 @@ export const INITIAL: CourseFormData = {
   courseType: "",
   status: "",
 
-  // Media
   thumbnail: "",
   videoDemoSource: "youtube",
   videoDemoUrl: "",
 
-  // Details
   durationHours: undefined,
   requirements: [],
   learningOutcomes: [],
@@ -54,19 +61,16 @@ export const INITIAL: CourseFormData = {
   projects: [],
   moneyBackDays: undefined,
 
-  // Pricing
   price: 0,
   discountPrice: 0,
   isFree: false,
   numberOfMonths: 0,
   expiryPeriod: "lifetime",
 
-  // Features
   courseForum: false,
   downloadableContent: false,
   certificateAvailable: false,
 
-  // SEO
   metaTitle: "",
   metaDescription: "",
   metaKeywords: "",
@@ -75,9 +79,15 @@ export const INITIAL: CourseFormData = {
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         formData: INITIAL,
-        activeTab: "basic",
+        mode: "create",
+
+        activeTabCreate: "basic",
+        activeTabEdit: "basic",
+
+        activeTab: (s) => (s.mode === "create" ? s.activeTabCreate : s.activeTabEdit),
+
         completedTabs: {},
         validationErrors: {},
         isSubmitting: false,
@@ -88,41 +98,53 @@ export const useCourseFormStore = create<CourseFormState>()(
         courseMetadata: null,
 
         setCourseId: (id) => set({ courseId: id }),
+
+        setMode: (mode) => set({ mode }),
+
         setFormData: (data) =>
-          set((s) => ({ formData: { ...s.formData, ...data }, isDirty: true })),
-        setActiveTab: (tab) => set({ activeTab: tab }),
+          set((s) => ({
+            formData: { ...s.formData, ...data },
+            isDirty: true,
+          })),
+
+        setActiveTab: (tab) =>
+          set((s) => (s.mode === "create" ? { activeTabCreate: tab } : { activeTabEdit: tab })),
+
         markTabCompleted: (tab) =>
-          set((s) => ({ completedTabs: { ...s.completedTabs, [tab]: true } })),
+          set((s) => ({
+            completedTabs: { ...s.completedTabs, [tab]: true },
+          })),
+
         clearValidationErrors: () => set({ validationErrors: {} }),
         setIsSubmitting: (v) => set({ isSubmitting: v }),
         setCategories: (categories) => set({ categories }),
         setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
 
         resetForm: () =>
-          set({
+          set((s) => ({
             formData: INITIAL,
-            activeTab: "basic",
+            activeTabCreate: "basic",
+            activeTabEdit: s.activeTabEdit === "finish" ? "basic" : s.activeTabEdit, // keep edit progress intact
             completedTabs: {},
             validationErrors: {},
             isSubmitting: false,
             isDirty: false,
-          }),
+          })),
       }),
       {
         name: "course-form-storage",
         partialize: (s) => ({
           formData: s.formData,
-          activeTab: s.activeTab,
-          completedTabs: s.completedTabs,
+          mode: s.mode,
+          activeTabCreate: s.activeTabCreate,
+          activeTabEdit: s.activeTabEdit,
         }),
       }
     )
   )
 );
 
-// selectors
+// Selectors
 export const useFormData = () => useCourseFormStore((s) => s.formData);
-export const useActiveTab = () => useCourseFormStore((s) => s.activeTab);
-export const useValidationErrors = () => useCourseFormStore((s) => s.validationErrors);
-export const useIsSubmitting = () => useCourseFormStore((s) => s.isSubmitting);
-export const useIsDirty = () => useCourseFormStore((s) => s.isDirty);
+export const useActiveTab = () => useCourseFormStore((s) => s.activeTab(s));
+export const useMode = () => useCourseFormStore((s) => s.mode);

@@ -1,3 +1,4 @@
+import exp from "constants";
 import { z } from "zod";
 
 const nonEmptyString = z.string().trim().min(1, "This field is required");
@@ -48,6 +49,7 @@ export const CourseFormSchema = z.object({
   isFree: z.boolean().optional().default(false),
   price: decimalValidator,
   discountPrice: decimalValidator,
+  expiryPeriod: optionalString,
   numberOfMonths: numberValidator,
 
   // Meta fields: optional, only check if provided

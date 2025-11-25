@@ -46,6 +46,7 @@ export const useCourseAction = () => {
     try {
       const cleanedData: CourseFormData = {
         ...formData,
+        expiryPeriod: formData.expiryPeriod === "lifetime" ? 1 : 0,
         requirements: formData.requirements?.filter(Boolean),
         learningOutcomes: formData.learningOutcomes?.filter(Boolean),
         targetAudience: formData.targetAudience?.filter(Boolean),
@@ -54,9 +55,7 @@ export const useCourseAction = () => {
           (p) => p.title?.trim() || p.description?.trim() || p.image?.trim()
         ),
       };
-      console.log("Updating course with cleanedData data:", cleanedData);
       const formattedData = transformToApiFormat(cleanedData);
-      console.log("Updating course with formattedData data:", formattedData);
       const res = await updateCourse(id, formattedData);
       return { success: true, data: res };
     } catch (err: any) {

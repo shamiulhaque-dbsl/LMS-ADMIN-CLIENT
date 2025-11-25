@@ -3,6 +3,7 @@
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { JSX, useEffect, useMemo } from "react";
 
 import { Card } from "@/components/ui/Card";
@@ -60,9 +61,12 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
   const setFormData = useCourseFormStore((s) => s.setFormData);
+  const setMode = useCourseFormStore((s) => s.setMode);
 
   const { update } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
+
+  const router = useRouter();
 
   const methods = useForm({
     mode: "onChange",
@@ -83,6 +87,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
     setCategories(categories);
     setCourseMetadata(courseMetadata);
     setCourseId(course.id);
+    setMode("edit");
 
     if (course.course_modules) {
       const normalized = course.course_modules.map((m) => ({
@@ -116,16 +121,16 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
       if (!response.success) {
         toast.error("Failed to update course.");
 
-        useCourseFormStore.setState({ activeTab: "finish" });
+        useCourseFormStore.setState({ activeTabEdit: "finish" });
         return handleApiErrors(response, methods.setError);
       }
 
       toast.success("Course updated successfully.");
-
+      router.refresh();
       methods.reset();
     } catch (err) {
       console.error(err);
-      useCourseFormStore.setState({ activeTab: "finish" });
+      useCourseFormStore.setState({ activeTabEdit: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
     }

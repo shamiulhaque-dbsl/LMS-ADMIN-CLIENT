@@ -16,7 +16,6 @@ export const SubmitForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
 
   const resetForm = useCourseFormStore((s) => s.resetForm);
 
-  // flatten nested react-hook-form errors into { fieldPath: message }
   const flattenErrors = (errObj: any, prefix = ""): Record<string, string> => {
     const out: Record<string, string> = {};
     Object.entries(errObj || {}).forEach(([k, v]) => {
@@ -44,6 +43,7 @@ export const SubmitForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
 
         <div className="flex justify-end gap-3">
           <Button
+            type="button"
             variant="outlineGray"
             size="sm"
             className="mt-4"

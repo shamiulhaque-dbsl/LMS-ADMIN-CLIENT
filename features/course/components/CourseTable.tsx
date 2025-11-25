@@ -14,7 +14,9 @@ import { EmptyList } from "@/components/EmptyList";
 import { formatDateFull } from "@/lib/utils/date";
 
 /*
-  # Implement pagination
+  # TODO:
+  1. Implement pagination
+  2. Handle status dynamically with reuseable component
 */
 type CourseProps = {
   fetchCourses: () => Promise<Course[] | null>;
@@ -45,27 +47,30 @@ export default function CourseTable({ fetchCourses }: CourseProps) {
           <TableRow key={course.id}>
             <TableCell>{++index}</TableCell>
             <TableCell>
-              <Link href="#" prefetch={false} className="text-blue-600">
+              <Link
+                href={`/dashboard/courses/${course.id}/edit`}
+                target="_blank"
+                prefetch={false}
+                className="text-blue-600"
+              >
                 {course?.title}
               </Link>
             </TableCell>
-            <TableCell>{course?.category_id}</TableCell>
+            <TableCell>{course?.course_categories?.name}</TableCell>
             <TableCell>
               <span className="font-medium text-green-600">{course.price}</span>
             </TableCell>
             <TableCell>
-              <span className="text-gray-600">{course?.enrollment_count} Students</span>
+              <span className="text-gray-600">
+                {course?.enrollment_count}{" "}
+                {course.enrollment_count === (1 || 0) ? "student" : "students"}
+              </span>
             </TableCell>
             <TableCell>
               <span className="text-gray-600">
                 {course.created_at && formatDateFull(course.created_at)}
               </span>
             </TableCell>
-
-            {/* 
-              #TODO:
-              - Handle status dynamically with reuseable component
-            */}
             <TableCell>
               <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                 {course?.status}

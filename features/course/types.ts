@@ -39,6 +39,7 @@ export interface Course {
   assignments?: Assignment[];
   certificates?: Certificate[];
   course_details?: CourseDetails[];
+  course_categories?: CourseCategory;
   course_instructors?: CourseInstructor[];
   course_modules?: CourseModule[];
   course_ratings?: CourseRating[];
@@ -71,7 +72,7 @@ export type CourseDetails = {
 };
 
 export interface CourseModule {
-  id?: ID;
+  id: ID;
   title: string;
   description?: string | null;
   sort_order?: number | null;
@@ -82,7 +83,7 @@ export interface CourseModule {
 }
 
 export interface CourseLesson {
-  id?: ID;
+  id: ID;
   module_id?: ID;
   title: string;
   description?: string | null;
@@ -127,6 +128,11 @@ export interface CourseDetail {
 }
 export interface CourseInstructor {
   id: number;
+}
+
+export interface CourseCategory {
+  id: number;
+  name: string;
 }
 export interface CourseRating {
   id: number;
@@ -188,7 +194,7 @@ export interface CourseFormData {
   isFree?: boolean;
   durationHours?: number | undefined;
   numberOfMonths?: number;
-  expiryPeriod?: string;
+  expiryPeriod?: string | number;
 
   // SEO
   metaTitle?: string;

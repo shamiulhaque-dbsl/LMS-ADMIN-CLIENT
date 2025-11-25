@@ -10,27 +10,62 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { SectionModal, LessonModal } from "@/features/course/components/modals";
 import { useCurriculumStore } from "@/features/course/stores/course-curriculum-store";
 import { useModalStore } from "@/stores/modal-store";
+import { useConfirmDialog } from "@/stores/confirmDialog";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useCourseModuleAction } from "@/features/course/hooks/useCourseModuleAction";
+import { useLessonAction } from "../../hooks/useLessonAction";
 
 /*
   #TODO: 
   1. Modal id implement in centralized way not to repeat string literals.
+  2. Implement resources file management for each lesson.
+  3. Drag and drop functionality for sorting sections and lessons.
 */
 export const CurriculumForm = () => {
   const sections = useCurriculumStore((s) => s.sections);
   const modal = useModalStore((s) => s.modals);
   const openModal = useModalStore((s) => s.openModal);
+  const { openDialog } = useConfirmDialog();
+
+  const router = useRouter();
+  const { remove } = useCourseModuleAction();
+  const { remove: removeLesson } = useLessonAction();
+
+  const handleDelete = async (id: string | number, type = "section" as "section" | "lesson") => {
+    try {
+      const res = type === "section" ? await remove(id) : await removeLesson(id);
+      if (res && !res.success) {
+        throw new Error(res?.message);
+      }
+      toast.success(`${type === "section" ? "Section" : "Lesson"} deleted successfully`);
+      router.refresh();
+    } catch (err: any) {
+      toast.error(err.message);
+    }
+  };
 
   return (
     <div className="py-4">
       <div className="flex justify-center gap-4">
-        <Button type="button" size="sm" onClick={() => openModal("section-modal")}>
+        <Button
+          type="button"
+          size="sm"
+          variant="outlineGray"
+          onClick={() => openModal("section-modal")}
+        >
           <Icons.plus size={16} />
           <Text as="span" className="ml-2">
             Add Section
           </Text>
         </Button>
 
-        <Button type="button" size="sm" onClick={() => openModal("sort-section-modal")}>
+        <Button
+          type="button"
+          variant="outlineGray"
+          size="sm"
+          onClick={() => openModal("sort-section-modal")}
+        >
           <Icons.arrowDownUp size={16} />
           <Text as="span" className="ml-2">
             Sort Section
@@ -55,6 +90,7 @@ export const CurriculumForm = () => {
 
               <div className="flex justify-center items-center gap-4">
                 <Button
+                  size="sm"
                   type="button"
                   className="px-0"
                   onClick={() => openModal("lesson-modal", { moduleId: section.id })}
@@ -65,6 +101,7 @@ export const CurriculumForm = () => {
                   </Text>
                 </Button>
                 <Button
+                  size="sm"
                   type="button"
                   className="px-0"
                   onClick={() => openModal("section-modal", { section })}
@@ -77,8 +114,17 @@ export const CurriculumForm = () => {
 
                 <Button
                   size="sm"
+                  type="button"
                   className="px-0"
-                  onClick={() => openModal("delete-modal", { sectionIndex })}
+                  onClick={() =>
+                    openDialog({
+                      title: "Delete Section",
+                      message: `Are you sure you want to delete "${section.title}"?`,
+                      confirmText: "Yes, Delete",
+                      cancelText: "Cancel",
+                      onConfirm: () => handleDelete(section.id),
+                    })
+                  }
                 >
                   <Icons.trash size={16} />
                   <Text as="span" className="ml-1">
@@ -103,7 +149,7 @@ export const CurriculumForm = () => {
                       Lesson {lessonIndex + 1}: {lesson.title || "Untitled"}{" "}
                     </Text>
                     <div className="flex items-center justify-end">
-                      <Tooltip content="Resources Files">
+                      {/* <Tooltip content="Resources Files">
                         <Button
                           type="button"
                           size="sm"
@@ -112,7 +158,7 @@ export const CurriculumForm = () => {
                         >
                           <Icons.fileText size={16} />
                         </Button>
-                      </Tooltip>
+                      </Tooltip> */}
                       <Tooltip content="Edit Lesson">
                         <Button
                           type="button"
@@ -131,7 +177,13 @@ export const CurriculumForm = () => {
                           size="sm"
                           className="px-2 text-red-400"
                           onClick={() =>
-                            openModal("confirm-delete-lesson", { sectionIndex, lessonIndex })
+                            openDialog({
+                              title: "Delete Lesson",
+                              message: `Are you sure you want to delete "${lesson.title}"?`,
+                              confirmText: "Yes, Delete",
+                              cancelText: "Cancel",
+                              onConfirm: () => handleDelete(lesson.id, "lesson"),
+                            })
                           }
                         >
                           <Icons.trash size={16} />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, JSX } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,17 +21,14 @@ import {
 import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import { useTabNavigation } from "@/features/course/hooks/useTabNavigation";
-
 import { CourseFormSchema } from "@/features/course/courseSchemas";
-
 import type { Category } from "@/features/category/types";
 import { CourseMetadataFormatted } from "../types";
-
 import { useCourseAction } from "../hooks/useCourseAction";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
+import type { CourseFormData } from "@/features/course/types";
 
-import type { CourseFormData } from "../types";
-import { JSX, useEffect } from "react";
+import { toast } from "sonner";
 
 type Props = {
   categories: Category[];
@@ -48,12 +46,12 @@ const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
 
 export default function ManageCourseCreation({ categories, courseMetadata }: Props) {
   const formData = useCourseFormStore((state) => state.formData);
-  const resetForm = useCourseFormStore((state) => state.resetForm);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
 
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
+  const setMode = useCourseFormStore((s) => s.setMode);
 
   const { create } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
@@ -61,7 +59,8 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
   useEffect(() => {
     setCategories(categories);
     setCourseMetadata(courseMetadata);
-  }, [categories, courseMetadata, setCategories, setCourseMetadata]);
+    setMode("create");
+  }, [categories, courseMetadata, setCategories, setCourseMetadata, setMode]);
 
   const methods = useForm({
     mode: "onChange",
@@ -80,15 +79,16 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
       const response = await create(data);
 
       if (!response.success) {
-        useCourseFormStore.setState({ activeTab: "finish" });
+        useCourseFormStore.setState({ activeTabCreate: "finish" });
         return handleApiErrors(response, methods.setError);
       }
 
-      resetForm();
+      toast.success("Course created successfully.");
       methods.reset();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      useCourseFormStore.setState({ activeTab: "finish" });
+      toast.error(err.message || "Failed to create course.");
+      useCourseFormStore.setState({ activeTabCreate: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
     }
@@ -100,9 +100,6 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
 
     methods.reset();
   };
-
-  const handleNext = async () => await goToNext();
-  const handleTabChange = async (tab: string) => await goToTab(tab);
 
   const renderContent = () => {
     if (activeTab === "finish") {
@@ -120,7 +117,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
             <ScrollableTabs
               tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
               value={activeTab}
-              onValueChange={handleTabChange}
+              onValueChange={goToTab}
               showScrollButtons={false}
               size="sm"
             />
@@ -160,7 +157,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
                   type="button"
                   variant="default"
                   size="sm"
-                  onClick={handleNext}
+                  onClick={goToNext}
                   disabled={isSubmitting}
                 >
                   Next

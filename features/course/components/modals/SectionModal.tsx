@@ -5,12 +5,14 @@ import {
   ModalBody,
   ModalClose,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
   ModalTitle,
 } from "@/components/ui/modal";
 import { useModalStore } from "@/stores/modal-store";
 import { ModuleForm } from "../ModuleForm";
+import { ModalCloseButton } from "@/components/ui/modal/ModalCloseButton";
 
 const MODAL_ID = "section-modal";
 
@@ -32,6 +34,10 @@ export function SectionModal() {
         <ModalBody>
           <ModuleForm section={section} mode={mode} />
         </ModalBody>
+
+        <ModalFooter>
+          <ModalCloseButton id={MODAL_ID} />
+        </ModalFooter>
       </ModalContent>
     </Modal>
   );

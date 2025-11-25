@@ -132,6 +132,7 @@ export function normalizeCourseToForm(course: Course): CourseFormData {
     price: parseFloat(course.price ?? "0"),
     discountPrice: parseFloat(course.selling_price ?? "0"),
     isFree: !!course.is_free,
+    expiryPeriod: course.number_of_months === 1 ? "lifetime" : "limited",
     numberOfMonths: course.number_of_months ?? 0,
     courseForum: !!course.course_forum,
     downloadableContent: !!course.downloadable_content,

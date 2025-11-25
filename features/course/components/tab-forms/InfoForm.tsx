@@ -66,10 +66,10 @@ function DynamicFaqList() {
   const { control, register } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "faqs" });
 
-  useEffect(() => {
-    if (fields.length === 0) append({ question: "", answer: "" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (fields.length === 0) append({ question: "", answer: "" });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
@@ -116,10 +116,9 @@ function DynamicProjectList() {
   const { control, register } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "projects" });
 
-  useEffect(() => {
-    if (fields.length === 0) append({ title: "", image: "", description: "" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (fields.length === 0) append({ title: "", image: "", description: "" });
+  // }, []);
 
   return (
     <>

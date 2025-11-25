@@ -1,9 +1,8 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
@@ -15,24 +14,13 @@ import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore"
 import type { ID, CourseLesson, LessonFormData } from "@/features/course/types";
 import Text from "@/components/ui/Text";
 
-// -------------------------
-// Zod Schema for Lesson Form
-// -------------------------
-const lessonSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().optional(),
-  contentType: z.string().min(1, "Content type is required"),
-  contentUrl: z.string().url("Enter a valid URL").optional().or(z.literal("")),
-  notes: z.string().optional(),
-  duration: z
-    .string()
-    .regex(/^\d{1,2}:\d{2}$/, "Duration must be in format MM:SS")
-    .optional()
-    .or(z.literal("")),
-  isPreview: z.boolean().optional(),
-  moduleId: z.number(),
-});
-
+/*
+  #TODO:
+  1. Validation control for each field using zod schema.
+  2. Content type wise dynamic fields display for content url. Like video upload for video type, pdf upload for pdf type, youtube link for youtube type etc., 
+  3. Duration field use a time picker instead of text input.Like mm:ss format control.
+  4. Use a rich text editor for notes & Description field.
+*/
 export const LessonForm = ({
   moduleId,
   lesson,
@@ -51,7 +39,6 @@ export const LessonForm = ({
     setError,
     reset,
   } = useForm<LessonFormData>({
-    resolver: zodResolver(lessonSchema),
     defaultValues: {
       title: lesson?.title ?? "",
       description: lesson?.description,
@@ -64,7 +51,8 @@ export const LessonForm = ({
     },
   });
 
-  const { handleApiErrors } = useHandleApiErrors<CourseLesson>();
+  const router = useRouter();
+  const { handleApiErrors } = useHandleApiErrors<LessonFormData>();
   const { create, update } = useLessonAction();
   const closeModal = useModalStore((s) => s.closeModal);
 
@@ -74,18 +62,20 @@ export const LessonForm = ({
         lesson && lesson.id ? await update(lesson.id, data) : await create({ ...data });
       if (!response?.success) {
         toast.error(mode === "edit" ? "Failed to update lesson." : "Failed to create lesson.");
-        useCourseFormStore.setState({ activeTab: "curriculum" });
+        useCourseFormStore.setState({ activeTabEdit: "curriculum" });
         return handleApiErrors(response, setError);
       }
 
       toast.success(
         mode === "edit" ? "Lesson updated successfully." : "Lesson created successfully."
       );
+
       reset();
+      router.refresh();
       closeModal("lesson-modal");
     } catch (err) {
       console.error(err);
-      useCourseFormStore.setState({ activeTab: "curriculum" });
+      useCourseFormStore.setState({ activeTabEdit: "curriculum" });
     }
   };
 
@@ -96,13 +86,17 @@ export const LessonForm = ({
         label="Title"
         id="title"
         required
-        {...register("title")}
+        {...register("title", { required: "Title is required" })}
         error={errors.title?.message}
       />
       <Textarea label="Description" id="description" {...register("description")} />
       <div>
         <label className="label-base">Content Type</label>
-        <select className="input-base" id="contentType" {...register("contentType")}>
+        <select
+          className="input-base"
+          id="contentType"
+          {...register("contentType", { required: "Content type is required" })}
+        >
           <option value="">Select a content type</option>
           {lessonContentType.map((s) => (
             <option key={s.value} value={s.value}>
@@ -118,7 +112,17 @@ export const LessonForm = ({
         id="contentUrl"
         label="Content URL"
         placeholder="Content URL"
-        {...register("contentUrl")}
+        {...register("contentUrl", {
+          validate: (value) => {
+            if (!value) return true;
+            try {
+              new URL(value);
+              return true;
+            } catch {
+              return "Enter a valid URL";
+            }
+          },
+        })}
         error={errors.contentUrl?.message}
       />
       <Textarea id="notes" label="Notes" placeholder="Notes" {...register("notes")} />
@@ -126,7 +130,12 @@ export const LessonForm = ({
         id="duration"
         label="Duration"
         placeholder="Duration (e.g., 05:30)"
-        {...register("duration")}
+        {...register("duration", {
+          validate: (value) => {
+            if (!value) return true;
+            return /^\d{1,2}:\d{2}$/.test(value) ? true : "Duration must be in format MM:SS";
+          },
+        })}
         error={errors.duration?.message}
       />
       <div className="flex flex-col gap-2 text-sm">
@@ -136,31 +145,21 @@ export const LessonForm = ({
         </label>
       </div>
 
-      <div className="flex justify-end gap-4">
-        <Button
-          type="button"
-          size="sm"
-          variant="outline"
-          onClick={() => closeModal("section-modal")}
-        >
-          Cancel
-        </Button>
-        <Button
-          type="button"
-          size="sm"
-          variant="default"
-          disabled={isSubmitting}
-          onClick={handleSubmit(onSubmit)}
-        >
-          {isSubmitting
-            ? mode === "edit"
-              ? "Saving..."
-              : "Adding..."
-            : mode === "edit"
-              ? "Save Changes"
-              : "Add Lesson"}
-        </Button>
-      </div>
+      <Button
+        type="button"
+        size="sm"
+        variant="default"
+        disabled={isSubmitting}
+        onClick={handleSubmit(onSubmit)}
+      >
+        {isSubmitting
+          ? mode === "edit"
+            ? "Saving..."
+            : "Adding..."
+          : mode === "edit"
+            ? "Save Changes"
+            : "Add Lesson"}
+      </Button>
     </form>
   );
 };
