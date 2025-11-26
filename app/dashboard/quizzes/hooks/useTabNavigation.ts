@@ -1,62 +1,71 @@
-import { COURSE_FORM_TABS } from "../lib/constant";
-import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
+import { useCourseFormStore, useActiveTab } from "@/features/course/stores/useCourseFormStore";
+import type { UseFormTrigger, FieldValues } from "react-hook-form";
 
-export const useTabNavigation = () => {
-  const activeTab = useCourseFormStore((state) => state.activeTab);
-  const setActiveTab = useCourseFormStore((state) => state.setActiveTab);
-  const markTabCompleted = useCourseFormStore((state) => state.markTabCompleted);
+const TAB_REQUIRED_FIELDS: Record<string, string[]> = {
+  basic: ["title", "courseType", "category", "status"],
+  info: [],
+  media: [],
+  pricing: ["price"],
+  seo: [],
+  finish: ["title", "courseType", "category", "status", "price"],
+};
 
-  const currentIndex = COURSE_FORM_TABS.findIndex((tab) => tab.id === activeTab);
-  const canGoNext = currentIndex < COURSE_FORM_TABS.length - 1;
+export const useTabNavigation = <T extends FieldValues = FieldValues>(
+  trigger?: UseFormTrigger<T>
+) => {
+  const mode = useCourseFormStore((s) => s.mode);
+  const activeTab = useActiveTab();
+
+  const setActiveTab = useCourseFormStore((s) => s.setActiveTab);
+  const markTabCompleted = useCourseFormStore((s) => s.markTabCompleted);
+
+  const tabs = COURSE_FORM_TABS.filter((t) => (mode === "create" ? !t.showInEdit : true));
+
+  const currentIndex = tabs.findIndex((t) => t.id === activeTab);
+  const canGoNext = currentIndex < tabs.length - 1;
   const canGoPrev = currentIndex > 0;
 
-  const validateCurrentTab = () => {
-    const tabId = activeTab;
+  // Validate fields for current tab
+  const validateCurrentTab = async () => {
+    if (!trigger) return true;
+    const fields = TAB_REQUIRED_FIELDS[activeTab] ?? [];
+    if (fields.length === 0) return true;
 
-    if (tabId === "finish") {
-      return { success: true, errors: {} };
-    }
-
-    const errors: Record<string, string> = {};
-
-    if (Object.keys(errors).length > 0) {
-      return { success: false, errors };
-    }
-
-    return { success: true, errors: {} };
+    return trigger(fields as any);
   };
 
-  const goToNext = () => {
-    if (activeTab !== "finish") {
-      const validation = validateCurrentTab();
+  const goToNext = async () => {
+    if (!canGoNext) return false;
 
-      if (!validation.success) {
-        return false;
-      }
+    const isValid = await validateCurrentTab();
+    if (!isValid) return false;
 
-      markTabCompleted(activeTab);
-    }
+    markTabCompleted(activeTab);
+    setActiveTab(tabs[currentIndex + 1].id);
 
-    if (canGoNext) {
-      const nextTab = COURSE_FORM_TABS[currentIndex + 1];
-      setActiveTab(nextTab.id);
-      return true;
-    }
-
-    return false;
+    return true;
   };
 
   const goToPrev = () => {
-    if (canGoPrev) {
-      const prevTab = COURSE_FORM_TABS[currentIndex - 1];
-      setActiveTab(prevTab.id);
-      return true;
-    }
-    return false;
+    if (!canGoPrev) return false;
+
+    setActiveTab(tabs[currentIndex - 1].id);
+    return true;
   };
 
-  const goToTab = (tabId: string) => {
+  const goToTab = async (tabId: string) => {
+    const targetIndex = tabs.findIndex((t) => t.id === tabId);
+    if (targetIndex === -1) return false;
+
+    // Only validate when moving forward
+    if (targetIndex > currentIndex) {
+      const isValid = await validateCurrentTab();
+      if (!isValid) return false;
+    }
+
     setActiveTab(tabId);
+    return true;
   };
 
   return {
@@ -67,5 +76,6 @@ export const useTabNavigation = () => {
     goToNext,
     goToPrev,
     goToTab,
+    tabs,
   };
 };
