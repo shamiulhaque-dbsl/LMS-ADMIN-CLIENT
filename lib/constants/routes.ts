@@ -55,6 +55,13 @@ export const ROUTES = {
     HISTORY: `${ROUTE_PREFIX}/newsletters/history`,
   },
 
+  // Profile
+  ADMIN: {
+    USERS: {
+      PROFILE: `${ROUTE_PREFIX}/users/profile`,
+    },
+  },
+  
   // Settings
   SETTINGS: `${ROUTE_PREFIX}/settings`,
 

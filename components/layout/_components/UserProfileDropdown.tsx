@@ -6,6 +6,7 @@ import { useDropdown } from "@/hooks/useDropdown";
 import { Dropdown } from "@/components/common/Dropdown";
 import { useAuthStore } from "@/features/auth/store/useAuthStore";
 import { useLoginActions } from "@/features/auth/hooks/useLoginActions";
+import { ROUTES } from "@/lib/constants/routes";
 
 interface MenuItem {
   label: string;
@@ -18,8 +19,8 @@ export const UserProfileDropdown: React.FC = () => {
   const { logout } = useLoginActions();
 
   const menuItems: MenuItem[] = [
-    { label: "My Profile", href: "/admin/users/profile" },
-    { label: "Settings", href: "/settings" },
+    { label: "My Profile", href: ROUTES.ADMIN.USERS.PROFILE },
+    { label: "Settings", href: ROUTES.SETTINGS },
   ];
 
   const handleLogout = async () => {
