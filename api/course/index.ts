@@ -8,7 +8,7 @@ import type {
 import { ApiResponse, apiRequest } from "@/api";
 import { formatCourseMetadata } from "@/features/course/lib/utils";
 
-const COURSE_API_PREFIX = "/courses";
+const COURSE_API_PREFIX = "/admin/courses";
 
 export async function getCourseMetric(): Promise<ApiResponse<CourseMetricResponse>> {
   return apiRequest<ApiResponse<CourseMetricResponse>>(

@@ -11,7 +11,7 @@ export const useAuthInit = () => {
     const fetchUser = async () => {
       try {
         const res = await getCurrentUser();
-        setUser(res?.data?.user || null);
+        setUser(res?.data || null);
       } catch {
         setUser(null);
       } finally {

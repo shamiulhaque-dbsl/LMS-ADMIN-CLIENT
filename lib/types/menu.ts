@@ -1,3 +1,4 @@
+import { Role } from "@/lib/types/roles";
 export interface Badge {
   text: string;
   className: string;
@@ -10,4 +11,5 @@ export interface MenuItem {
   badge?: Badge;
   children?: MenuItem[];
   group?: string;
+  roles?: Role[];
 }

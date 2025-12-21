@@ -28,7 +28,7 @@ export async function logoutUser() {
 }
 
 export async function getCurrentUser(options: any = {}) {
-  const res = await fetch(`${API_URL}/auth/me`, {
+  const res = await fetch(`${API_URL}/me`, {
     method: "GET",
     credentials: "include",
     ...options,

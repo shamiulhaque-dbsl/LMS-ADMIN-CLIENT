@@ -8,10 +8,31 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Icons } from "@/components/Icons";
 import { cn } from "@/lib/utils/tailwind-utils";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
+import type { MenuItem as MenuItemType } from "@/lib/types/menu";
+import { SidebarSkeleton } from "./_components/SidebarSkeleton";
+
+const hasAccess = (item: MenuItemType, role?: string) => {
+  if (!item.roles) return true; // public to all authenticated users
+  return role ? item.roles.includes(role as any) : false;
+};
+
+const filterMenuItems = (items: MenuItemType[], role?: string): MenuItemType[] =>
+  items
+    .filter((item) => hasAccess(item, role))
+    .map((item) => ({
+      ...item,
+      children: item.children ? item.children.filter((child) => hasAccess(child, role)) : undefined,
+    }))
+    .filter((item) => item.children?.length !== 0 || item.href);
 export const AppSidebar = () => {
   const pathname = usePathname();
+  const { user, isInitialized } = useAuthStore();
+
   const [openMenus, setOpenMenus] = useState<Set<string>>(new Set());
   const { isSidebarOpen, toggleSidebar } = useSidebar();
+
+  const filteredMenuItems = filterMenuItems(menuItems, user?.role);
 
   const toggleMenu = (menuId: string) => {
     setOpenMenus((prev) => {
@@ -49,6 +70,8 @@ export const AppSidebar = () => {
     }
   }, [pathname]);
 
+  if (!isInitialized || !user) return <SidebarSkeleton />;
+
   return (
     <>
       <aside
@@ -84,7 +107,7 @@ export const AppSidebar = () => {
           {/* Menu */}
           <nav className="flex-1 overflow-y-auto p-4">
             <ul className="space-y-1">
-              {menuItems.map((item) => (
+              {filteredMenuItems.map((item) => (
                 <MenuItem key={item.id} item={item} openMenus={openMenus} onToggle={toggleMenu} />
               ))}
             </ul>

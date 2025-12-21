@@ -10,8 +10,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <SidebarProvider>
         <div className="flex min-h-screen flex-1 flex-col">
           <AppSidebar />
           <div className="sm:pl-64">
@@ -25,7 +25,7 @@ export default function RootLayout({
             </main>
           </div>
         </div>
-      </AuthProvider>
-    </SidebarProvider>
+      </SidebarProvider>
+    </AuthProvider>
   );
 }
