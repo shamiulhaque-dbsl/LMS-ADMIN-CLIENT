@@ -3,6 +3,7 @@
 import { useAuthStore } from "../store/useAuthStore";
 import { useRouter } from "next/navigation";
 import { loginUser, logoutUser } from "@/api/auth";
+import { ROUTES } from "@/constants/routes";
 
 export const useLoginActions = () => {
   const { setUser, setLoading, isLoading, clearAuth } = useAuthStore();
@@ -13,7 +14,7 @@ export const useLoginActions = () => {
     try {
       const res = await loginUser(email, password);
       setUser(res.data.user || null);
-      router.push("/dashboard");
+      router.push(ROUTES.DASHBOARD);
       return { success: true };
     } catch (err: any) {
       const apiResponse = err.response?.data || err.response || { message: "Login failed" };
@@ -33,7 +34,7 @@ export const useLoginActions = () => {
     setLoading(true);
     try {
       await logoutUser();
-      router.push("/login");
+      router.push(ROUTES.AUTH.LOGIN);
     } catch (err: any) {
       console.error("Logout failed", err);
     } finally {
