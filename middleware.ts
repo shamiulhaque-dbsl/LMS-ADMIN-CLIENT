@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/features/auth/lib/verifyAccessToken";
+import { ROUTES } from "@/lib/constants/routes";
 
 const TOKEN_NAME = {
   ACCESS: "accessToken",
@@ -38,15 +39,15 @@ export async function middleware(req: NextRequest) {
   const payload = await verifyAccessToken(token);
 
   // Not logged in → protect dashboard routes (for admin or instructor)
-  if (!payload && pathname.startsWith("/dashboard")) {
-    const res = NextResponse.redirect(new URL("/login", req.url));
+  if (!payload && pathname.startsWith(ROUTES.DASHBOARD)) {
+    const res = NextResponse.redirect(new URL(ROUTES.AUTH.LOGIN, req.url));
     res.cookies.delete(TOKEN_NAME.ACCESS);
     return res;
   }
 
   // Already logged in → block /login
-  if (payload && pathname === "/login") {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+  if (payload && pathname === ROUTES.AUTH.LOGIN) {
+    return NextResponse.redirect(new URL(ROUTES.DASHBOARD, req.url));
   }
 
   return NextResponse.next();
