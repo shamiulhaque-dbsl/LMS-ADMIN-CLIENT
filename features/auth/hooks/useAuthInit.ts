@@ -5,13 +5,14 @@ import { useAuthStore } from "@/features/auth/store/useAuthStore";
 import { getCurrentUser } from "@/api/auth";
 
 export const useAuthInit = () => {
-  const { user, setUser, isInitialized, setInitialized } = useAuthStore();
+  const { setUser, isInitialized, setInitialized } = useAuthStore();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    if (isInitialized) return;
+    const initAuth = async () => {
       try {
         const res = await getCurrentUser();
-        setUser(res?.data || null);
+        setUser(res?.data ?? null);
       } catch {
         setUser(null);
       } finally {
@@ -19,8 +20,6 @@ export const useAuthInit = () => {
       }
     };
 
-    if (!user && !isInitialized) {
-      fetchUser();
-    }
-  }, [user, isInitialized, setUser, setInitialized]);
+    initAuth();
+  }, [isInitialized, setUser, setInitialized]);
 };
