@@ -2,27 +2,56 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyAccessToken } from "@/features/auth/lib/verifyAccessToken";
 
+const TOKEN_NAME = {
+  ACCESS: "accessToken",
+  REFRESH: "refreshToken",
+} as const;
+
+/*
+  TODO (Auth Hardening Roadmap):
+
+  1. Token Refresh Flow
+     - If accessToken is expired but refreshToken exists:
+       → Redirect to /api/auth/refresh
+       → Issue new accessToken
+       → Redirect back to original route
+
+  2. Role-Based Access Control (RBAC)
+     - Enforce coarse-grained role checks at middleware level
+       Example:
+       - /dashboard/admin/*  → ADMIN only
+       - /dashboard/instructor/* → INSTRUCTOR, ADMIN
+     - Keep fine-grained permissions in server components / APIs
+
+  3. Security Enhancements
+     - Delete refreshToken on hard logout or invalid auth state
+     - Ensure cookie flags (httpOnly, secure, sameSite) are aligned
+
+  4. Edge Runtime Safety
+     - Keep verifyAccessToken Edge-compatible (no Node APIs, no DB calls)
+*/
+
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("accessToken")?.value;
+  const token = req.cookies.get(TOKEN_NAME.ACCESS)?.value;
   const pathname = req.nextUrl.pathname;
 
   const payload = await verifyAccessToken(token);
 
-  // Not logged in → protect admin routes
-  if (!payload && pathname.startsWith("/admin")) {
+  // Not logged in → protect dashboard routes (for admin or instructor)
+  if (!payload && pathname.startsWith("/dashboard")) {
     const res = NextResponse.redirect(new URL("/login", req.url));
-    res.cookies.delete("accessToken");
+    res.cookies.delete(TOKEN_NAME.ACCESS);
     return res;
   }
 
   // Already logged in → block /login
   if (payload && pathname === "/login") {
-    return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/login"],
+  matcher: ["/dashboard", "/dashboard/:path*", "/login"],
 };

@@ -6,7 +6,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "dashboard",
     label: "Dashboard",
-    href: "/dashboard/dashboard",
+    href: "/dashboard",
     icon: <Icons.dashboard size={20} />,
     roles: [Role.ADMIN, Role.INSTRUCTOR],
   },

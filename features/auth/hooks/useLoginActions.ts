@@ -13,7 +13,7 @@ export const useLoginActions = () => {
     try {
       const res = await loginUser(email, password);
       setUser(res.data.user || null);
-      router.push("/admin/dashboard");
+      router.push("/dashboard");
       return { success: true };
     } catch (err: any) {
       const apiResponse = err.response?.data || err.response || { message: "Login failed" };
