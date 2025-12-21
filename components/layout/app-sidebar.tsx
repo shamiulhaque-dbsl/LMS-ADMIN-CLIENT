@@ -29,9 +29,6 @@ export const AppSidebar = () => {
   const pathname = usePathname();
   const { user, isInitialized } = useAuthStore();
 
-  console.log("AppSidebar - user:", user);
-  console.log("AppSidebar - isInitialized:", isInitialized);
-
   const [openMenus, setOpenMenus] = useState<Set<string>>(new Set());
   const { isSidebarOpen, toggleSidebar } = useSidebar();
 
