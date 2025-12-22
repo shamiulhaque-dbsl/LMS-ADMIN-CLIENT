@@ -37,6 +37,7 @@ interface CourseFormState {
   setCourseMetadata(metadata: CourseMetadataFormatted | null): void;
 
   resetForm(): void;
+  resetTabs(): void;
 }
 
 export const INITIAL: CourseFormData = {
@@ -75,6 +76,8 @@ export const INITIAL: CourseFormData = {
   metaKeywords: "",
 };
 
+const DEFAULT_TAB = "basic";
+
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
     persist(
@@ -82,8 +85,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         formData: INITIAL,
         mode: "create",
 
-        activeTabCreate: "basic",
-        activeTabEdit: "basic",
+        activeTabCreate: DEFAULT_TAB,
+        activeTabEdit: DEFAULT_TAB,
 
         completedTabs: {},
         validationErrors: {},
@@ -130,6 +133,13 @@ export const useCourseFormStore = create<CourseFormState>()(
             isSubmitting: false,
             isDirty: false,
           })),
+
+        resetTabs: () =>
+          set({
+            activeTabCreate: DEFAULT_TAB,
+            activeTabEdit: DEFAULT_TAB,
+            completedTabs: {},
+          }),
       }),
       {
         name: "course-form-storage",

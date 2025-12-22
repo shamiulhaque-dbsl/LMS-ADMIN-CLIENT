@@ -56,6 +56,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
   const formData = useCourseFormStore((state) => state.formData);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
+  const isEditMode = Boolean(course.id);
 
   const setCourseId = useCourseFormStore((s) => s.setCourseId);
   const setCategories = useCourseFormStore((s) => s.setCategories);
@@ -160,7 +161,11 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
         <Card className="border-none bg-white shadow-lg">
           <Card.Header className="rounded-t-xl bg-gray-50 p-2">
             <ScrollableTabs
-              tabs={COURSE_FORM_TABS}
+              tabs={COURSE_FORM_TABS.filter((tab) => {
+                if (tab.status !== "active") return false; // hide everywhere
+                if (!isEditMode && tab.showInEdit) return false; // hide edit-only on create
+                return true; // show otherwise
+              })}
               value={activeTab}
               onValueChange={handleTabChange}
               showScrollButtons={false}

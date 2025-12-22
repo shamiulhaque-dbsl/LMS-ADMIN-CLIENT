@@ -91,6 +91,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
       useCourseFormStore.setState({ activeTabCreate: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
+      useCourseFormStore.setState({ activeTabCreate: "basic" });
     }
   });
 
@@ -115,7 +116,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
         <Card className="border-none bg-white shadow-lg">
           <Card.Header className="rounded-t-xl bg-gray-50 p-2">
             <ScrollableTabs
-              tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
+              tabs={COURSE_FORM_TABS.filter((tab) => tab.status === "active" && !tab.showInEdit)}
               value={activeTab}
               onValueChange={goToTab}
               showScrollButtons={false}
