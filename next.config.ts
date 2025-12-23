@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["images.unsplash.com", "randomuser.me"], // Allowing images from Unsplash
+    domains: [
+      "images.unsplash.com",
+      "randomuser.me",
+      "https://hafsnitcontent.sgp1.digitaloceanspaces.com",
+      "hafsnitcontent.sgp1.digitaloceanspaces.com",
+      "example.com",
+    ], // Allowing images from Unsplash
   },
 };
 
