@@ -134,6 +134,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
       useCourseFormStore.setState({ activeTabEdit: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
+      useCourseFormStore.setState({ activeTabEdit: "basic" });
     }
   });
 

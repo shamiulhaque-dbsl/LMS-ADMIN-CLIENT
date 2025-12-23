@@ -27,7 +27,6 @@ export const useCourseAction = () => {
 
       const formattedData = transformToApiFormat(cleanedData);
 
-      console.log("Creating course with formattedData data:", formattedData);
       const res = await createCourse(formattedData);
       return { success: true, data: res };
     } catch (err: any) {

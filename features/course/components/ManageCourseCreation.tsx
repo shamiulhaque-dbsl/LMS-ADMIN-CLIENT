@@ -27,6 +27,7 @@ import { CourseMetadataFormatted } from "../types";
 import { useCourseAction } from "../hooks/useCourseAction";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 import type { CourseFormData } from "@/features/course/types";
+import { useCleanupCourseDraft } from "@/features/course/hooks/useCleanupCourseDraft";
 
 import { toast } from "sonner";
 
@@ -52,6 +53,8 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
   const setMode = useCourseFormStore((s) => s.setMode);
+
+  useCleanupCourseDraft();
 
   const { create } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();

@@ -2,6 +2,7 @@ import type { Category } from "@/features/category/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { CourseFormData, CourseMetadataFormatted } from "../types";
+import { resetPersistedStore } from "@/lib/zustand/resetPersistedStore";
 
 export interface ValidationErrors {
   [key: string]: string;
@@ -38,6 +39,7 @@ interface CourseFormState {
 
   resetForm(): void;
   resetTabs(): void;
+  resetDraft(): void;
 }
 
 export const INITIAL: CourseFormData = {
@@ -77,6 +79,7 @@ export const INITIAL: CourseFormData = {
 };
 
 const DEFAULT_TAB = "basic";
+const STORAGE_KEY = "course-form-storage";
 
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
@@ -140,9 +143,23 @@ export const useCourseFormStore = create<CourseFormState>()(
             activeTabEdit: DEFAULT_TAB,
             completedTabs: {},
           }),
+        resetDraft: () => {
+          resetPersistedStore(STORAGE_KEY);
+          set({
+            formData: INITIAL,
+            activeTabCreate: DEFAULT_TAB,
+            activeTabEdit: DEFAULT_TAB,
+            completedTabs: {},
+            validationErrors: {},
+            isSubmitting: false,
+            isDirty: false,
+            courseId: undefined,
+            courseMetadata: null,
+          });
+        },
       }),
       {
-        name: "course-form-storage",
+        name: STORAGE_KEY,
         partialize: (s) => ({
           formData: s.formData,
           mode: s.mode,
