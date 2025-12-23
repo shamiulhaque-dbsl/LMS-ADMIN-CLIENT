@@ -1,4 +1,3 @@
-import exp from "constants";
 import { z } from "zod";
 
 const nonEmptyString = z.string().trim().min(1, "This field is required");
@@ -41,7 +40,7 @@ export const CourseFormSchema = z.object({
 
   durationHours: numberValidator,
 
-  thumbnail: optionalString,
+  thumbnail: z.string().optional(),
   videoDemoSource: optionalString,
   videoDemoUrl: optionalUrl,
   images: z.array(z.string()).optional().default([]),

@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { ImageUpload } from "@/components/ui/uploads/image";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { cn } from "@/lib/utils/tailwind-utils";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 
@@ -9,6 +9,8 @@ export const MediaForm = () => {
 
   const {
     register,
+    control,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
@@ -60,7 +62,25 @@ export const MediaForm = () => {
           Course Thumbnail
         </label>
 
-        <ImageUpload size="lg" variant="circle" showEditButton={false} showUploadGuideline={true} />
+        <Controller
+          name="thumbnail"
+          control={control}
+          render={({ field }) => (
+            <ImageUpload
+              name={field.name}
+              size="lg"
+              variant="circle"
+              maxSizeInMB={2}
+              acceptedFormats={["image/png", "image/jpeg", "image/jpg"]}
+              value={field.value}
+              onChange={field.onChange}
+              onUpload={(uploaded) => {
+                setValue(field.name, uploaded.url, { shouldValidate: true });
+              }}
+              onError={(err) => console.error("Thumbnail upload error:", err)}
+            />
+          )}
+        />
 
         {errors.thumbnail && (
           <p className="text-xs text-red-500">{errors.thumbnail.message?.toString()}</p>

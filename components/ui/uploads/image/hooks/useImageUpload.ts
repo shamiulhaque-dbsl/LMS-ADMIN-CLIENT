@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useState, useRef, useCallback, ChangeEvent, useEffect } from "react";
 import {
@@ -7,6 +7,7 @@ import {
   getImageSource,
   ImageUploadProps,
 } from "@/components/ui/uploads/image";
+import { uploadFile } from "@/api/upload";
 
 export const useImageUpload = ({
   value,
@@ -16,10 +17,13 @@ export const useImageUpload = ({
   acceptedFormats = ["image/*"],
   disabled = false,
   readOnly = false,
+  onUpload,
 }: Pick<
   ImageUploadProps,
   "value" | "onChange" | "onError" | "maxSizeInMB" | "acceptedFormats" | "disabled" | "readOnly"
->) => {
+> & {
+  onUpload?: (uploaded: { url: string; key: string }) => void;
+}) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(() => {
     if (value && !(value instanceof File)) return getImageSource(value);
@@ -27,8 +31,8 @@ export const useImageUpload = ({
   });
   const [internalError, setInternalError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Keep preview in sync with controlled value
   useEffect(() => {
     if (value && !(value instanceof File)) {
       setPreviewUrl(getImageSource(value));
@@ -51,15 +55,32 @@ export const useImageUpload = ({
 
       try {
         const dataUrl = await readFileAsDataURL(file);
-        setPreviewUrl(dataUrl); // always update internal preview
-        onChange?.(file); // optional for parent
-      } catch {
-        const errorMsg = "Failed to read file";
+        setPreviewUrl(dataUrl); // update preview
+        onChange?.(file); // update parent form state
+
+        // Upload file to server
+        if (onUpload) {
+          setLoading(true);
+          const response = await uploadFile(file);
+          if (response.status === "success" && response.data && response.data.length > 0) {
+            setPreviewUrl(response.data[0].url ?? null);
+            onUpload({ url: response.data[0].url, key: response.data[0].key });
+          } else {
+            const errMsg = response.message || "Upload failed";
+            setInternalError(errMsg);
+            onError?.(errMsg);
+          }
+        }
+      } catch (err: any) {
+        console.log("File upload error:", err);
+        const errorMsg = err?.message || "Failed to read file";
         setInternalError(errorMsg);
         onError?.(errorMsg);
+      } finally {
+        setLoading(false);
       }
     },
-    [maxSizeInMB, acceptedFormats, onChange, onError]
+    [maxSizeInMB, acceptedFormats, onChange, onError, onUpload]
   );
 
   const handleInputChange = useCallback(
@@ -114,6 +135,7 @@ export const useImageUpload = ({
     previewUrl,
     internalError,
     isDragging,
+    loading,
     handleInputChange,
     handleClear,
     triggerFileInput,
