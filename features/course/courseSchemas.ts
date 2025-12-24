@@ -35,6 +35,7 @@ export const CourseFormSchema = z.object({
   description: optionalString,
   courseType: nonEmptyString,
   status: nonEmptyString,
+  instructor: z.coerce.number().positive("Invalid instructor").optional(),
   category: z.coerce.number().min(1, "This field is required").positive("Invalid category"),
   level: optionalString,
 

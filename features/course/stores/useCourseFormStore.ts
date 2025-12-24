@@ -37,6 +37,11 @@ interface CourseFormState {
   setCategories(categories: Category[]): void;
   setCourseMetadata(metadata: CourseMetadataFormatted | null): void;
 
+  teachers: any[];
+  courseInstructors: any[];
+  setTeachers(teachers: any[]): void;
+  setCourseInstructors(instructors: any[]): void;
+
   resetForm(): void;
   resetTabs(): void;
   resetDraft(): void;
@@ -98,6 +103,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         courseId: undefined,
 
         categories: [],
+        teachers: [],
+        courseInstructors: [],
         courseMetadata: null,
 
         setCourseId: (id) => set({ courseId: id }),
@@ -125,6 +132,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         setCategories: (categories) => set({ categories }),
 
         setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
+        setTeachers: (teachers) => set({ teachers: teachers }),
+        setCourseInstructors: (instructors) => set({ courseInstructors: instructors }),
 
         resetForm: () =>
           set((s) => ({

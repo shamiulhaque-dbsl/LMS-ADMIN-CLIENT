@@ -40,6 +40,7 @@ type props = {
   course: Course;
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
+  teachers: any[];
 };
 
 const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
@@ -52,7 +53,7 @@ const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
   finish: null,
 };
 
-export default function ManageCourseEdit({ course, categories, courseMetadata }: props) {
+export default function ManageCourseEdit({ course, categories, courseMetadata, teachers }: props) {
   const formData = useCourseFormStore((state) => state.formData);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
@@ -61,8 +62,10 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
   const setCourseId = useCourseFormStore((s) => s.setCourseId);
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
+  const setTeachers = useCourseFormStore((s) => s.setTeachers);
   const setFormData = useCourseFormStore((s) => s.setFormData);
   const setMode = useCourseFormStore((s) => s.setMode);
+  const setCourseInstructors = useCourseFormStore((s) => s.setCourseInstructors);
 
   const { update } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
@@ -87,6 +90,8 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
     setFormData(normalized);
     setCategories(categories);
     setCourseMetadata(courseMetadata);
+    setTeachers(teachers);
+    setCourseInstructors(course?.course_instructors || []);
     setCourseId(course.id);
     setMode("edit");
 

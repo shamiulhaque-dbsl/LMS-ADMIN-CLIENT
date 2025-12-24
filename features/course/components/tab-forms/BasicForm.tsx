@@ -7,6 +7,9 @@ import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore"
 export const BasicForm = () => {
   const categories = useCourseFormStore((s) => s.categories);
   const courseMetadata = useCourseFormStore((s) => s.courseMetadata);
+  const teachers = useCourseFormStore((s) => s.teachers);
+  const courseInstructors = useCourseFormStore((s) => s.courseInstructors);
+  const mode = useCourseFormStore((s) => s.mode);
 
   const {
     register,
@@ -32,6 +35,69 @@ export const BasicForm = () => {
             error={errors.title?.message?.toString()}
           />
         </div>
+        {mode === "edit" && (
+          <>
+            <div className="space-y-2">
+              <label className="label-base" htmlFor="instructor">
+                Instructor of this course
+              </label>
+
+              {courseInstructors && courseInstructors.length === 0 ? (
+                <p className="text-gray-600">No instructors assigned to this course.</p>
+              ) : (
+                <div className="space-y-1">
+                  {courseInstructors?.map((instructor: any) => (
+                    <div key={instructor.id} className="flex items-center rounded-lg bg-white py-1">
+                      {/* Left: Image + Name */}
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={instructor?.users?.avatar_url || "/images/avatar-placeholder.png"}
+                          alt={instructor?.users?.first_name}
+                          className="h-10 w-10 rounded-full object-cover border"
+                        />
+
+                        <span className="text-sm font-medium text-gray-800">
+                          {instructor?.users?.first_name}
+                        </span>
+                      </div>
+
+                      {/* Right: Remove Button */}
+                      {/* <button
+                    type="button"
+                    // onClick={() => handleRemoveInstructor(instructor.id)}
+                    className="rounded-md px-2 py-1 text-sm text-red-600 hover:bg-red-50 transition"
+                  >
+                    Remove
+                  </button> */}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="w-full">
+              <label className="label-base" htmlFor="instructor">
+                Add new instructor <span className="ml-1 text-red-500">*</span>
+              </label>
+              <select
+                id="instructor"
+                {...register("instructor")}
+                className={cn("input-base", errors.instructor && "input-error")}
+              >
+                <option value="">select</option>
+                {teachers?.map((teacher: any) => (
+                  <option value={teacher.id} key={teacher.id}>
+                    {teacher.first_name}
+                  </option>
+                ))}
+              </select>
+              {errors.instructor && (
+                <p className="error-text">{errors.instructor?.message?.toString()}</p>
+              )}
+            </div>
+          </>
+        )}
+
         <div className="space-y-2">
           <Textarea
             id="description"

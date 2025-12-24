@@ -162,6 +162,7 @@ export interface CourseFormData {
   courseType: COURSE_TYPE;
   level?: COURSE_LAVEL;
   category: number | null;
+  instructor?: number | null;
   status: STATUS;
 
   // Info
