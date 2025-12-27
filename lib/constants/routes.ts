@@ -11,7 +11,10 @@ export const ROUTES = {
     LIVE_CLASSES: `${ROUTE_PREFIX}/courses/live-classes`,
     LIVE_HISTORY: `${ROUTE_PREFIX}/courses/live-session-history`,
   },
-  QUIZZES: `${ROUTE_PREFIX}/quizzes`,
+  QUIZZES: {
+    CREATE: `${ROUTE_PREFIX}/quizzes/create`,
+    LIST: `${ROUTE_PREFIX}/quizzes`,
+  },
   CERTIFICATES: {
     QUIZ: `${ROUTE_PREFIX}/certificates`,
     COMPLETION: `${ROUTE_PREFIX}/certificates`,
@@ -61,7 +64,7 @@ export const ROUTES = {
       PROFILE: `${ROUTE_PREFIX}/users/profile`,
     },
   },
-  
+
   // Settings
   SETTINGS: `${ROUTE_PREFIX}/settings`,
 
