@@ -9,8 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import Pagination from "@/dashboard/quizzes/components/Pagination";
-import QuizTableAction from "@/dashboard/quizzes/components/QuizzTableAction";
+import Pagination from "@/features/quiz/components/Pagination";
+import QuizTableAction from "@/features/quiz/components/QuizzTableAction";
 import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
 import { useEffect, useState } from "react";
 

@@ -42,6 +42,7 @@ export interface Course {
   course_categories?: CourseCategory;
   course_instructors?: CourseInstructor[];
   course_modules?: CourseModule[];
+  courseModules?: CourseModule[];
   course_ratings?: CourseRating[];
   enrollments?: Enrollment[];
   forums?: Forum[];

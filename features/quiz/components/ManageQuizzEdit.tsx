@@ -1,4 +1,4 @@
-import { QuizzForm } from "@/dashboard/quizzes/components/QuizzForm";
+import { QuizzForm } from "@/features/quiz/components/QuizzForm";
 import QuizQuestionContainer from "./QuizzQuestionContainer";
 
 export default function ManageQuizzEdit() {

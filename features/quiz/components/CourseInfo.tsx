@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Grid } from "@/components/ui/grid";
 import Text from "@/components/ui/Text";
-import { CourseMetric } from "../types/course-matric";
+import { CourseMetric } from "../../../app/dashboard/quizzes/types/course-matric";
 
 const courseMetrics: CourseMetric[] = [
   {

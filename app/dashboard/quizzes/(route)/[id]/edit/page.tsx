@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/page/PageHeader";
 import { Card } from "@/components/ui/Card";
-import ManageQuizzEdit from "@/dashboard/quizzes/components/edit/ManageQuizzEdit";
+import ManageQuizzEdit from "@/features/quiz/components/ManageQuizzEdit";
 
 export default function QuizzCreatePage() {
   return (

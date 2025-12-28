@@ -1,6 +1,6 @@
 "use client";
 
-import { QuizzQuestions } from "@/dashboard/quizzes/components/edit/QuizzQuestions";
+import { QuizzQuestions } from "@/features/quiz/components/QuizzQuestions";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useModalStore } from "@/stores/modal-store";
