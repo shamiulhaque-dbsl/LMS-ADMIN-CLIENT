@@ -15,6 +15,14 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
   ) => {
     if (!response) return;
 
+    if (response instanceof ReferenceError) {
+      setError("root", {
+        type: "server",
+        message: "Seomthing went wrong. Please try again later.",
+      });
+      return;
+    }
+
     const { message, errors } = response;
 
     // Handle field-level errors first
