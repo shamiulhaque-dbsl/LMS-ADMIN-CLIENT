@@ -2,43 +2,31 @@
 
 import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
+import type { Quizz } from "../types";
 // import { useCourseStore } from "@/dashboard/courses/store/courseStore";
 import { Icons } from "@/components/Icons";
+import { ROUTES } from "@/constants/routes";
 
 const deleteCourseAPI = async (id: number) => new Promise((res) => setTimeout(res, 500));
 const toggleStatusAPI = async (id: number, status: string) =>
   new Promise((res) => setTimeout(res, 500));
 
-interface Quizz {
-  id: number;
-  title: string;
-  course: string;
-  lessons: number;
-  sections: number;
-  price: string;
-  sales: number;
-  students: number;
-  createdAt: string;
-  updatedAt: string;
-  status: string;
-}
-
 interface QuizzTableActionProps {
-  item: Quizz;
+  quiz: Quizz;
 }
 
-export default function QuizzTableAction({ item }: QuizzTableActionProps) {
+export default function QuizzTableAction({ quiz }: QuizzTableActionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(item.status);
+  const [status, setStatus] = useState(quiz.status);
 
   // const store = useCourseStore();
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      await deleteCourseAPI(item.id);
+      await deleteCourseAPI(quiz.quizId);
       // store.setFilters({ page: store.filters.page });
     } catch (err) {
     } finally {
@@ -48,17 +36,17 @@ export default function QuizzTableAction({ item }: QuizzTableActionProps) {
     }
   };
 
-  const handleToggleStatus = async () => {
-    setLoading(true);
-    try {
-      await toggleStatusAPI(item.id, status === "active" ? "pending" : "active");
-      setStatus(status === "active" ? "pending" : "active");
-    } catch (err) {
-    } finally {
-      setLoading(false);
-      setIsOpen(false);
-    }
-  };
+  // const handleToggleStatus = async () => {
+  //   setLoading(true);
+  //   try {
+  //     await toggleStatusAPI(item.id, status === "active" ? "pending" : "active");
+  //     setStatus(status === "active" ? "pending" : "active");
+  //   } catch (err) {
+  //   } finally {
+  //     setLoading(false);
+  //     setIsOpen(false);
+  //   }
+  // };
 
   return (
     <>
@@ -73,8 +61,8 @@ export default function QuizzTableAction({ item }: QuizzTableActionProps) {
         className="w-52 space-y-2 rounded-md py-4 leading-tight"
         align="right"
       >
-        <DropdownItem href={`/admin/quizzes/${item.id}/result`}>View Quiz Result</DropdownItem>
-        <DropdownItem href={`/admin/quizzes/${item.id}/edit`}>Edit</DropdownItem>
+        <DropdownItem href={ROUTES.QUIZZES.RESULT(quiz.quizId)}>View Quiz Result</DropdownItem>
+        <DropdownItem href={ROUTES.QUIZZES.EDIT(quiz.quizId)}>Edit</DropdownItem>
         <DropdownItem onClick={() => setShowConfirm(true)}>Delete</DropdownItem>
       </Dropdown>
 

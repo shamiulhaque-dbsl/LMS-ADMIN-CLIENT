@@ -12,11 +12,11 @@ import {
 import Pagination from "@/features/quiz/components/Pagination";
 import QuizTableAction from "@/features/quiz/components/QuizzTableAction";
 import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { getQuizzes } from "@/api/quiz";
 import type { QuizList } from "../types";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export default function CourseTable() {
   const { filters, setFilters } = useQuizzStore();
@@ -161,7 +161,7 @@ export default function CourseTable() {
                 <p className="text-sm text-gray-600">{quiz?.course?.title} Course</p>
               </TableCell>
               <TableCell>{quiz?.questionsCount}</TableCell>
-              <TableCell>{quiz?.duration}</TableCell>
+              <TableCell>{quiz?.timeLimitMinutes}</TableCell>
               <TableCell>{quiz?.totalPoint}</TableCell>
               <TableCell>{quiz?.passingPoint}</TableCell>
               <TableCell>{quiz?.studentsCount}</TableCell>
@@ -175,7 +175,7 @@ export default function CourseTable() {
               </TableCell>
               {/* Table action */}
               <TableCell>
-                <QuizTableAction item={quiz} />
+                <QuizTableAction quiz={quiz} />
               </TableCell>
             </TableRow>
           ))

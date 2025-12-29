@@ -7,16 +7,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Grid } from "@/components/ui/grid";
 import Text from "@/components/ui/Text";
-import type { QuizCreateFormValues } from "../types";
+import type { QuizCreateFormValues, Quizz } from "../types";
 import type { Course } from "@/features/course/types";
 import { useCreateQuiz } from "../hooks/useCreateQuiz";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 
 interface Props {
   courses: Course[];
+  quiz?: Quizz;
 }
 
-export const QuizzForm = ({ courses }: Props) => {
+export const QuizzForm = ({ courses = [], quiz = undefined }: Props) => {
   const {
     register,
     handleSubmit,
@@ -26,15 +27,17 @@ export const QuizzForm = ({ courses }: Props) => {
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm<QuizCreateFormValues>({
-    defaultValues: {
-      status: "draft",
-      randomizeQuestions: false,
-      randomizeOptions: false,
-    },
+    defaultValues: quiz
+      ? quiz
+      : {
+          status: "draft",
+          randomizeQuestions: false,
+          randomizeOptions: false,
+        },
   });
   const { handleApiErrors } = useHandleApiErrors<QuizCreateFormValues>();
 
-  const { create, loading } = useCreateQuiz();
+  const { create, update, loading } = useCreateQuiz();
 
   const selectedCourseId = useWatch({
     control,
@@ -48,16 +51,20 @@ export const QuizzForm = ({ courses }: Props) => {
 
   // reset module when course changes
   useEffect(() => {
-    setValue("moduleId", undefined as any);
-  }, [selectedCourseId, setValue]);
+    if (quiz?.moduleId && quiz.courseId === selectedCourseId) {
+      setValue("moduleId", quiz.moduleId);
+    } else {
+      setValue("moduleId", undefined as any);
+    }
+  }, [selectedCourseId, setValue, quiz, modules]);
 
   const onSubmit = async (data: QuizCreateFormValues) => {
-    const response = await create(data);
+    const response = quiz ? await update(quiz.quizId, data) : await create(data);
     if (response && !response.success) {
       return handleApiErrors(response, setError);
     }
 
-    reset();
+    if (!quiz) reset();
   };
 
   return (
@@ -65,7 +72,9 @@ export const QuizzForm = ({ courses }: Props) => {
       {errors.root && <Text className="text-red-500 text-sm">{errors.root.message}</Text>}
 
       {isSubmitSuccessful && !errors.root && (
-        <Text className="text-green-600 text-center">Quiz created successfully.</Text>
+        <Text className="text-green-600 text-center">
+          Quiz {quiz ? "updated" : "created"} successfully.
+        </Text>
       )}
 
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

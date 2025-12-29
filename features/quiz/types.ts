@@ -7,9 +7,11 @@ export interface CourseRef {
 
 export interface Quizz {
   quizId: number;
+  courseId: number;
+  moduleId: number;
   title: string;
   questionsCount: number;
-  duration: number;
+  timeLimitMinutes: number;
   totalPoint: number;
   passingPoint: number;
   studentsCount?: number;

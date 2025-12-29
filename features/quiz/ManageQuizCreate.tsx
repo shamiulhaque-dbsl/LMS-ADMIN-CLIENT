@@ -1,9 +1,10 @@
 import { QuizzForm } from "@/features/quiz/components/QuizzForm";
 import { Card } from "@/components/ui/Card";
 import { getCoursesForSelect } from "@/api/course";
+import { use } from "react";
 
-export default async function ManageQuizCreate() {
-  const res = await getCoursesForSelect();
+export default function ManageQuizCreate() {
+  const res = use(getCoursesForSelect());
   const courses = res?.data ?? [];
 
   return (

@@ -55,7 +55,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "quizzes",
     label: "Quizzes",
-    href: ROUTES.QUIZZES,
+    href: ROUTES.QUIZZES.LIST,
     group: "Education",
     icon: <Icons.clipboard size={20} />,
     roles: [Role.ADMIN, Role.INSTRUCTOR],
