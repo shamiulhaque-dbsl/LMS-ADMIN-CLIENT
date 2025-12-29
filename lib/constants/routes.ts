@@ -14,6 +14,11 @@ export const ROUTES = {
   QUIZZES: {
     CREATE: `${ROUTE_PREFIX}/quizzes/create`,
     LIST: `${ROUTE_PREFIX}/quizzes`,
+
+    // Dynamic routes
+    EDIT: (quizId: number | string) => `${ROUTE_PREFIX}/quizzes/${quizId}/edit`,
+    RESULT: (quizId: number | string) => `${ROUTE_PREFIX}/quizzes/${quizId}/result`,
+    DETAIL: (quizId: number | string) => `${ROUTE_PREFIX}/quizzes/${quizId}`,
   },
   CERTIFICATES: {
     QUIZ: `${ROUTE_PREFIX}/certificates`,
