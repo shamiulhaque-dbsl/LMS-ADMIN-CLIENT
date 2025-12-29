@@ -14,7 +14,8 @@ import QuizTableAction from "@/features/quiz/components/QuizzTableAction";
 import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
 import { useEffect, useState } from "react";
 
-import { Quizz, fetchQuizzes } from "@/dashboard/quizzes/lib/api";
+import { getQuizzes } from "@/api/quiz";
+import type { QuizList } from "../types";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 export default function CourseTable() {
@@ -23,7 +24,7 @@ export default function CourseTable() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [quizzes, setQuizzes] = useState<Quizz[]>([]);
+  const [quizzes, setQuizzes] = useState<QuizList>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
@@ -63,14 +64,14 @@ export default function CourseTable() {
         setLoading(true);
         setError(null);
 
-        const response = await fetchQuizzes({
-          ...filters,
-          limit: 10,
-        });
+        const response = await getQuizzes();
+        if (!response || !response.data) {
+          throw new Error("Invalid response from server");
+        }
 
         setQuizzes(response.data);
-        setTotalPages(response.totalPages);
-        setTotalRecords(response.totalRecords);
+        // setTotalPages(response.totalPages);
+        // setTotalRecords(response.totalRecords);
       } catch (err) {
         setError("Failed to load courses. Please try again.");
         setQuizzes([]);
@@ -87,11 +88,13 @@ export default function CourseTable() {
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
-          <TableHead>Course</TableHead>
           <TableHead>Title</TableHead>
-          <TableHead>Instructor</TableHead>
           <TableHead>Questions</TableHead>
+          <TableHead>Time(Min)</TableHead>
+          <TableHead>Total Score</TableHead>
+          <TableHead>Passing Score</TableHead>
           <TableHead>Students</TableHead>
+          <TableHead>Created</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
@@ -150,14 +153,21 @@ export default function CourseTable() {
             </TableCell>
           </TableRow>
         ) : (
-          quizzes.map((quiz) => (
-            <TableRow key={quiz.id}>
-              <TableCell>{quiz.id}</TableCell>
-              <TableCell>{quiz?.title}</TableCell>
-              <TableCell>Final Quiz</TableCell>
-              <TableCell>John Doe</TableCell>
-              <TableCell>4</TableCell>
-              <TableCell>5</TableCell>
+          quizzes.map((quiz, index) => (
+            <TableRow key={quiz.quizId}>
+              <TableCell>{++index}</TableCell>
+              <TableCell>
+                <span className="font-medium text-text-dark">{quiz?.title}</span>
+                <p className="text-sm text-gray-600">{quiz?.course?.title} Course</p>
+              </TableCell>
+              <TableCell>{quiz?.questionsCount}</TableCell>
+              <TableCell>{quiz?.duration}</TableCell>
+              <TableCell>{quiz?.totalPoint}</TableCell>
+              <TableCell>{quiz?.passingPoint}</TableCell>
+              <TableCell>{quiz?.studentsCount}</TableCell>
+              <TableCell>
+                {quiz?.createdAt ? new Date(quiz?.createdAt).toLocaleDateString() : ""}
+              </TableCell>
               <TableCell>
                 <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                   {quiz?.status}
