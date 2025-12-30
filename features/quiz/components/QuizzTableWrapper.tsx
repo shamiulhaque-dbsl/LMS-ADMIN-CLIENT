@@ -5,10 +5,24 @@ import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Plus, FileSpreadsheet, FileType } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import { use } from "react";
 import { ROUTES } from "@/lib/constants/routes";
+import { getQuizzes } from "@/api/quiz";
 
-export default function QuizzTableWrapper() {
+interface QuizzTableWrapperProps {
+  filters: {
+    dateFrom?: string;
+    dateTo?: string;
+    course?: string;
+    instructor?: string;
+    status?: string;
+    page?: number;
+  };
+}
+
+export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
+  const { data = [] } = use(getQuizzes(filters));
+
   return (
     <Card className="border-none bg-white">
       <Card.Header className="mb-0 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-6">
@@ -41,9 +55,7 @@ export default function QuizzTableWrapper() {
         </div>
       </Card.Header>
       <Card.Content className="p-4 sm:p-6">
-        <Suspense fallback={<div>Loading quizzes...</div>}>
-          <QuizzTable />
-        </Suspense>
+        <QuizzTable quizzes={data} currentPage={filters.page} />
       </Card.Content>
     </Card>
   );

@@ -2,13 +2,13 @@ import { QuizzForm } from "@/features/quiz/components/QuizzForm";
 import QuizQuestionContainer from "./components/QuizzQuestionContainer";
 import { getCoursesForSelect } from "@/api/course";
 import { use } from "react";
-import { getQuiz } from "@/api/quiz";
+import { getQuizz } from "@/api/quiz";
 
 export default function ManageQuizzEdit({ quizId }: { quizId: number | string }) {
   const res = use(getCoursesForSelect());
   const courses = res?.data ?? [];
 
-  const { data: quiz } = use(getQuiz(quizId));
+  const { data: quiz } = use(getQuizz(quizId));
 
   return (
     <>
