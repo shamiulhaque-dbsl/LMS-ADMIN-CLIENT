@@ -1,33 +1,32 @@
 "use client";
 
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { Icons } from "@/components/Icons";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 
 import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function QuizzFilters() {
-  const { filters, setFilters } = useQuizzStore();
+interface QuizzFiltersProps {
+  currentFilters: {
+    dateFrom?: string;
+    dateTo?: string;
+    course?: string;
+    instructor?: string;
+    status?: string;
+    page?: number;
+  };
+}
+
+export default function QuizzFilters({ currentFilters }: QuizzFiltersProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
-  const [localFilters, setLocalFilters] = useState({
-    dateFrom: filters.dateFrom,
-    dateTo: filters.dateTo,
-    course: filters.course,
-    instructor: filters.instructor,
-    status: filters.status,
-  });
-
-  useEffect(() => {
-    setLocalFilters({
-      dateFrom: filters.dateFrom,
-      dateTo: filters.dateTo,
-      course: filters.course,
-      instructor: filters.instructor,
-      status: filters.status,
-    });
-  }, [filters]);
+  const [localFilters, setLocalFilters] = useState(currentFilters);
 
   const toggleFilters = () => {
     setIsOpen(!isOpen);
@@ -35,23 +34,34 @@ export default function QuizzFilters() {
 
   const applyFilters = (e: React.FormEvent) => {
     e.preventDefault();
-    setFilters({
-      ...localFilters,
-      page: 1,
+
+    // Build URL params
+    const params = new URLSearchParams();
+    if (localFilters?.dateFrom) params.set("dateFrom", localFilters?.dateFrom);
+    if (localFilters?.dateTo) params.set("dateTo", localFilters?.dateTo);
+    if (localFilters?.course) params.set("course", localFilters?.course);
+    if (localFilters?.instructor) params.set("instructor", localFilters?.instructor);
+    if (localFilters?.status) params.set("status", localFilters?.status);
+
+    // Reset to page 1
+    params.set("page", "1");
+
+    // Use transition for better UX
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
     });
   };
 
   const resetFilters = () => {
-    const emptyFilters = {
+    startTransition(() => {
+      router.push(pathname);
+    });
+    setLocalFilters({
       dateFrom: "",
       dateTo: "",
       course: "",
       instructor: "",
       status: "",
-    };
-    setLocalFilters(emptyFilters);
-    setFilters({
-      ...emptyFilters,
       page: 1,
     });
   };
@@ -74,27 +84,16 @@ export default function QuizzFilters() {
   const applyQuickFilter = (days: number) => {
     const today = new Date();
     const to = today.toISOString().split("T")[0];
+    const from =
+      days === 0 ? to : new Date(today.setDate(today.getDate() - days)).toISOString().split("T")[0];
 
-    let from;
-    if (days === 0) {
-      from = to;
-    } else {
-      const fromDate = new Date();
-      fromDate.setDate(today.getDate() - days);
-      from = fromDate.toISOString().split("T")[0];
-    }
+    const params = new URLSearchParams();
+    params.set("dateFrom", from);
+    params.set("dateTo", to);
+    params.set("page", "1");
 
-    const newFilters = {
-      ...localFilters,
-      dateFrom: from,
-      dateTo: to,
-    };
-
-    // Update both local state and store
-    setLocalFilters(newFilters);
-    setFilters({
-      ...newFilters,
-      page: 1,
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
     });
   };
 
@@ -112,12 +111,13 @@ export default function QuizzFilters() {
         <div className="flex flex-wrap gap-2">
           {quickFilters.map((filter, index) => (
             <Button
-              key={index}
+              key={filter.days}
               size="sm"
               variant="outlineGray"
               type="button"
               onClick={() => applyQuickFilter(filter.days)}
               className="text-xs"
+              disabled={isPending}
             >
               {filter.label}
             </Button>
@@ -219,11 +219,17 @@ export default function QuizzFilters() {
             </div>
 
             <div className="mt-4 flex justify-end space-x-2">
-              <Button size="sm" variant="outlineGray" type="button" onClick={resetFilters}>
+              <Button
+                size="sm"
+                variant="outlineGray"
+                type="button"
+                onClick={resetFilters}
+                disabled={isPending}
+              >
                 Reset
               </Button>
-              <Button size="sm" variant="default" type="submit">
-                Apply Filters
+              <Button size="sm" variant="default" type="submit" disabled={isPending}>
+                {isPending ? "Applying..." : "Apply Filters"}
               </Button>
             </div>
           </form>

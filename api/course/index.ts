@@ -21,6 +21,10 @@ export async function getCourses(): Promise<ApiResponse<Course[]>> {
   return apiRequest<ApiResponse<Course[]>>(`${COURSE_API_PREFIX}`, "GET");
 }
 
+export async function getCoursesForSelect(): Promise<ApiResponse<Course[]>> {
+  return apiRequest<ApiResponse<Course[]>>(`${COURSE_API_PREFIX}/select/options`, "GET");
+}
+
 export async function getCourseMetadata(): Promise<ApiResponse<CourseMetadata>> {
   return apiRequest<ApiResponse<CourseMetadata>>(`${COURSE_API_PREFIX}/config/metadata`, "GET");
 }
@@ -37,7 +41,6 @@ export async function getFormattedCourseMetadata(): Promise<ApiResponse<CourseMe
 }
 
 export async function createCourse(body: Partial<CourseFormData>): Promise<ApiResponse<Course>> {
-  console.log("API createCourse body:", body);
   return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/create`, "POST", { body });
 }
 

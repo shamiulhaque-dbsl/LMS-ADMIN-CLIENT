@@ -6,13 +6,13 @@ interface ModalStore {
   openModal: (id: string, payload?: any) => void;
   closeModal: (id: string) => void;
   toggleModal: (id: string) => void;
+  isOpen: (modalId: string) => boolean;
 }
 
-export const useModalStore = create<ModalStore>((set) => ({
+export const useModalStore = create<ModalStore>((set, get) => ({
   modals: {},
   payloads: {},
   openModal: (modalId, payload) => {
-    console.log("Opening modal:", modalId, "with payload:", payload);
     set((state) => ({
       modals: { ...state.modals, [modalId]: true },
       payloads: { ...state.payloads, [modalId]: payload },
@@ -31,4 +31,6 @@ export const useModalStore = create<ModalStore>((set) => ({
     set((state) => ({
       modals: { ...state.modals, [modalId]: !state.modals[modalId] },
     })),
+
+  isOpen: (modalId) => !!get().modals[modalId],
 }));

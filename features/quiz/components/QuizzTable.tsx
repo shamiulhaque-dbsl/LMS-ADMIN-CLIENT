@@ -9,96 +9,82 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import Pagination from "@/dashboard/quizzes/components/Pagination";
-import QuizTableAction from "@/dashboard/quizzes/components/QuizzTableAction";
+import Pagination from "@/features/quiz/components/Pagination";
+import QuizTableAction from "@/features/quiz/components/QuizzTableAction";
 import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
-import { useEffect, useState } from "react";
-
-import { Quizz, fetchQuizzes } from "@/dashboard/quizzes/lib/api";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import type { QuizList } from "../types";
 
-export default function CourseTable() {
+interface QuizzTableProps {
+  quizzes: QuizList;
+  currentPage?: number;
+  totalPages?: number;
+  totalRecords?: number;
+}
+
+export default function CourseTable({
+  quizzes,
+  currentPage,
+  totalPages,
+  totalRecords,
+}: QuizzTableProps) {
+  if (quizzes.length === 0) {
+    return (
+      <div className="py-8 text-center text-gray-500">
+        <p>No quizzes found</p>
+      </div>
+    );
+  }
   const { filters, setFilters } = useQuizzStore();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-
-  const [quizzes, setQuizzes] = useState<Quizz[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
-
-  useEffect(() => {
-    const params = {
-      dateFrom: searchParams.get("dateFrom") || "",
-      dateTo: searchParams.get("dateTo") || "",
-      course: searchParams.get("course") || "",
-      instructor: searchParams.get("instructor") || "",
-      status: searchParams.get("status") || "",
-      page: parseInt(searchParams.get("page") || "1", 10),
-    };
-
-    setFilters(params);
-  }, [searchParams, setFilters]);
-
-  // Update URL when filters change
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (filters.dateFrom) params.set("dateFrom", filters.dateFrom);
-    if (filters.dateTo) params.set("dateTo", filters.dateTo);
-    if (filters.course) params.set("category", filters.course);
-    if (filters.instructor) params.set("instructor", filters.instructor);
-    if (filters.status) params.set("status", filters.status);
-    if (filters.page > 1) params.set("page", filters.page.toString());
-
-    const queryString = params.toString();
-    const newUrl = `${pathname}${queryString ? `?${queryString}` : ""}`;
-    router.push(newUrl);
-  }, [filters, pathname, router]);
-
-  useEffect(() => {
-    const loadQuizzes = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetchQuizzes({
-          ...filters,
-          limit: 10,
-        });
-
-        setQuizzes(response.data);
-        setTotalPages(response.totalPages);
-        setTotalRecords(response.totalRecords);
-      } catch (err) {
-        setError("Failed to load courses. Please try again.");
-        setQuizzes([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadQuizzes();
-  }, [filters]);
 
   return (
     <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
-          <TableHead>Course</TableHead>
           <TableHead>Title</TableHead>
-          <TableHead>Instructor</TableHead>
           <TableHead>Questions</TableHead>
+          <TableHead>Time(Min)</TableHead>
+          <TableHead>Total Score</TableHead>
+          <TableHead>Passing Score</TableHead>
           <TableHead>Students</TableHead>
+          <TableHead>Created</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
 
       <TableBody className="bg-white">
-        {loading ? (
+        {quizzes.map((quiz, index) => (
+          <TableRow key={quiz.quizId}>
+            {/* <TableCell>{(currentPage - 1) * 10 + index + 1}</TableCell> */}
+            <TableCell>{++index}</TableCell>
+            <TableCell>
+              <span className="font-medium">{quiz.title}</span>
+              <p className="text-sm text-gray-600">{quiz.course?.title}</p>
+            </TableCell>
+            <TableCell>{quiz.questionsCount}</TableCell>
+            <TableCell>{quiz.timeLimitMinutes}</TableCell>
+            <TableCell>{quiz.totalPoint}</TableCell>
+            <TableCell>{quiz.passingPoint}</TableCell>
+            <TableCell>{quiz.studentsCount}</TableCell>
+            <TableCell>
+              {quiz.createdAt ? new Date(quiz.createdAt).toLocaleDateString() : ""}
+            </TableCell>
+            <TableCell>
+              <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                {quiz.status}
+              </span>
+            </TableCell>
+            <TableCell>
+              <QuizTableAction quiz={quiz} />
+            </TableCell>
+          </TableRow>
+        ))}
+        {/* {loading ? (
           <TableRow>
             <TableCell colSpan={11} className="py-8 text-center">
               <div className="flex items-center justify-center">
@@ -150,26 +136,32 @@ export default function CourseTable() {
             </TableCell>
           </TableRow>
         ) : (
-          quizzes.map((quiz) => (
-            <TableRow key={quiz.id}>
-              <TableCell>{quiz.id}</TableCell>
-              <TableCell>{quiz?.title}</TableCell>
-              <TableCell>Final Quiz</TableCell>
-              <TableCell>John Doe</TableCell>
-              <TableCell>4</TableCell>
-              <TableCell>5</TableCell>
+          quizzes.map((quiz, index) => (
+            <TableRow key={quiz.quizId}>
+              <TableCell>{++index}</TableCell>
+              <TableCell>
+                <span className="font-medium text-text-dark">{quiz?.title}</span>
+                <p className="text-sm text-gray-600">{quiz?.course?.title} Course</p>
+              </TableCell>
+              <TableCell>{quiz?.questionsCount}</TableCell>
+              <TableCell>{quiz?.timeLimitMinutes}</TableCell>
+              <TableCell>{quiz?.totalPoint}</TableCell>
+              <TableCell>{quiz?.passingPoint}</TableCell>
+              <TableCell>{quiz?.studentsCount}</TableCell>
+              <TableCell>
+                {quiz?.createdAt ? new Date(quiz?.createdAt).toLocaleDateString() : ""}
+              </TableCell>
               <TableCell>
                 <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                   {quiz?.status}
                 </span>
               </TableCell>
-              {/* Table action */}
               <TableCell>
-                <QuizTableAction item={quiz} />
+                <QuizTableAction quiz={quiz} />
               </TableCell>
             </TableRow>
           ))
-        )}
+        )} */}
       </TableBody>
 
       <TableFooter>
@@ -177,8 +169,8 @@ export default function CourseTable() {
           <TableCell colSpan={11} className="py-4">
             <Pagination
               currentPage={filters.page}
-              totalPages={totalPages}
-              totalRecords={totalRecords}
+              totalPages={10}
+              totalRecords={100}
               onPageChange={(page) => useQuizzStore.getState().setFilters({ page })}
             />
           </TableCell>

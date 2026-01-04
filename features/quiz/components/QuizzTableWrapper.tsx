@@ -5,8 +5,24 @@ import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Plus, FileSpreadsheet, FileType } from "lucide-react";
 import Link from "next/link";
+import { use } from "react";
+import { ROUTES } from "@/lib/constants/routes";
+import { getQuizzes } from "@/api/quiz";
 
-export default function QuizzTableWrapper() {
+interface QuizzTableWrapperProps {
+  filters: {
+    dateFrom?: string;
+    dateTo?: string;
+    course?: string;
+    instructor?: string;
+    status?: string;
+    page?: number;
+  };
+}
+
+export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
+  const { data = [] } = use(getQuizzes(filters));
+
   return (
     <Card className="border-none bg-white">
       <Card.Header className="mb-0 flex flex-wrap items-center justify-between gap-4 border-b px-4 py-3 sm:px-6">
@@ -30,7 +46,7 @@ export default function QuizzTableWrapper() {
           </Tooltip>
 
           {/* Add Course */}
-          <Link href="/admin/quizzes/create">
+          <Link href={ROUTES.QUIZZES.CREATE}>
             <Button size="sm" variant="default" type="button">
               <Plus className="mr-1 h-4 w-4" />
               Add Quizz
@@ -39,7 +55,7 @@ export default function QuizzTableWrapper() {
         </div>
       </Card.Header>
       <Card.Content className="p-4 sm:p-6">
-        <QuizzTable />
+        <QuizzTable quizzes={data} currentPage={filters.page} />
       </Card.Content>
     </Card>
   );

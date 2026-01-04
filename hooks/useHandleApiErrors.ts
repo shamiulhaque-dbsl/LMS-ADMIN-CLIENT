@@ -15,15 +15,16 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
   ) => {
     if (!response) return;
 
+    if (response instanceof ReferenceError) {
+      setError("root", {
+        type: "server",
+        message: "Seomthing went wrong. Please try again later.",
+      });
+      return;
+    }
+
     const { message, errors } = response;
 
-    // Handle field-level errors first
-    // if (errors && Object.keys(errors).length > 0) {
-    //   Object.entries(errors).forEach(([field, value]) => {
-    //     const messageText = Array.isArray(value) ? value[0] : value;
-    //     setError(field as Path<T>, { type: "server", message: messageText });
-    //   });
-    // }
     if (errors) {
       Object.entries(errors).forEach(([field, value]) => {
         const camelField = snakeToCamel(field) as Path<T>;
