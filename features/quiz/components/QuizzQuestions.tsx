@@ -6,121 +6,76 @@ import Text from "@/components/ui/Text";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useModalStore } from "@/stores/modal-store";
 import { QuestionModal } from "./QuestionModal";
-export const QuizzQuestions = () => {
+import { toast } from "sonner";
+import { useConfirmDialog } from "@/stores/confirmDialog";
+import { useQuizQuestionAction } from "../hooks/useQuizQuesAction";
+export const QuizzQuestions = ({ quizQuestions, quizId = undefined }: any) => {
   const openModal = useModalStore((state) => state.openModal);
+  const isOpen = useModalStore((state) => state.isOpen("question-edit-modal"));
+  const { removeQuestion } = useQuizQuestionAction();
+  const { openDialog } = useConfirmDialog();
+
+  const handleDelete = async (questionId: number) => {
+    const result = await removeQuestion(quizId, questionId);
+    if (result && !result.success) {
+      toast.error(result.message || "Failed to delete question");
+      return;
+    }
+    toast.success("Question deleted successfully");
+  };
 
   return (
     <>
       <Grid>
-        <Card className="rounded-md border-none bg-gray-300/30">
-          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
-            <div className="space-x-1 text-sm leading-tight">
-              <Text as="span" variant="primary">
-                The Bootstrap grid system is based on how many columns?
-              </Text>
-            </div>
+        {quizQuestions.map((question: any) => (
+          <Card className="rounded-md border-none bg-gray-300/30" key={question.id}>
+            <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
+              <div className="space-x-1 text-sm leading-tight">
+                <Text as="span" variant="primary">
+                  {question?.question}
+                </Text>
+              </div>
 
-            <div className="flex items-center justify-end">
-              <Tooltip content="Edit">
-                <Button
-                  size="sm"
-                  className="px-2 text-indigo-700"
-                  onClick={() => openModal("question-edit-modal")}
-                >
-                  <Icons.edit size={16} />
-                </Button>
-              </Tooltip>
-              <Tooltip content="Delete">
-                <Button size="sm" className="px-2 text-red-400">
-                  <Icons.trash size={16} />
-                </Button>
-              </Tooltip>
-            </div>
-          </Card.Content>
-        </Card>
-        <Card className="rounded-md border-none bg-gray-300/30">
-          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
-            <div className="space-x-1 text-sm leading-tight">
-              <Text as="span" variant="primary">
-                The Bootstrap grid system is based on how many columns?
-              </Text>
-            </div>
-
-            <div className="flex items-center justify-end">
-              <Tooltip content="Edit">
-                <Button size="sm" className="px-2 text-indigo-700">
-                  <Icons.edit size={16} />
-                </Button>
-              </Tooltip>
-              <Tooltip content="Delete">
-                <Button size="sm" className="px-2 text-red-400">
-                  <Icons.trash size={16} />
-                </Button>
-              </Tooltip>
-            </div>
-          </Card.Content>
-        </Card>
-        <Card className="rounded-md border-none bg-gray-300/30">
-          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
-            <div className="space-x-1 text-sm leading-tight">
-              <Text as="span" variant="primary">
-                The Bootstrap grid system is based on how many columns?
-              </Text>
-            </div>
-
-            <div className="flex items-center justify-end">
-              <Tooltip content="Edit">
-                <Button size="sm" className="px-2 text-indigo-700">
-                  <Icons.edit size={16} />
-                </Button>
-              </Tooltip>
-              <Tooltip content="Delete">
-                <Button size="sm" className="px-2 text-red-400">
-                  <Icons.trash size={16} />
-                </Button>
-              </Tooltip>
-            </div>
-          </Card.Content>
-        </Card>
-        <Card className="rounded-md border-none bg-gray-300/30">
-          <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
-            <div className="space-x-1 text-sm leading-tight">
-              <Text as="span" variant="primary">
-                The Bootstrap grid system is based on how many columns?
-              </Text>
-            </div>
-
-            <div className="flex items-center justify-end">
-              <Tooltip content="Edit">
-                <Button size="sm" className="px-2 text-indigo-700">
-                  <Icons.edit size={16} />
-                </Button>
-              </Tooltip>
-              <Tooltip content="Delete">
-                <Button size="sm" className="px-2 text-red-400">
-                  <Icons.trash size={16} />
-                </Button>
-              </Tooltip>
-            </div>
-          </Card.Content>
-        </Card>
+              <div className="flex items-center justify-end">
+                <Tooltip content="Edit">
+                  <Button
+                    size="sm"
+                    className="px-2 text-indigo-700"
+                    onClick={() =>
+                      openModal("question-edit-modal", {
+                        quizId: question.quizId,
+                        question: question,
+                      })
+                    }
+                  >
+                    <Icons.edit size={16} />
+                  </Button>
+                </Tooltip>
+                <Tooltip content="Delete">
+                  <Button
+                    size="sm"
+                    className="px-2 text-red-400"
+                    onClick={() =>
+                      openDialog({
+                        title: "Delete Category",
+                        message: `Are you sure you want to delete "${question.question}"?`,
+                        confirmText: "Yes, Delete",
+                        cancelText: "Cancel",
+                        onConfirm: () => handleDelete(question.id),
+                      })
+                    }
+                  >
+                    <Icons.trash size={16} />
+                  </Button>
+                </Tooltip>
+              </div>
+            </Card.Content>
+          </Card>
+        ))}
       </Grid>
 
       {/* Queston Edit Modal */}
-      <QuestionModal
-        id="question-edit-modal"
-        question={{
-          title: "What is React?",
-          description: "A question about React library",
-          questionType: "multiple_choice",
-          point: "5",
-          options: [
-            { id: 1, value: "A framework", isCorrect: false },
-            { id: 2, value: "A library", isCorrect: true },
-            { id: 3, value: "A programming language", isCorrect: false },
-          ],
-        }}
-      />
+      {isOpen && <QuestionModal id="question-edit-modal" />}
     </>
   );
 };

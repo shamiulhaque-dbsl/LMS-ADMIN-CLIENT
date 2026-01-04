@@ -35,3 +35,42 @@ export interface QuizCreateFormValues {
   randomizeQuestions: boolean;
   randomizeOptions: boolean;
 }
+
+// Quiz Question
+export type QuestionType = "single_choice" | "multiple_choice" | "true_false";
+export type QuestionStatus = "draft" | "published";
+
+export interface QuestionOption {
+  id: number;
+  question_id: number;
+  option: string;
+  is_correct: boolean;
+  sort_order: number;
+}
+
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  questionType: QuestionType;
+  point: number;
+  explanation?: string;
+  status: QuestionStatus;
+  sortOrder: number;
+  options: QuestionOption[];
+}
+
+export interface QuestionFormData {
+  question: string;
+  explanation?: string;
+  questionType: QuestionType;
+  point: number;
+  options: {
+    option: string;
+    isCorrect: boolean;
+  }[];
+}
+
+export interface Option {
+  option: string;
+  isCorrect: boolean;
+}

@@ -17,7 +17,7 @@ interface Props {
   quiz?: Quizz;
 }
 
-export const QuizzForm = ({ courses = [], quiz = undefined }: Props) => {
+export const QuizzForm = ({ courses, quiz = undefined }: Props) => {
   const {
     register,
     handleSubmit,

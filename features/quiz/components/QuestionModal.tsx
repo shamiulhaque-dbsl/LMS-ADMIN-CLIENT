@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { Modal } from "@/components/ui/modal/Modal";
 import {
   ModalOverlay,
@@ -16,178 +16,83 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Icons } from "@/components/Icons";
 import { Button } from "@/components/ui/Button";
-
-interface Option {
-  id: number;
-  value: string;
-  isCorrect: boolean;
-}
-
-interface Question {
-  title: string;
-  description: string;
-  questionType: "multiple_choice" | "single_choice" | "true_false";
-  point: string;
-  options: Option[];
-}
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { QuestionFormValues, questionSchema } from "../lib/validations/question";
+import type { QuestionFormData, QuizQuestion } from "../types";
+import { useQuizQuestionAction } from "../hooks/useQuizQuesAction";
+import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 
 interface QuestionModalProps {
   id: string;
-  question?: Question;
+  question?: QuizQuestion;
 }
 
-export function QuestionModal({ id, question }: QuestionModalProps) {
+export function QuestionModal({ id }: QuestionModalProps) {
   const closeModal = useModalStore((state) => state.closeModal);
+  const modalPayload = useModalStore((state) => state.payloads);
 
-  const [form, setForm] = useState({
-    title: "",
-    description: "",
-    questionType: "",
-    point: "",
+  const { handleApiErrors } = useHandleApiErrors<QuestionFormData>();
+
+  const quizId = modalPayload?.[id]?.quizId;
+  const question = modalPayload?.[id]?.question;
+  const isEditMode = !!question;
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    setError,
+    formState: { errors },
+  } = useForm<QuestionFormValues>({
+    resolver: zodResolver(questionSchema),
+    defaultValues: question ?? {
+      question: "",
+      explanation: "",
+      questionType: "single_choice",
+      point: 1,
+      options: [
+        { option: "", isCorrect: false },
+        { option: "", isCorrect: false },
+      ],
+    },
   });
 
-  const [numberOfOptions, setNumberOfOptions] = useState<number>(0);
-  const [options, setOptions] = useState<Option[]>([]);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "options",
+  });
+  const questionType = watch("questionType");
 
-  // ------------------------
-  // Prefill for Edit Mode
-  // ------------------------
-  useEffect(() => {
-    if (question) {
-      setForm({
-        title: question.title,
-        description: question.description,
-        questionType: question.questionType,
-        point: question.point,
+  const { create, update, loading: isSubmitting } = useQuizQuestionAction();
+
+  const handleCorrectAnswerChange = (index: number, checked: boolean) => {
+    if (questionType === "single_choice" || questionType === "true_false") {
+      // Uncheck all others
+      fields.forEach((_, i) => {
+        setValue(`options.${i}.isCorrect`, i === index ? checked : false);
       });
-      setOptions(question.options);
-      setNumberOfOptions(question.options.length);
-    }
-  }, [question]);
-
-  const handleChange = (key: string, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-
-    if (key === "questionType") {
-      setNumberOfOptions(0);
-      setOptions([]);
-    }
-  };
-
-  const handleOptionCount = (value: string) => {
-    if (value === "") {
-      setNumberOfOptions(0);
-      setOptions([]);
-      return;
-    }
-
-    const num = Number(value);
-    if (isNaN(num)) return;
-
-    if (num >= 2 && num <= 10) {
-      setNumberOfOptions(num);
-      const updated = Array.from({ length: num }, (_, i) => ({
-        id: i + 1,
-        value: options[i]?.value || "",
-        isCorrect: options[i]?.isCorrect || false,
-      }));
-      setOptions(updated);
     } else {
-      setNumberOfOptions(num); // show input, but don't render options if invalid
+      setValue(`options.${index}.isCorrect`, checked);
     }
   };
 
-  const handleOptionChange = (id: number, value: string) => {
-    setOptions((prev) => prev.map((opt) => (opt.id === id ? { ...opt, value } : opt)));
-  };
-
-  const handleDeleteOption = (id: number) => {
-    const updated = options.filter((opt) => opt.id !== id);
-    setOptions(updated);
-    setNumberOfOptions(updated.length);
-  };
-
-  const handleSelectCorrect = (id: number) => {
-    if (form.questionType === "multiple_choice") {
-      setOptions((prev) =>
-        prev.map((opt) => (opt.id === id ? { ...opt, isCorrect: !opt.isCorrect } : opt))
-      );
-    } else {
-      setOptions((prev) => prev.map((opt) => ({ ...opt, isCorrect: opt.id === id })));
+  const onSubmit = async (data: QuestionFormData) => {
+    const result = isEditMode
+      ? await update(quizId, question.id, data)
+      : await create(quizId, data);
+    if (result && !result.success) {
+      toast.error(result.message || "Failed to create question");
+      return handleApiErrors(result, setError);
     }
-  };
 
-  const renderOptionInputs = () => {
-    if (!["multiple_choice", "single_choice", "true_false"].includes(form.questionType))
-      return null;
-
-    return (
-      <div className="mt-4 space-y-3">
-        <div>
-          <Input
-            id="numOptions"
-            label="Number of Options"
-            type="number"
-            placeholder="Enter number of options (2–10)"
-            value={numberOfOptions === 0 ? "" : numberOfOptions}
-            onChange={(e) => handleOptionCount(e.target.value)}
-            required
-          />
-
-          {/* Instruction */}
-          <p className="text-xs text-gray-500">
-            You can create a minimum of <span className="font-semibold">2</span> and a maximum of{" "}
-            <span className="font-semibold">10</span> options.
-          </p>
-        </div>
-
-        {options.map((opt, idx) => (
-          <div
-            key={opt.id}
-            className="flex items-center gap-3 rounded-md border border-gray-200 bg-gray-50 px-3 py-2"
-          >
-            {form.questionType === "multiple_choice" ? (
-              <input
-                type="checkbox"
-                checked={opt.isCorrect}
-                onChange={() => handleSelectCorrect(opt.id)}
-                className="h-4 w-4 cursor-pointer text-blue-600"
-              />
-            ) : (
-              <input
-                type="radio"
-                name="singleChoice"
-                checked={opt.isCorrect}
-                onChange={() => handleSelectCorrect(opt.id)}
-                className="h-4 w-4 cursor-pointer text-blue-600"
-              />
-            )}
-
-            <Input
-              placeholder={`Option ${idx + 1}`}
-              value={opt.value}
-              onChange={(e) => handleOptionChange(opt.id, e.target.value)}
-              className="flex-1"
-            />
-
-            <button
-              type="button"
-              onClick={() => handleDeleteOption(opt.id)}
-              className="text-red-500 hover:text-red-700"
-            >
-              <Icons.trash size={18} />
-            </button>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  const handleSubmit = () => {
-    console.log({
-      ...form,
-      options,
-    });
+    toast.success(isEditMode ? "Question updated successfully" : "Question created successfully");
+    if (!isEditMode) {
+      reset();
+    }
     closeModal(id);
   };
 
@@ -199,55 +104,151 @@ export function QuestionModal({ id, question }: QuestionModalProps) {
         <ModalHeader className="border-b">
           <ModalTitle>{question ? "Edit Question" : "Add New Question"}</ModalTitle>
         </ModalHeader>
-        <ModalBody>
-          <div className="space-y-4">
-            <Textarea
-              name="description"
-              id="description"
-              label="Question Title"
-              required
-              value={form.description}
-              onChange={(e) => handleChange("description", e.target.value)}
-            />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalBody>
+            <div className="space-y-4">
+              <Textarea
+                {...register("question")}
+                id="question"
+                label="Question Title"
+                required
+                rows={3}
+                error={errors.question?.message}
+              />
 
-            <Input
-              id="point"
-              name="point"
-              label="Mark/Point"
-              placeholder="Point (e.g., 5)"
-              value={form.point}
-              onChange={(e) => handleChange("point", e.target.value)}
-            />
+              <Textarea
+                {...register("explanation")}
+                id="explanation"
+                label="Explanation (Optional)"
+                rows={2}
+                error={errors.explanation?.message}
+              />
 
-            {/* Question Type */}
-            <div>
-              <label className="label-base" htmlFor="questionType">
-                Question Type<span className="required-star">*</span>
-              </label>
-              <select
-                value={form.questionType}
-                onChange={(e) => handleChange("questionType", e.target.value)}
-                className="input-base"
-              >
-                <option value="">Select question type</option>
-                <option value="multiple_choice">Multiple Choice</option>
-                <option value="single_choice">Single Choice</option>
-                <option value="true_false">True/False</option>
-              </select>
+              <Input
+                {...register("point", { valueAsNumber: true })}
+                id="point"
+                label="Points"
+                type="number"
+                min={1}
+                max={100}
+                required
+                error={errors.point?.message}
+              />
+
+              <div>
+                <label className="label-base" htmlFor="questionType">
+                  Question Type<span className="required-star">*</span>
+                </label>
+                <select
+                  {...register("questionType")}
+                  className={`input-base ${errors.questionType ? "border-red-500" : ""}`}
+                >
+                  <option value="single_choice">Single Choice</option>
+                  <option value="multiple_choice">Multiple Choice</option>
+                  <option value="true_false">True/False</option>
+                </select>
+                {errors.questionType && (
+                  <p className="text-xs text-red-500 mt-1">{errors.questionType.message}</p>
+                )}
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="label-base">
+                    Answer Options<span className="required-star">*</span>
+                  </label>
+                  {fields.length < 10 && (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={() => append({ option: "", isCorrect: false })}
+                    >
+                      <Icons.plus size={16} className="mr-1" />
+                      Add Option
+                    </Button>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  {fields.map((field, index) => (
+                    <div
+                      key={field.id}
+                      className="flex items-start gap-2 p-3 bg-gray-50 rounded-md border border-gray-200"
+                    >
+                      <Controller
+                        control={control}
+                        name={`options.${index}.isCorrect`}
+                        render={({ field: checkField }) => (
+                          <input
+                            type={questionType === "multiple_choice" ? "checkbox" : "radio"}
+                            checked={checkField.value}
+                            onChange={(e) => handleCorrectAnswerChange(index, e.target.checked)}
+                            className="mt-2 h-4 w-4 cursor-pointer text-blue-600"
+                          />
+                        )}
+                      />
+
+                      <div className="flex-1">
+                        <Input
+                          {...register(`options.${index}.option`)}
+                          placeholder={`Option ${index + 1}`}
+                          error={errors.options?.[index]?.option?.message}
+                        />
+                      </div>
+
+                      {fields.length > 2 && (
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => remove(index)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 mt-1"
+                        >
+                          <Icons.trash size={16} />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {errors.options && (
+                  <p className="text-xs text-red-500 mt-1">
+                    {errors.options.message || errors.options.root?.message}
+                  </p>
+                )}
+
+                <p className="text-xs text-gray-500 mt-2">
+                  {questionType === "multiple_choice"
+                    ? "Select one or more correct answers"
+                    : "Select exactly one correct answer"}
+                </p>
+              </div>
             </div>
-
-            {/* Render dynamic option fields */}
-            {renderOptionInputs()}
-          </div>
-        </ModalBody>
-        <ModalFooter className="border-t">
-          <Button variant="outline" size="md" onClick={() => closeModal(id)}>
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} variant="default" size="md">
-            {question ? "Update Question" : "Submit"}
-          </Button>
-        </ModalFooter>
+          </ModalBody>
+          <ModalFooter className="border-t">
+            <Button
+              variant="outline"
+              size="md"
+              onClick={() => closeModal(id)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" variant="default" size="md" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Icons.loader size={16} className="animate-spin mr-2" />
+                  {isEditMode ? "Updating..." : "Creating..."}
+                </>
+              ) : isEditMode ? (
+                "Update Question"
+              ) : (
+                "Create Question"
+              )}
+            </Button>
+          </ModalFooter>
+        </form>
       </ModalContent>
     </Modal>
   );
