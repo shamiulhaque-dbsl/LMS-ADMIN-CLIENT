@@ -2,8 +2,8 @@ const API_URL = process.env.API_URL ?? "http://localhost:5000/api/v1";
 
 type ApiMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-interface ApiOptions extends RequestInit {
-  body?: any;
+export interface ApiOptions extends Omit<RequestInit, "body"> {
+  body?: unknown;
 }
 
 export interface ApiResponse<T> {
@@ -27,20 +27,34 @@ export async function apiRequest<T>(
   method: ApiMethod,
   options: ApiOptions = {}
 ): Promise<T> {
-  const res = await fetch(`${API_URL}${endpoint}`, {
+  const { body, headers: customHeaders, ...rest } = options;
+
+  const headers = new Headers(customHeaders);
+
+  let requestBody: BodyInit | undefined;
+
+  if (body instanceof FormData) {
+    requestBody = body;
+  } else if (body !== undefined) {
+    headers.set("Content-Type", "application/json");
+    requestBody = JSON.stringify(body);
+  }
+
+  let response: Response;
+  response = await fetch(`${API_URL}${endpoint}`, {
     method,
     credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    headers,
+    body: requestBody,
+    ...rest,
   });
 
-  const data: ApiResponse<T> = await res.json().catch(() => ({}));
-  if (!res.ok || data.status === "error") {
+  const data: ApiResponse<T> = await response.json().catch(() => ({}));
+
+  if (!response.ok || data.status === "error") {
     throw new ApiError(data.message || "Something went wrong", data.errors);
   }
+
 
   return data as T;
 }

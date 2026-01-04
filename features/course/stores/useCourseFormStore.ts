@@ -2,6 +2,7 @@ import type { Category } from "@/features/category/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { CourseFormData, CourseMetadataFormatted } from "../types";
+import { resetPersistedStore } from "@/lib/zustand/resetPersistedStore";
 
 export interface ValidationErrors {
   [key: string]: string;
@@ -36,7 +37,14 @@ interface CourseFormState {
   setCategories(categories: Category[]): void;
   setCourseMetadata(metadata: CourseMetadataFormatted | null): void;
 
+  teachers: any[];
+  courseInstructors: any[];
+  setTeachers(teachers: any[]): void;
+  setCourseInstructors(instructors: any[]): void;
+
   resetForm(): void;
+  resetTabs(): void;
+  resetDraft(): void;
 }
 
 export const INITIAL: CourseFormData = {
@@ -75,6 +83,9 @@ export const INITIAL: CourseFormData = {
   metaKeywords: "",
 };
 
+const DEFAULT_TAB = "basic";
+const STORAGE_KEY = "course-form-storage";
+
 export const useCourseFormStore = create<CourseFormState>()(
   devtools(
     persist(
@@ -82,8 +93,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         formData: INITIAL,
         mode: "create",
 
-        activeTabCreate: "basic",
-        activeTabEdit: "basic",
+        activeTabCreate: DEFAULT_TAB,
+        activeTabEdit: DEFAULT_TAB,
 
         completedTabs: {},
         validationErrors: {},
@@ -92,6 +103,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         courseId: undefined,
 
         categories: [],
+        teachers: [],
+        courseInstructors: [],
         courseMetadata: null,
 
         setCourseId: (id) => set({ courseId: id }),
@@ -119,6 +132,8 @@ export const useCourseFormStore = create<CourseFormState>()(
         setCategories: (categories) => set({ categories }),
 
         setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
+        setTeachers: (teachers) => set({ teachers: teachers }),
+        setCourseInstructors: (instructors) => set({ courseInstructors: instructors }),
 
         resetForm: () =>
           set((s) => ({
@@ -130,9 +145,30 @@ export const useCourseFormStore = create<CourseFormState>()(
             isSubmitting: false,
             isDirty: false,
           })),
+
+        resetTabs: () =>
+          set({
+            activeTabCreate: DEFAULT_TAB,
+            activeTabEdit: DEFAULT_TAB,
+            completedTabs: {},
+          }),
+        resetDraft: () => {
+          resetPersistedStore(STORAGE_KEY);
+          set({
+            formData: INITIAL,
+            activeTabCreate: DEFAULT_TAB,
+            activeTabEdit: DEFAULT_TAB,
+            completedTabs: {},
+            validationErrors: {},
+            isSubmitting: false,
+            isDirty: false,
+            courseId: undefined,
+            courseMetadata: null,
+          });
+        },
       }),
       {
-        name: "course-form-storage",
+        name: STORAGE_KEY,
         partialize: (s) => ({
           formData: s.formData,
           mode: s.mode,

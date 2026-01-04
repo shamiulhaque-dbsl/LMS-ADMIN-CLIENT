@@ -1,6 +1,8 @@
 import { COURSE_FORM_TABS } from "@/features/course/lib/constant";
 import { useActiveTab, useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
 import type { FieldValues, UseFormTrigger } from "react-hook-form";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const TAB_REQUIRED_FIELDS: Record<string, string[]> = {
   basic: ["title", "courseType", "category", "status"],
@@ -14,17 +16,24 @@ const TAB_REQUIRED_FIELDS: Record<string, string[]> = {
 export const useTabNavigation = <T extends FieldValues = FieldValues>(
   trigger?: UseFormTrigger<T>
 ) => {
+  const pathname = usePathname();
+
   const mode = useCourseFormStore((s) => s.mode);
   const activeTab = useActiveTab();
 
   const setActiveTab = useCourseFormStore((s) => s.setActiveTab);
   const markTabCompleted = useCourseFormStore((s) => s.markTabCompleted);
+  const resetTabs = useCourseFormStore((s) => s.resetTabs);
 
   const tabs = COURSE_FORM_TABS.filter((t) => (mode === "create" ? !t.showInEdit : true));
 
   const currentIndex = tabs.findIndex((t) => t.id === activeTab);
   const canGoNext = currentIndex < tabs.length - 1;
   const canGoPrev = currentIndex > 0;
+
+  useEffect(() => {
+    resetTabs();
+  }, [pathname, resetTabs]);
 
   // Validate fields for current tab
   const validateCurrentTab = async () => {

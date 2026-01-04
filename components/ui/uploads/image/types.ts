@@ -2,6 +2,7 @@ import { SHAPE_VARIANT } from "@/components/ui/uploads/image";
 export interface ImageUploadProps {
   value?: string | File | null;
   onChange?: (file: File | null) => void;
+  onUpload?: (uploaded: any) => void;
   onError?: (error: string) => void;
   maxSizeInMB?: number;
   acceptedFormats?: string[];

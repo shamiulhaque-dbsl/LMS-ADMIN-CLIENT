@@ -27,6 +27,7 @@ import { CourseMetadataFormatted } from "../types";
 import { useCourseAction } from "../hooks/useCourseAction";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 import type { CourseFormData } from "@/features/course/types";
+import { useCleanupCourseDraft } from "@/features/course/hooks/useCleanupCourseDraft";
 
 import { toast } from "sonner";
 
@@ -52,6 +53,8 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
   const setMode = useCourseFormStore((s) => s.setMode);
+
+  useCleanupCourseDraft();
 
   const { create } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
@@ -91,6 +94,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
       useCourseFormStore.setState({ activeTabCreate: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
+      useCourseFormStore.setState({ activeTabCreate: "basic" });
     }
   });
 
@@ -115,7 +119,7 @@ export default function ManageCourseCreation({ categories, courseMetadata }: Pro
         <Card className="border-none bg-white shadow-lg">
           <Card.Header className="rounded-t-xl bg-gray-50 p-2">
             <ScrollableTabs
-              tabs={COURSE_FORM_TABS.filter((tab) => !tab.showInEdit)}
+              tabs={COURSE_FORM_TABS.filter((tab) => tab.status === "active" && !tab.showInEdit)}
               value={activeTab}
               onValueChange={goToTab}
               showScrollButtons={false}

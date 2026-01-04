@@ -40,6 +40,7 @@ type props = {
   course: Course;
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
+  teachers: any[];
 };
 
 const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
@@ -52,16 +53,19 @@ const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
   finish: null,
 };
 
-export default function ManageCourseEdit({ course, categories, courseMetadata }: props) {
+export default function ManageCourseEdit({ course, categories, courseMetadata, teachers }: props) {
   const formData = useCourseFormStore((state) => state.formData);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);
+  const isEditMode = Boolean(course.id);
 
   const setCourseId = useCourseFormStore((s) => s.setCourseId);
   const setCategories = useCourseFormStore((s) => s.setCategories);
   const setCourseMetadata = useCourseFormStore((s) => s.setCourseMetadata);
+  const setTeachers = useCourseFormStore((s) => s.setTeachers);
   const setFormData = useCourseFormStore((s) => s.setFormData);
   const setMode = useCourseFormStore((s) => s.setMode);
+  const setCourseInstructors = useCourseFormStore((s) => s.setCourseInstructors);
 
   const { update } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
@@ -86,6 +90,8 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
     setFormData(normalized);
     setCategories(categories);
     setCourseMetadata(courseMetadata);
+    setTeachers(teachers);
+    setCourseInstructors(course?.course_instructors || []);
     setCourseId(course.id);
     setMode("edit");
 
@@ -133,6 +139,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
       useCourseFormStore.setState({ activeTabEdit: "finish" });
     } finally {
       useCourseFormStore.setState({ isSubmitting: false });
+      useCourseFormStore.setState({ activeTabEdit: "basic" });
     }
   });
 
@@ -160,7 +167,11 @@ export default function ManageCourseEdit({ course, categories, courseMetadata }:
         <Card className="border-none bg-white shadow-lg">
           <Card.Header className="rounded-t-xl bg-gray-50 p-2">
             <ScrollableTabs
-              tabs={COURSE_FORM_TABS}
+              tabs={COURSE_FORM_TABS.filter((tab) => {
+                if (tab.status !== "active") return false; // hide everywhere
+                if (!isEditMode && tab.showInEdit) return false; // hide edit-only on create
+                return true; // show otherwise
+              })}
               value={activeTab}
               onValueChange={handleTabChange}
               showScrollButtons={false}

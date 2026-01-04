@@ -37,6 +37,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
           <div className="pointer-events-auto flex gap-2">
             {showEditButton && (
               <Button
+                type="button"
                 className="h-auto rounded-lg bg-white p-2 text-gray-700 shadow-lg transition-colors duration-200 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={onEdit}
                 disabled={disabled}

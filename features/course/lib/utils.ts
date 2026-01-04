@@ -41,6 +41,7 @@ export function transformToApiFormat(formData: CourseFormData) {
     title: formData?.title,
     description: formData?.description,
     long_description: formData?.longDescription,
+    instructor_id: formData?.instructor != null ? Number(formData.instructor) : null,
     category_id: formData?.category != null ? Number(formData.category) : null,
     skill_level: formData?.level,
     price: formData?.price,

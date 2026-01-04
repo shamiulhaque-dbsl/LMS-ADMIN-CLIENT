@@ -1,7 +1,7 @@
 import type { Course, CourseLesson, CourseModule } from "@/features/course/types";
 import { ApiResponse, apiRequest } from "@/api";
 
-const LESSON_API_PREFIX = "/lessons";
+const LESSON_API_PREFIX = "/admin/lessons";
 
 export async function createLesson(
   body: Partial<CourseLesson>

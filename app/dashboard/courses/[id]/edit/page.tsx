@@ -4,6 +4,7 @@ import { ManageCourseEdit } from "@/features/course";
 import { getCourse } from "@/api/course";
 import { getCategories } from "@/api/category";
 import { getFormattedCourseMetadata } from "@/api/course";
+import { getRoleWiseActiveUsers } from "@/api/user";
 import { ErrorMessage } from "@/components/ErrorMessage";
 
 /*
@@ -39,6 +40,15 @@ const fetchCourseMetadata = async () => {
   }
 };
 
+const fetchTeachers = async () => {
+  try {
+    const response = await getRoleWiseActiveUsers("instructor");
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};
+
 type props = {
   params: Promise<{ id: string }>;
 };
@@ -62,10 +72,20 @@ export default function CourseEditPage({ params }: props) {
     return <ErrorMessage description="Course metadata not found" />;
   }
 
+  const teachers = use(fetchTeachers());
+  if (!teachers) {
+    return <ErrorMessage description="Teachers not found" />;
+  }
+
   return (
     <>
       <PageHeader title="Update Course" />
-      <ManageCourseEdit course={course} categories={categories} courseMetadata={courseMetadata} />
+      <ManageCourseEdit
+        course={course}
+        categories={categories}
+        courseMetadata={courseMetadata}
+        teachers={teachers}
+      />
     </>
   );
 }
