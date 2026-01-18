@@ -1,3 +1,5 @@
+"use server";
+
 import type {
   CourseMetricResponse,
   Course,
@@ -5,20 +7,37 @@ import type {
   CourseMetadataFormatted,
   CourseFormData,
 } from "@/features/course/types";
-import { ApiResponse, apiRequest } from "@/api";
+import { ApiError, ApiResponse, apiRequest } from "@/api";
 import { formatCourseMetadata } from "@/features/course/lib/utils";
+import { getAuthToken } from "@/lib/cookie";
 
 const COURSE_API_PREFIX = "/admin/courses";
 
+export type ActionResult<T> =
+  | { success: true; data: T }
+  | { success: false; message: string; errors?: Record<string, string[]> };
+
 export async function getCourseMetric(): Promise<ApiResponse<CourseMetricResponse>> {
+  const token = await getAuthToken();
+
   return apiRequest<ApiResponse<CourseMetricResponse>>(
     `${COURSE_API_PREFIX}/metrics/overview`,
-    "GET"
+    "GET",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
 }
 
 export async function getCourses(): Promise<ApiResponse<Course[]>> {
-  return apiRequest<ApiResponse<Course[]>>(`${COURSE_API_PREFIX}`, "GET");
+  const token = await getAuthToken();
+  return apiRequest<ApiResponse<Course[]>>(`${COURSE_API_PREFIX}`, "GET", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function getCourseMetadata(): Promise<ApiResponse<CourseMetadata>> {
