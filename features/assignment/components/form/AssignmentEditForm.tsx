@@ -127,11 +127,6 @@ const AssignmentEditForm = ({ assignment }: Props) => {
     }
   };
 
-  // Helper to get resource URL (adjust based on your file storage setup)
-  const getResourceUrl = (filename: string) => {
-    return `/uploads/${filename}`; // Adjust this path based on your setup
-  };
-
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     handleSubmit(onSubmit)(e);

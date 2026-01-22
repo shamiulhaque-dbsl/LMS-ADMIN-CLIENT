@@ -170,6 +170,7 @@ const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignment
                             {/* Submit Buttons */}
                             <div className="space-y-3 pt-4">
                                 <Button
+                                    disabled={isSubmitting}
                                     onClick={handleSubmitGrade} type="button" variant="secondary" size="md" className="w-full">
                                     {isSubmitting ? "Submitting..." : "Submit Grade"}
                                 </Button>
