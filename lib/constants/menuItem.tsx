@@ -84,7 +84,7 @@ export const menuItems: MenuItem[] = [
   {
     id: "assignments",
     label: "Assignments",
-    href: ROUTES.ASSIGNMENTS,
+    href: ROUTES.ASSIGNMENTS.LIST,
     group: "Education",
     icon: <Icons.fileText size={20} />,
     roles: [Role.ADMIN, Role.INSTRUCTOR],

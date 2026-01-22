@@ -7,7 +7,7 @@ export interface Course {
   id: number;
   uuid: string;
   title: string;
-  slug: string;
+  slug?: string;
   description?: string | null;
   long_description?: string | null;
   category_id: number;
@@ -18,11 +18,11 @@ export interface Course {
   video_demo_source?: "youtube" | "vimeo" | "upload" | null;
   video_demo_url?: string | null;
   duration_hours?: number | null;
-  status: STATUS;
-  course_type: COURSE_TYPE;
+  status?: STATUS;
+  course_type?: COURSE_TYPE;
   is_free?: boolean | null;
   sort_order?: number | null;
-  rating?: string | null;
+  rating?: string | number | null;
   enrollment_count?: number | null;
   course_forum?: boolean | null;
   downloadable_content?: boolean | null;

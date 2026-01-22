@@ -1,6 +1,6 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import AssignmentInfo from "@/dashboard/assignments/components/AssignmentInfo";
-import ManageAssignment from "@/dashboard/assignments/components/ManageAssignment";
+import AssignmentInfo from "@/features/assignment/components/AssignmentInfo";
+import ManageAssignment from "@/features/assignment/components/ManageAssignment";
 
 export default function AssignmentPage() {
   return (

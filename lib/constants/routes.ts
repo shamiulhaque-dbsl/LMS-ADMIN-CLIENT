@@ -24,7 +24,10 @@ export const ROUTES = {
     QUIZ: `${ROUTE_PREFIX}/certificates`,
     COMPLETION: `${ROUTE_PREFIX}/certificates`,
   },
-  ASSIGNMENTS: `${ROUTE_PREFIX}/assignments`,
+  ASSIGNMENTS: {
+    CREATE: `${ROUTE_PREFIX}/assignments/create`,
+    LIST: `${ROUTE_PREFIX}/assignments`,
+  },
   COURSE_NOTICES: {
     NEW: `${ROUTE_PREFIX}/course-notice/create`,
     LIST: `${ROUTE_PREFIX}/course-notice`,

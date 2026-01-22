@@ -27,7 +27,7 @@ export default function ManageCategoryList() {
           </Link>
         </div>
       </Card.Header>
-      
+
       <Card.Content className="p-4 sm:p-6">
         <ErrorBoundary fallback={<ErrorMessage />}>
           <Suspense fallback={<TableSkeleton />}>

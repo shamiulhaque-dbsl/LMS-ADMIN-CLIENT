@@ -1,6 +1,6 @@
 import QuizzeFilters from "@/features/quiz/components/QuizzFilters";
 import QuizzTableWrapper from "@/features/quiz/components/QuizzTableWrapper";
-import { Suspense, use } from "react";
+import { Suspense } from "react";
 
 interface PageProps {
   filters: {
