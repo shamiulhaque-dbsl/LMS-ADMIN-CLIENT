@@ -4,13 +4,10 @@ import {
     Table,
     TableBody,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/Table";
-import Pagination from "@/features/assignment/components/Pagination";
-import { useAssignmentStore } from "@/dashboard/assignments/store/assignmentStore";
 import { useEffect, useState } from "react";
 import { AssignmentSubmission } from "@/features/assignment/types/type-matric";
 import { getAssignmentWiseSubmission } from "@/api/assignment";
@@ -23,9 +20,8 @@ export default function SubmissionTable({ id }: { id: any }) {
     const [assignmentQuestion, setAssignmentQuestion] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalRecords, setTotalRecords] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [submitGradeResponse, setSubmitGradeResponse] = useState(false);
     const [selectedSubmission, setSelectedSubmission] = useState<AssignmentSubmission | null>(null);
 
     useEffect(() => {
@@ -45,11 +41,12 @@ export default function SubmissionTable({ id }: { id: any }) {
                 setAssignmentSubmission([]);
             } finally {
                 setLoading(false);
+                setSubmitGradeResponse(false);
             }
         };
 
         loadAssignments();
-    }, [id]);
+    }, [id, submitGradeResponse]);
 
     return (
         <>
@@ -176,6 +173,7 @@ export default function SubmissionTable({ id }: { id: any }) {
                 onClose={() => setIsModalOpen(false)}
                 submissionData={selectedSubmission}
                 assignmentDetails={assignmentQuestion}
+                setSubmitGradeResponse={setSubmitGradeResponse}
             />
         </>
     );

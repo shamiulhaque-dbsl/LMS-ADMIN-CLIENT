@@ -4,6 +4,7 @@ import type {
   AssignmentCreateFormValues,
   Assignment,
   AssignmentList,
+  AssignmentSubmission,
 } from "@/features/assignment/types/type-matric";
 import { ApiError, ApiResponse, apiRequest } from "@/api";
 import { cache } from "react";
@@ -193,22 +194,22 @@ export async function getAssignmentWiseSubmission(
 
 export async function submissionsGrading(
   id: string | number,
-  body: Partial<Assignment>
-): Promise<ActionResult<Assignment>> {
+  body: Partial<AssignmentSubmission>
+): Promise<ActionResult<AssignmentSubmission>> {
   try {
     const token = await getAuthToken();
 
-    const response = await apiRequest<{ data: Assignment }>(`/submissions/${id}/grade`, "PUT", {
-      body,
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await apiRequest<{ data: AssignmentSubmission }>(
+      `/submissions/${id}/grade`,
+      "PUT",
+      {
+        body,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
 
     // Invalidate specific caches
-    revalidateTag("assignments");
-    revalidateTag("assignments-list");
-    revalidateTag(`assignment-${id}`);
-    revalidatePath("/dashboard/assignments");
-    revalidatePath(`/dashboard/assignments/${id}`);
+    revalidatePath(`/dashboard/assignments/${id}/submissions`);
 
     return {
       success: true,

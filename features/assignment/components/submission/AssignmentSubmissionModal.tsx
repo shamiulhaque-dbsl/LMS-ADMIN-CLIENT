@@ -5,8 +5,15 @@ import { formatDateTime } from "@/lib/utils/date";
 import { submissionsGrading } from "@/api/assignment";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
+import { cleanHTML } from "@/lib/utils/sanitize-html-client";
 
-const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignmentDetails }: any) => {
+const AssignmentSubmissionModal = ({
+    isOpen,
+    onClose,
+    submissionData,
+    assignmentDetails,
+    setSubmitGradeResponse,
+}: any) => {
     const [marksObtained, setMarksObtained] = useState<string>("");
     const [feedback, setFeedback] = useState<string>("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -17,19 +24,20 @@ const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignment
     }, [submissionData]);
 
     const handleSubmitGrade = async () => {
-        if (!marksObtained || !feedback) return;
+        if (!marksObtained) return;
 
         setIsSubmitting(true);
 
         try {
             const response = await submissionsGrading(submissionData.submissionId, {
-                totalMarks: parseFloat(marksObtained),
-                notes: feedback,
+                marksObtained: parseFloat(marksObtained),
+                feedback: feedback,
             });
 
             if (response.success) {
                 toast.success("Grade submitted successfully");
                 onClose(false);
+                setSubmitGradeResponse(true);
             }
         } catch (error) {
             console.error("Error submitting grade:", error);
@@ -57,12 +65,12 @@ const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignment
                                 <Mail className="w-4 h-4" />
                                 <span>{submissionData?.student?.email || ""}</span>
                             </div>
-                            {submissionData.submittedAt &&
+                            {submissionData.submittedAt && (
                                 <div className="flex items-center gap-1">
                                     <Calendar className="w-4 h-4" />
-                                    <span>Submitted:  {formatDateTime(submissionData.submittedAt)}</span>
-                                </div>}
-
+                                    <span>Submitted: {formatDateTime(submissionData.submittedAt)}</span>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <button
@@ -84,7 +92,7 @@ const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignment
                                 Assignment Description
                             </h3>
                             <p className="text-gray-700 bg-gray-50 p-4 rounded-lg leading-relaxed">
-                                {assignmentDetails.description}
+                                {assignmentDetails.description ? cleanHTML(assignmentDetails.description) : "No description provided."}
                             </p>
                         </div>
 
@@ -171,7 +179,12 @@ const AssignmentSubmissionModal = ({ isOpen, onClose, submissionData, assignment
                             <div className="space-y-3 pt-4">
                                 <Button
                                     disabled={isSubmitting}
-                                    onClick={handleSubmitGrade} type="button" variant="secondary" size="md" className="w-full">
+                                    onClick={handleSubmitGrade}
+                                    type="button"
+                                    variant="secondary"
+                                    size="md"
+                                    className="w-full"
+                                >
                                     {isSubmitting ? "Submitting..." : "Submit Grade"}
                                 </Button>
                             </div>

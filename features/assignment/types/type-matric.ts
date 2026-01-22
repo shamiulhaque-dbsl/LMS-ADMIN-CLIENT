@@ -34,6 +34,7 @@ export interface AssignmentSubmission {
   };
   submittedAt?: string;
   marksObtained?: number;
+  feedback?: string;
   status?: string;
 }
 
