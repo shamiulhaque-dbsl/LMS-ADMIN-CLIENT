@@ -105,10 +105,19 @@ const AssignmentEditForm = ({ assignment }: Props) => {
       ...data,
       startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
       dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
-      resources: resources,
+      resources: resources || "",
     };
 
-    const response = await update(assignment.assignmentId, payload);
+    const assignmentId = assignment.assignmentId || assignment.id;
+    if (!assignmentId) {
+      setError("root", {
+        type: "manual",
+        message: "Assignment ID not found",
+      });
+      return;
+    }
+
+    const response = await update(assignmentId, payload);
     if (response && !response.success) {
       return handleApiErrors(response, setError);
     }
