@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import Image from "next/image";
 import { uploadFile } from "../../hooks/fileupload";
 import { Grid } from "@/components/ui/grid";
+import { toast } from "sonner";
 
 interface Props {
   assignment: Assignment;
@@ -119,7 +120,10 @@ const AssignmentEditForm = ({ assignment }: Props) => {
 
     const response = await update(assignmentId, payload);
     if (response && !response.success) {
+      document.getElementById("error")?.scrollIntoView({ behavior: "smooth" });
       return handleApiErrors(response, setError);
+    } else {
+      toast.success("Assignment updated successfully");
     }
   };
 
@@ -136,7 +140,7 @@ const AssignmentEditForm = ({ assignment }: Props) => {
   return (
     <>
       {errors.root?.message && (
-        <p className="my-2 rounded-md bg-red-50 p-4 text-center text-red-500">
+        <p id="error" className="my-2 rounded-md bg-red-50 p-4 text-center text-red-500">
           {errors?.root?.message}
         </p>
       )}
@@ -199,7 +203,7 @@ const AssignmentEditForm = ({ assignment }: Props) => {
               <Image
                 width={200}
                 height={200}
-                src={getResourceUrl(existingResource)}
+                src={existingResource}
                 alt="Current document"
                 className="h-32 w-32 rounded object-cover"
               />
