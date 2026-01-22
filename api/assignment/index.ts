@@ -20,7 +20,6 @@ export type ActionResult<T> =
 export async function createAssignment(
   body: Partial<AssignmentCreateFormValues>
 ): Promise<ActionResult<Assignment>> {
-  console.log(body);
   try {
     const token = await getAuthToken();
 
@@ -28,7 +27,6 @@ export async function createAssignment(
       body,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
 
     revalidateTag("assignments");
     revalidateTag("assignments-list");

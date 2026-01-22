@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import Image from "next/image";
 import { uploadFile } from "../../hooks/fileupload";
 import { Grid } from "@/components/ui/grid";
+import { toast } from "sonner";
 
 interface Props {
   courses: Course[];
@@ -93,6 +94,8 @@ const AssignmentForm = ({ courses }: Props) => {
     const response = await create(payload);
     if (response && !response.success) {
       return handleApiErrors(response, setError);
+    } else {
+      toast.success("Assignment created successfully");
     }
   };
   return (
