@@ -150,9 +150,9 @@ export default function AssignmentTable() {
             </TableCell>
           </TableRow>
         ) : (
-          assignments.map((assignment) => (
+          assignments.map((assignment, index) => (
             <TableRow key={assignment.assignmentId}>
-              <TableCell>{assignment.assignmentId}</TableCell>
+              <TableCell>{index + 1}</TableCell>
               <TableCell>{assignment?.title}</TableCell>
               <TableCell>{assignment?.totalMarks}</TableCell>
               <TableCell>{assignment?.dueDate && formatDateTime(assignment?.dueDate)}</TableCell>
