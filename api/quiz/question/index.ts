@@ -3,7 +3,7 @@
 import type { QuestionFormData, QuizQuestion } from "@/features/quiz/types";
 import { ApiError, ApiResponse, apiRequest } from "@/api";
 import { cache } from "react";
-import { revalidateTag, revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { getAuthToken } from "@/lib/cookie";
 
 const QUIZ_API_PREFIX = "/quizzes";

@@ -9,10 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import Pagination from "@/features/quiz/components/Pagination";
 import QuizTableAction from "@/features/quiz/components/QuizzTableAction";
-import { useQuizzStore } from "@/dashboard/quizzes/store/quizzStore";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+//import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import type { QuizList } from "../types";
 
 interface QuizzTableProps {
@@ -24,9 +22,6 @@ interface QuizzTableProps {
 
 export default function CourseTable({
   quizzes,
-  currentPage,
-  totalPages,
-  totalRecords,
 }: QuizzTableProps) {
   if (quizzes.length === 0) {
     return (
@@ -35,10 +30,10 @@ export default function CourseTable({
       </div>
     );
   }
-  const { filters, setFilters } = useQuizzStore();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  // const { filters, setFilters } = useQuizzStore();
+  // const searchParams = useSearchParams();
+  // const pathname = usePathname();
+  // const router = useRouter();
 
   return (
     <Table className="overflow-y-clip bg-white">
@@ -167,12 +162,12 @@ export default function CourseTable({
       <TableFooter>
         <TableRow>
           <TableCell colSpan={11} className="py-4">
-            <Pagination
-              currentPage={filters.page}
+            {/* <Pagination
+              currentPage={1}
               totalPages={10}
               totalRecords={100}
               onPageChange={(page) => useQuizzStore.getState().setFilters({ page })}
-            />
+            /> */}
           </TableCell>
         </TableRow>
       </TableFooter>

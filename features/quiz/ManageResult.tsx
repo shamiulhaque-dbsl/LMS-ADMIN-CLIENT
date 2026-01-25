@@ -12,6 +12,7 @@ export default function ManageResult({ params }: { params: Promise<{ id: string 
 
     return (
         <>
+
             <Suspense fallback={<div className="text-gray-800">Loading...</div>}>
                 <QuizSubmissionTable quizQuestion={quizQuestion} submissionData={submissionData} />
             </Suspense>
