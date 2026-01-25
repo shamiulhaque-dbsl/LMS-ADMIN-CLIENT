@@ -23,7 +23,36 @@ export interface Quizz {
 
 export type QuizList = Quizz[];
 export type QuizSubmission = {
-  quiz?: Quizz | null;
+  quiz: Quizz;
+  results: QuizResult[];
+  totalAttempts: number;
+};
+
+export type QuizResult = {
+  id: number;
+  status: string;
+  submittedAt: string;
+  score: string;
+  answers: {
+    questions: string[];
+  };
+  student: Student;
+};
+
+export type Student = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  userName: string | null;
+  email: string | null;
+  phone: string | null;
+  image: string | null;
+  bio: string | null;
+  birthDate: string | null;
+  address: string | null;
+  gender: string | null;
+  status: string;
 };
 
 export interface QuizCreateFormValues {

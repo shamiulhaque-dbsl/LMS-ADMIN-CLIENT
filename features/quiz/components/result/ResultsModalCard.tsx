@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/Badge";
 import { OptionButton } from "./OptionButton";
 
 interface ResultsCardProps {
-    results: string[];
+    results: any;
     open: boolean;
     onClose: () => void;
     loading?: boolean;

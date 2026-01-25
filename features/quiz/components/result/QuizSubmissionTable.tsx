@@ -22,7 +22,7 @@ interface QuizzTableProps {
 
 export default function QuizSubmissionTable({ quizQuestion, submissionData }: QuizzTableProps) {
     const [isModalOpen, setOpenModal] = useState(false);
-    const [selectedResult, setSelectedResult] = useState<Quizz | null>(null);
+    const [selectedResult, setSelectedResult] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleOpenModal = async (attemptId: string) => {
