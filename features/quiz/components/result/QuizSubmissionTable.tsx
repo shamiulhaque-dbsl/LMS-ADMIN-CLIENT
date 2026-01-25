@@ -37,9 +37,11 @@ export default function QuizSubmissionTable({ quizQuestion, submissionData }: Qu
     if (submissionData.length === 0) {
         return (
             <EmptyList
+                className="border border-gray-100 rounded-lg shadow-sm lg:my-40 my-10"
                 title="No submission found"
                 description="There are no submissions for this quiz yet"
             />
+
         );
     }
 
