@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/Button";
 import { useState } from "react";
 import { getQuizzByAttemptId } from "@/api/quiz";
 import { ResultsModalCard } from "./ResultsModalCard";
+import { EmptyList } from "@/components/EmptyList";
 
 interface QuizzTableProps {
     quizQuestion: Quizz | null;
@@ -35,9 +36,10 @@ export default function QuizSubmissionTable({ quizQuestion, submissionData }: Qu
 
     if (submissionData.length === 0) {
         return (
-            <div className="py-8 text-center text-gray-500">
-                <p>No quizzes subission found</p>
-            </div>
+            <EmptyList
+                title="No submission found"
+                description="There are no submissions for this quiz yet"
+            />
         );
     }
 
