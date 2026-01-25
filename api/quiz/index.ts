@@ -81,10 +81,35 @@ export const getQuizzes = cache(
   }
 );
 
+export const getAllQuizSubmission = cache(async (id: string): Promise<ApiResponse<Quizz>> => {
+  const token = await getAuthToken();
+  const endpoint = `${QUIZ_API_PREFIX}/${id}/all-results`;
+
+  return apiRequest<ApiResponse<Quizz>>(endpoint, "GET", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    next: {
+      revalidate: 60,
+      tags: ["quizzes", `quizzes/${id}/result`],
+    },
+  });
+});
+
 export async function getQuizz(id: string | number): Promise<ApiResponse<Quizz>> {
   const token = await getAuthToken();
 
   return apiRequest<ApiResponse<Quizz>>(`${QUIZ_API_PREFIX}/${id}`, "GET", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export async function getQuizzByAttemptId(id: string | number): Promise<ApiResponse<Quizz>> {
+  const token = await getAuthToken();
+
+  return apiRequest<ApiResponse<Quizz>>(`/quizz/attempt/${id}/result`, "GET", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

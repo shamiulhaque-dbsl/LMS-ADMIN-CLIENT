@@ -18,9 +18,13 @@ export interface Quizz {
   createdAt: string;
   status: QuizStatus;
   course: CourseRef;
+  results?: string[];
 }
 
 export type QuizList = Quizz[];
+export type QuizSubmission = {
+  quiz?: Quizz | null;
+};
 
 export interface QuizCreateFormValues {
   title: string;

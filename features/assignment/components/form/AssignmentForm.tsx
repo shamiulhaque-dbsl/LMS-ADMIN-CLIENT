@@ -89,7 +89,7 @@ const AssignmentForm = ({ courses }: Props) => {
       ...data,
       startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
       dueDate: data.dueDate ? new Date(data.dueDate).toISOString() : undefined,
-      resources: resources,
+      ...(resources && { resources }),
     };
 
     const response = await create(payload);
