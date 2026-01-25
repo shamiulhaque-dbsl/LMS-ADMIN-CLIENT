@@ -24,6 +24,7 @@ const AssignmentForm = ({ courses }: Props) => {
     handleSubmit,
     setError,
     control,
+    reset,
     formState: { errors },
   } = useForm<AssignmentCreateFormValues>();
   const { handleApiErrors } = useHandleApiErrors<AssignmentCreateFormValues>();
@@ -96,6 +97,7 @@ const AssignmentForm = ({ courses }: Props) => {
       return handleApiErrors(response, setError);
     } else {
       toast.success("Assignment created successfully");
+      reset();
     }
   };
   return (
