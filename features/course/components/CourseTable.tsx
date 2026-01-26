@@ -56,7 +56,7 @@ export default function CourseTable({ fetchCourses }: CourseProps) {
                 {course?.title}
               </Link>
             </TableCell>
-            <TableCell>{course?.course_categories?.name}</TableCell>
+            <TableCell>{course?.category_name}</TableCell>
             <TableCell>
               <span className="font-medium text-green-600">{course.price}</span>
             </TableCell>
