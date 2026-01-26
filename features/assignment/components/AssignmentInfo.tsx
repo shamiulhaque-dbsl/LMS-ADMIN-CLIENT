@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/Card";
 import { Grid } from "@/components/ui/grid";
 import Text from "@/components/ui/Text";
-import { AssignmentMetric } from "@/dashboard/assignments/types/type-matric";
+import { AssignmentMetric } from "@/features/assignment/types/type-matric";
 
 const AssignmentMetrics: AssignmentMetric[] = [
   {

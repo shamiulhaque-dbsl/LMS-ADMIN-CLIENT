@@ -4,21 +4,19 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import Pagination from "@/dashboard/assignments/components/Pagination";
-import AssignmentTableAction from "@/dashboard/assignments/components/AssignmentTableAction";
+import AssignmentTableAction from "@/features/assignment/components/AssignmentTableAction";
 import { useAssignmentStore } from "@/dashboard/assignments/store/assignmentStore";
 import { useEffect, useState } from "react";
-
-import { Assignment, fetchAssignments } from "@/dashboard/assignments/lib/api";
-
+import { Assignment } from "@/features/assignment/types/type-matric";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { getAssignments } from "@/api/assignment";
+import { formatDateTime } from "@/lib/utils/date";
 
-export default function CourseTable() {
+export default function AssignmentTable() {
   const { filters, setFilters } = useAssignmentStore();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -27,8 +25,8 @@ export default function CourseTable() {
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalRecords, setTotalRecords] = useState(0);
+  // const [totalPages, setTotalPages] = useState(1);
+  // const [totalRecords, setTotalRecords] = useState(0);
 
   useEffect(() => {
     const params = {
@@ -62,16 +60,11 @@ export default function CourseTable() {
       try {
         setLoading(true);
         setError(null);
-
-        const response = await fetchAssignments({
-          ...filters,
-          limit: 10,
-        });
-
-        setAssignments(response.data);
-        setTotalPages(response.totalPages);
-        setTotalRecords(response.totalRecords);
-      } catch (err) {
+        const response = await getAssignments();
+        setAssignments(response?.data || []);
+        // setTotalPages(response?.totalPages || 1);
+        // setTotalRecords(response?.totalRecords || 0);
+      } catch {
         setError("Failed to load assignments. Please try again.");
         setAssignments([]);
       } finally {
@@ -82,13 +75,21 @@ export default function CourseTable() {
     loadAssignments();
   }, [filters]);
 
+  // ✅ THIS IS THE KEY FUNCTION - Remove deleted assignment from list
+  const handleDeleteAssignment = (deletedId: number) => {
+    setAssignments((prevAssignments) =>
+      prevAssignments.filter((assignment) => assignment.assignmentId !== deletedId)
+    );
+    // Also update total records count if you're tracking it
+    // setTotalRecords((prev) => Math.max(0, prev - 1));
+  };
+
   return (
     <Table className="overflow-y-clip bg-white">
       <TableHeader>
         <TableRow>
           <TableHead>#</TableHead>
           <TableHead>Assignment Title</TableHead>
-          <TableHead>Students</TableHead>
           <TableHead>Total Marks</TableHead>
           <TableHead>Deadline</TableHead>
           <TableHead>Status</TableHead>
@@ -99,7 +100,7 @@ export default function CourseTable() {
       <TableBody className="bg-white text-black">
         {loading ? (
           <TableRow>
-            <TableCell colSpan={11} className="py-8 text-center">
+            <TableCell colSpan={6} className="py-8 text-center">
               <div className="flex items-center justify-center">
                 <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
                 <span className="ml-3">Loading assignments...</span>
@@ -108,7 +109,7 @@ export default function CourseTable() {
           </TableRow>
         ) : error ? (
           <TableRow>
-            <TableCell colSpan={11} className="py-8 text-center">
+            <TableCell colSpan={6} className="py-8 text-center">
               <div className="text-red-500">
                 <svg
                   className="mx-auto mb-2 h-6 w-6"
@@ -129,7 +130,7 @@ export default function CourseTable() {
           </TableRow>
         ) : assignments.length === 0 ? (
           <TableRow>
-            <TableCell colSpan={11} className="py-8 text-center">
+            <TableCell colSpan={6} className="py-8 text-center">
               <div className="text-gray-500">
                 <svg
                   className="mx-auto mb-2 h-6 w-6"
@@ -149,29 +150,28 @@ export default function CourseTable() {
             </TableCell>
           </TableRow>
         ) : (
-          assignments.map((assignment) => (
-            <TableRow key={assignment.id}>
-              <TableCell>{assignment.id}</TableCell>
+          assignments.map((assignment, index) => (
+            <TableRow key={assignment.assignmentId}>
+              <TableCell>{index + 1}</TableCell>
               <TableCell>{assignment?.title}</TableCell>
-              <TableCell>{assignment?.students}</TableCell>
-              <TableCell>{assignment?.total_marks}</TableCell>
-              <TableCell>{assignment?.due_date}</TableCell>
+              <TableCell>{assignment?.totalMarks}</TableCell>
+              <TableCell>{assignment?.dueDate && formatDateTime(assignment?.dueDate)}</TableCell>
               <TableCell>
                 <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                   {assignment?.status}
                 </span>
               </TableCell>
               <TableCell>
-                <AssignmentTableAction item={assignment} />
+                <AssignmentTableAction item={assignment} onDelete={handleDeleteAssignment} />
               </TableCell>
             </TableRow>
           ))
         )}
       </TableBody>
 
-      <TableFooter>
+      {/* <TableFooter>
         <TableRow>
-          <TableCell colSpan={11} className="py-4">
+          <TableCell colSpan={6} className="py-4">
             <Pagination
               currentPage={filters.page}
               totalPages={totalPages}
@@ -180,7 +180,7 @@ export default function CourseTable() {
             />
           </TableCell>
         </TableRow>
-      </TableFooter>
+      </TableFooter> */}
     </Table>
   );
 }

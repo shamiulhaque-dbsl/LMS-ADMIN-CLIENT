@@ -11,6 +11,7 @@ import type { QuizCreateFormValues, Quizz } from "../types";
 import type { Course } from "@/features/course/types";
 import { useCreateQuiz } from "../hooks/useCreateQuiz";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
+import { toast } from "sonner";
 
 interface Props {
   courses: Course[];
@@ -30,10 +31,10 @@ export const QuizzForm = ({ courses, quiz = undefined }: Props) => {
     defaultValues: quiz
       ? quiz
       : {
-          status: "draft",
-          randomizeQuestions: false,
-          randomizeOptions: false,
-        },
+        status: "draft",
+        randomizeQuestions: false,
+        randomizeOptions: false,
+      },
   });
   const { handleApiErrors } = useHandleApiErrors<QuizCreateFormValues>();
 
@@ -46,7 +47,7 @@ export const QuizzForm = ({ courses, quiz = undefined }: Props) => {
 
   const modules = useMemo(() => {
     if (!selectedCourseId) return [];
-    return courses.find((c) => c.id === selectedCourseId)?.courseModules ?? [];
+    return courses.find((c) => c.id === selectedCourseId)?.course_modules ?? [];
   }, [selectedCourseId, courses]);
 
   // reset module when course changes
@@ -64,18 +65,20 @@ export const QuizzForm = ({ courses, quiz = undefined }: Props) => {
       return handleApiErrors(response, setError);
     }
 
+    toast.success(quiz ? "Quiz updated successfully" : "Quiz created successfully");
+
     if (!quiz) reset();
   };
 
   return (
     <>
-      {errors.root && <Text className="text-red-500 text-sm">{errors.root.message}</Text>}
+      {errors.root && <Text className="text-red-500 text-sm p-3 my-3 rounded-lg bg-red-50">{errors.root.message}</Text>}
 
-      {isSubmitSuccessful && !errors.root && (
+      {/* {isSubmitSuccessful && !errors.root && (
         <Text className="text-green-600 text-center">
           Quiz {quiz ? "updated" : "created"} successfully.
         </Text>
-      )}
+      )} */}
 
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <Input

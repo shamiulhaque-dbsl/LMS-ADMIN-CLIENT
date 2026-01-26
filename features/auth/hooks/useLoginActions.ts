@@ -12,7 +12,7 @@ export const useLoginActions = () => {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const res = await loginUser("alice.admin@example.com", "AdminPass@123");
+      const res = await loginUser(email, password);
       setUser(res.data.user || null);
       router.push(ROUTES.DASHBOARD);
       return { success: true };

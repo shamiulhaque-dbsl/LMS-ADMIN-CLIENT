@@ -1,7 +1,11 @@
-export default function QuizResultPage() {
+import { PageHeader } from "@/components/page/PageHeader";
+import ManageResult from "@/features/quiz/ManageResult";
+
+export default function QuizResultPage({ params }: { params: Promise<{ id: string }> }) {
   return (
-    <div>
-      <h1>Quiz Result</h1>
-    </div>
+    <>
+      <PageHeader title="Quiz Submission Result" />
+      <ManageResult params={params} />
+    </>
   );
 }

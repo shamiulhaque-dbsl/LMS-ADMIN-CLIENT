@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/Button";
-import AssignmentTable from "@/dashboard/assignments/components/AssignmentTable";
+import AssignmentTable from "@/features/assignment/components/AssignmentTable";
 import { Card } from "@/components/ui/Card";
 import Text from "@/components/ui/Text";
-import { Tooltip } from "@/components/ui/Tooltip";
-import { FileSpreadsheet, FileType } from "lucide-react";
+import { ROUTES } from "@/lib/constants/routes";
 import { Suspense } from "react";
+import Link from "next/link";
+import { Plus } from "lucide-react";
 
 export default function AssignmentTableWrapper() {
   return (
@@ -13,7 +14,7 @@ export default function AssignmentTableWrapper() {
         <Text className="text-dark text-lg font-medium">Assignment List</Text>
 
         <div className="flex gap-3">
-          <Tooltip content="Export as CSV" placement="top">
+          {/* <Tooltip content="Export as CSV" placement="top">
             <Button size="sm" variant="outlineGray" type="button">
               <FileType className="h-4 w-4 text-blue-500" />
             </Button>
@@ -22,7 +23,14 @@ export default function AssignmentTableWrapper() {
             <Button size="sm" variant="outlineGray" type="button">
               <FileSpreadsheet className="h-4 w-4 text-green-600" />
             </Button>
-          </Tooltip>
+          </Tooltip> */}
+
+          <Link href={ROUTES.ASSIGNMENTS.CREATE}>
+            <Button size="sm" variant="default" type="button">
+              <Plus className="mr-1 h-4 w-4" />
+              Add Assignment
+            </Button>
+          </Link>
         </div>
       </Card.Header>
 

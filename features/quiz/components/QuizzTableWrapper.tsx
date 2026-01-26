@@ -2,26 +2,26 @@ import { Button } from "@/components/ui/Button";
 import QuizzTable from "./QuizzTable";
 import { Card } from "@/components/ui/Card";
 import Text from "@/components/ui/Text";
-import { Tooltip } from "@/components/ui/Tooltip";
-import { Plus, FileSpreadsheet, FileType } from "lucide-react";
+//import { Tooltip } from "@/components/ui/Tooltip";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { ROUTES } from "@/lib/constants/routes";
 import { getQuizzes } from "@/api/quiz";
 
-interface QuizzTableWrapperProps {
-  filters: {
-    dateFrom?: string;
-    dateTo?: string;
-    course?: string;
-    instructor?: string;
-    status?: string;
-    page?: number;
-  };
-}
+// interface QuizzTableWrapperProps {
+//   filters: {
+//     dateFrom?: string;
+//     dateTo?: string;
+//     course?: string;
+//     instructor?: string;
+//     status?: string;
+//     page?: number;
+//   };
+// }
 
-export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
-  const { data = [] } = use(getQuizzes(filters));
+export default function QuizzTableWrapper() {
+  const { data = [] } = use(getQuizzes());
 
   return (
     <Card className="border-none bg-white">
@@ -34,7 +34,7 @@ export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
         </div>
 
         <div className="flex gap-3">
-          <Tooltip content="Export as CSV" placement="top">
+          {/* <Tooltip content="Export as CSV" placement="top">
             <Button size="sm" variant="outlineGray" type="button">
               <FileType className="h-4 w-4 text-blue-500" />
             </Button>
@@ -43,7 +43,7 @@ export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
             <Button size="sm" variant="outlineGray" type="button">
               <FileSpreadsheet className="h-4 w-4 text-green-600" />
             </Button>
-          </Tooltip>
+          </Tooltip> */}
 
           {/* Add Course */}
           <Link href={ROUTES.QUIZZES.CREATE}>
@@ -55,7 +55,7 @@ export default function QuizzTableWrapper({ filters }: QuizzTableWrapperProps) {
         </div>
       </Card.Header>
       <Card.Content className="p-4 sm:p-6">
-        <QuizzTable quizzes={data} currentPage={filters.page} />
+        <QuizzTable quizzes={data} currentPage={1} />
       </Card.Content>
     </Card>
   );

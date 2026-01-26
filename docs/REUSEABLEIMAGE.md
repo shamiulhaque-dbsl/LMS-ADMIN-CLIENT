@@ -23,11 +23,6 @@ The `ReusableImage` component is a highly customizable image element that suppor
 ### Basic Example:
 
 ```tsx
-<ReusableImage
-  src="https://example.com/image.jpg"
-  alt="Product Image"
-  width={400}
-  height={400}
-/>
+<ReusableImage src="https://example.com/image.jpg" alt="Product Image" width={400} height={400} />
 ```
 ````
