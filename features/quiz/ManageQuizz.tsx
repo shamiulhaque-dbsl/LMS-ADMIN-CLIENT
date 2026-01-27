@@ -16,9 +16,7 @@ export default function ManageQuizz() {
   return (
     <>
       {/* <QuizzeFilters currentFilters={filters} /> */}
-      <Suspense
-        fallback={<div className="text-gray-800">Loading...</div>}
-      >
+      <Suspense fallback={<div className="text-gray-800">Loading...</div>}>
         <QuizzTableWrapper />
       </Suspense>
     </>
