@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { useHandleApiErrors } from "@/hooks/useHandleApiErrors";
 import { Assignment, AssignmentCreateFormValues } from "../../types/type-matric";
 import { useHandleAssignment } from "../../hooks/useHandleAssignment";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Textarea";
@@ -21,9 +21,9 @@ const AssignmentEditForm = ({ assignment }: Props) => {
     register,
     handleSubmit,
     setError,
-    control,
     reset,
     formState: { errors },
+    watch,
   } = useForm<AssignmentCreateFormValues>({
     defaultValues: {
       title: assignment.title || "",
@@ -61,15 +61,8 @@ const AssignmentEditForm = ({ assignment }: Props) => {
     setExistingResource(assignment.resources || null);
   }, [assignment, reset]);
 
-  const startDate = useWatch({
-    control,
-    name: "startDate",
-  });
-
-  const file = useWatch({
-    control,
-    name: "document",
-  });
+  const startDate = watch("startDate");
+  const file = watch("document");
 
   // Get first file from FileList
   const uploadedFile = (file as FileList)?.[0];

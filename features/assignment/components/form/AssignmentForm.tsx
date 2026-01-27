@@ -26,28 +26,19 @@ const AssignmentForm = ({ courses }: Props) => {
     control,
     reset,
     formState: { errors },
+    watch,
   } = useForm<AssignmentCreateFormValues>();
   const { handleApiErrors } = useHandleApiErrors<AssignmentCreateFormValues>();
   const { create, loading } = useHandleAssignment();
   const [isUploading, setIsUploading] = useState(false);
 
-  const startDate = useWatch({
-    control,
-    name: "startDate",
-  });
-  // const dueDate = useWatch({
-  //   control,
-  //   name: "dueDate",
-  // });
-  const file = useWatch({
-    control,
-    name: "document",
-  });
-
   const selectedCourseId = useWatch({
     control,
     name: "courseId",
   });
+
+  const startDate = watch("startDate");
+  const file = watch("document");
 
   // Get modules for the selected course
   const modules = useMemo(() => {
