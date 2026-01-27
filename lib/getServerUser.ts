@@ -6,5 +6,5 @@ export async function getServerUser() {
   if (!accessToken) return null;
 
   const res = await getCurrentUser({ headers: { Authorization: `Bearer ${accessToken}` } });
-  return res?.data?.user || null;
+  return res?.data || null;
 }

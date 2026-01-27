@@ -37,8 +37,8 @@ export const UserProfileDropdown: React.FC = () => {
       <span className="sr-only">Open user menu</span>
       <Image
         className="h-8 w-8 rounded-full"
-        src="/images/profile.jpg"
-        alt={user?.user_name || "User photo"}
+        src={user?.avatarUrl || "/images/user.jpg"}
+        alt={user?.fullName || "User photo"}
         width={100}
         height={100}
       />
@@ -53,7 +53,7 @@ export const UserProfileDropdown: React.FC = () => {
       className="w-48 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-gray-800"
     >
       <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-600">
-        <p className="text-sm text-gray-900 dark:text-white"> {user?.user_name || "Guest"}</p>
+        <p className="text-sm text-gray-900 dark:text-white"> {user?.fullName || "Guest"}</p>
         <p className="truncate text-sm font-medium text-gray-900 dark:text-gray-300">
           {user?.email || "guest@example.com"}
         </p>

@@ -69,7 +69,7 @@ export const ROUTES = {
   // Profile
   ADMIN: {
     USERS: {
-      PROFILE: `${ROUTE_PREFIX}/users/profile`,
+      PROFILE: `${ROUTE_PREFIX}/profile`,
     },
   },
 

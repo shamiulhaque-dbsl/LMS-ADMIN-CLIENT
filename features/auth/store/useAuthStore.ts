@@ -4,7 +4,8 @@ import { create } from "zustand";
 
 interface User {
   id: number;
-  user_name: string;
+  fullName?: string;
+  avatarUrl?: string;
   email: string;
   role: string;
 }

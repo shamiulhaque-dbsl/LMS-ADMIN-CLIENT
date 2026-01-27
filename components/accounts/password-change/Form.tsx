@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { EyeOff, Eye } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 export const PasswordChangeForm = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -23,7 +24,7 @@ export const PasswordChangeForm = () => {
       newPassword: "",
       confirmPassword: "",
     });
-    alert("Password changed successfully!");
+    toast.success("Password changed successfully!");
   };
 
   return (
