@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import ProfileHeader from "@/features/profile/components/profile/header/ProfileHeader";
 import { Tab } from "./Tabs";
-import OverviewTab from "./OverviewTab";
+//import OverviewTab from "./OverviewTab";
 import DetailsTab from "./DetailsTab";
 import { UserInfo } from "@/features/profile/types";
 
 export const PROFILE_TABS = {
-  OVERVIEW: "Overview",
+  // OVERVIEW: "Overview",
   DETAILS: "Details",
 } as const;
 
@@ -23,7 +23,7 @@ interface ProfileOverviewWrapperProps {
 export default function ProfileOverviewWrapper({
   profileData,
 }: ProfileOverviewWrapperProps) {
-  const [activeTab, setActiveTab] = useState<ProfileTab>(PROFILE_TABS.OVERVIEW);
+  const [activeTab, setActiveTab] = useState<ProfileTab>(PROFILE_TABS.DETAILS);
 
   const tabs: ProfileTab[] = Object.values(PROFILE_TABS);
 
@@ -45,7 +45,7 @@ export default function ProfileOverviewWrapper({
           </nav>
         </div>
         <div className="p-6">
-          {activeTab === PROFILE_TABS.OVERVIEW && <OverviewTab profileData={profileData} />}
+          {/* {activeTab === PROFILE_TABS.OVERVIEW && <OverviewTab profileData={profileData} />} */}
           {activeTab === PROFILE_TABS.DETAILS && (
             <DetailsTab profileData={profileData} />
           )}
