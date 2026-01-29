@@ -54,6 +54,7 @@ const TAB_COMPONENTS: Record<string, JSX.Element | null> = {
 };
 
 export default function ManageCourseEdit({ course, categories, courseMetadata, teachers }: props) {
+
   const formData = useCourseFormStore((state) => state.formData);
   const isDirty = useCourseFormStore((state) => state.isDirty);
   const isSubmitting = useCourseFormStore((state) => state.isSubmitting);

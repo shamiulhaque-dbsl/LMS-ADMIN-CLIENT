@@ -105,6 +105,5 @@ export async function updatePassword(oldPassword: string, newPassword: string) {
       newPassword,
     },
   });
-  console.log(tranfer);
   return tranfer;
 }

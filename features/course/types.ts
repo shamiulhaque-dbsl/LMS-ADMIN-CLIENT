@@ -11,6 +11,7 @@ export interface Course {
   description?: string | null;
   long_description?: string | null;
   category_id: number;
+  category_name?: string;
   skill_level?: COURSE_LAVEL;
   price?: string | null; // Decimal stored as string
   selling_price?: string | null;

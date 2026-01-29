@@ -2,7 +2,7 @@
 
 import { useAuthStore } from "../store/useAuthStore";
 import { useRouter } from "next/navigation";
-import { loginUser, logoutUser } from "@/api/auth";
+import { getCurrentUser, loginUser, logoutUser } from "@/api/auth";
 import { ROUTES } from "@/constants/routes";
 
 export const useLoginActions = () => {
@@ -12,8 +12,9 @@ export const useLoginActions = () => {
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      const res = await loginUser(email, password);
-      setUser(res.data.user || null);
+      await loginUser(email, password);
+      const userInfo = await getCurrentUser();
+      setUser(userInfo.data ?? null);
       router.push(ROUTES.DASHBOARD);
       return { success: true };
     } catch (err: any) {

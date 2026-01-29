@@ -62,7 +62,7 @@ export function transformToApiFormat(formData: CourseFormData) {
       what_you_learn: formData?.learningOutcomes,
       for_whom: formData?.targetAudience,
       faqs: formData?.faqs,
-      projects: formData?.projects,
+      projects: formData?.projects ?? undefined,
       money_back_days: formData?.moneyBackDays,
     },
   };

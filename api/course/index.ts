@@ -7,7 +7,7 @@ import type {
   CourseMetadataFormatted,
   CourseFormData,
 } from "@/features/course/types";
-import { ApiError, ApiResponse, apiRequest } from "@/api";
+import { ApiResponse, apiRequest } from "@/api";
 import { formatCourseMetadata } from "@/features/course/lib/utils";
 import { getAuthToken } from "@/lib/cookie";
 
@@ -60,17 +60,39 @@ export async function getFormattedCourseMetadata(): Promise<ApiResponse<CourseMe
 }
 
 export async function createCourse(body: Partial<CourseFormData>): Promise<ApiResponse<Course>> {
-  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/create`, "POST", { body });
+  const token = await getAuthToken();
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/create`, "POST", {
+    body,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function updateCourse(id: number | string, body: Partial<CourseFormData>) {
-  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "PUT", { body });
+  const token = await getAuthToken();
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "PUT", {
+    body,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function deleteCourse(id: number | string): Promise<ApiResponse<null>> {
-  return apiRequest<ApiResponse<null>>(`${COURSE_API_PREFIX}/${id}`, "DELETE");
+  const token = await getAuthToken();
+  return apiRequest<ApiResponse<null>>(`${COURSE_API_PREFIX}/${id}`, "DELETE", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }
 
 export async function getCourse(id: number | string): Promise<ApiResponse<Course>> {
-  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "GET");
+  const token = await getAuthToken();
+  return apiRequest<ApiResponse<Course>>(`${COURSE_API_PREFIX}/${id}`, "GET", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

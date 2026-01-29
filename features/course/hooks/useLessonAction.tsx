@@ -12,7 +12,7 @@ export const useLessonAction = () => {
   const [loading, setLoading] = useState(false);
 
   const create = async (formData: LessonFormData) => {
-    console.log("Creating lesson with data:", formData);
+    // console.log("Creating lesson with data:", formData);
     setLoading(true);
     try {
       const formatData = {

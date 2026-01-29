@@ -31,7 +31,7 @@ export const LoginForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="transform space-y-4 transition-all duration-300 ease-in-out"
     >
-      {errors.root?.message && <p className="text-red-500 text-center">{errors.root.message}</p>}
+      {errors.root?.message && <p className="text-red-500 text-center bg-red-50 border border-red-100 rounded-lg p-2">{errors.root.message}</p>}
 
       <Input
         id="email"
@@ -58,11 +58,11 @@ export const LoginForm = () => {
         error={errors.password?.message}
       />
 
-      <div className="text-right text-xs">
+      {/* <div className="text-right text-xs">
         <Link href="/forget-password" className="font-semibold text-gray-600 hover:text-gray-800">
           Forgot password?
         </Link>
-      </div>
+      </div> */}
 
       <Button type="submit" variant="secondary" size="md" className="w-full" disabled={loading}>
         {loading ? "Logging in..." : "Login"}

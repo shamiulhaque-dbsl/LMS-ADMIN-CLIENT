@@ -3,14 +3,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/Textarea";
 import { cn } from "@/lib/utils/tailwind-utils";
 import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+import Image from "next/image";
+import { useAuthStore } from "@/features/auth/store/useAuthStore";
 
 export const BasicForm = () => {
+  const { user } = useAuthStore();
   const categories = useCourseFormStore((s) => s.categories);
   const courseMetadata = useCourseFormStore((s) => s.courseMetadata);
   const teachers = useCourseFormStore((s) => s.teachers);
   const courseInstructors = useCourseFormStore((s) => s.courseInstructors);
   const mode = useCourseFormStore((s) => s.mode);
-
   const {
     register,
     formState: { errors },
@@ -35,7 +37,7 @@ export const BasicForm = () => {
             error={errors.title?.message?.toString()}
           />
         </div>
-        {mode === "edit" && (
+        {(mode === "edit" && user?.role === "admin") && (
           <>
             <div className="space-y-2">
               <label className="label-base" htmlFor="instructor">
@@ -50,8 +52,10 @@ export const BasicForm = () => {
                     <div key={instructor.id} className="flex items-center rounded-lg bg-white py-1">
                       {/* Left: Image + Name */}
                       <div className="flex items-center gap-3">
-                        <img
-                          src={instructor?.users?.avatar_url || "/images/avatar-placeholder.png"}
+                        <Image
+                          width={80}
+                          height={80}
+                          src={instructor?.users?.avatar_url || "/images/user.jpg"}
                           alt={instructor?.users?.first_name}
                           className="h-10 w-10 rounded-full object-cover border"
                         />
