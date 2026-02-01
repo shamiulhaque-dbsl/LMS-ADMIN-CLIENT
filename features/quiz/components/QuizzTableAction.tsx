@@ -29,7 +29,7 @@ export default function QuizzTableAction({ quiz }: QuizzTableActionProps) {
       toast.success("Category deleted successfully");
       router.refresh();
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(err.message || "Failed to delete Quiz");
     }
   };
 

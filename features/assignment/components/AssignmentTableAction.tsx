@@ -35,7 +35,7 @@ export default function AssignmentTableAction({ item, onDelete }: AssignmentTabl
           onDelete(id);
         }
       } else {
-        toast.error("Failed to delete assignment");
+        toast.error(result?.message || "Failed to delete assignment");
       }
     } catch {
       toast.error("Failed to delete assignment. Please try again.");

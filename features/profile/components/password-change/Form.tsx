@@ -71,7 +71,7 @@ export const PasswordChangeForm = () => {
         <button
           type="button"
           onClick={() => setShowCurrentPassword((p) => !p)}
-          className="absolute right-3 top-[0px] text-gray-400"
+          className="absolute right-3 top-[35px] text-gray-400"
         >
           {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
