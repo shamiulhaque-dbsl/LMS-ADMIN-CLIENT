@@ -20,7 +20,7 @@ export const UserProfileDropdown: React.FC = () => {
 
   const menuItems: MenuItem[] = [
     { label: "My Profile", href: ROUTES.ADMIN.USERS.PROFILE },
-    { label: "Settings", href: ROUTES.SETTINGS },
+    // { label: "Settings", href: ROUTES.SETTINGS },
   ];
 
   const handleLogout = async () => {

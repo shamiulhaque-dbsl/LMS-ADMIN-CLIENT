@@ -88,8 +88,8 @@ const AppHeader: React.FC = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-baseline gap-8 leading-normal">
-            <NotificationDropdown />
-            <MessageDropdown />
+            {/* <NotificationDropdown />
+            <MessageDropdown /> */}
             <UserProfileDropdown />
           </div>
         </nav>
