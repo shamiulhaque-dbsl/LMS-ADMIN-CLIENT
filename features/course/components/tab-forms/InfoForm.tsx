@@ -7,6 +7,24 @@ import { Input } from "@/components/ui/input";
 import { Icons } from "@/components/Icons";
 import Text from "@/components/ui/Text";
 
+import { useCourseFormStore } from "@/features/course/stores/useCourseFormStore";
+
+// ---------------------
+// Formatter
+// ---------------------
+const formatcourseDetail = (courseDetail: any) => {
+  if (!courseDetail) return null;
+
+  return {
+    id: Number(courseDetail.id),
+    requirements: courseDetail.requirements ? JSON.parse(courseDetail.requirements) : [],
+    learningOutcomes: courseDetail.what_you_learn ? JSON.parse(courseDetail.what_you_learn) : [],
+    targetAudience: courseDetail.for_whom ? JSON.parse(courseDetail.for_whom) : [],
+    faqs: courseDetail.faqs ? JSON.parse(courseDetail.faqs) : [],
+    projects: courseDetail.projects ? JSON.parse(courseDetail.projects) : [],
+  };
+};
+
 function SectionWrapper({ title, children }: any) {
   return (
     <div className="mb-6 rounded-lg border border-gray-200 p-4 shadow-sm">
@@ -22,8 +40,13 @@ function SectionWrapper({ title, children }: any) {
 // Dynamic Input List
 // ---------------------
 function DynamicInputList({ label, name }: any) {
-  const { register, control, watch } = useFormContext();
+  const { register, control } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name });
+
+  useEffect(() => {
+    if (fields.length === 0) append("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -66,10 +89,10 @@ function DynamicFaqList() {
   const { control, register } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "faqs" });
 
-  // useEffect(() => {
-  //   if (fields.length === 0) append({ question: "", answer: "" });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    if (fields.length === 0) append({ question: "", answer: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -88,7 +111,11 @@ function DynamicFaqList() {
             )}
           </div>
 
-          <Input placeholder="Question" {...register(`faqs.${idx}.question`)} className="mb-2" />
+          <Input
+            placeholder="Question"
+            {...register(`faqs.${idx}.question`)}
+            className="mb-2"
+          />
           <textarea
             placeholder="Answer"
             rows={3}
@@ -116,9 +143,10 @@ function DynamicProjectList() {
   const { control, register } = useFormContext();
   const { fields, append, remove } = useFieldArray({ control, name: "projects" });
 
-  // useEffect(() => {
-  //   if (fields.length === 0) append({ title: "", image: "", description: "" });
-  // }, []);
+  useEffect(() => {
+    if (fields.length === 0) append({ title: "", image: "", description: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -141,13 +169,17 @@ function DynamicProjectList() {
           </div>
 
           <div className="space-y-2">
-            <Input type="text" placeholder="Project Title" {...register(`projects.${idx}.title`)} />
             <Input
+              type="text"
+              placeholder="Project Title"
+              {...register(`projects.${idx}.title`)}
+            />
+            {/* <Input
               type="file"
               accept="image/*"
               {...register(`projects.${idx}.image`)}
               className="input-base"
-            />
+            /> */}
             <textarea
               placeholder="Project Description"
               rows={3}
@@ -173,6 +205,27 @@ function DynamicProjectList() {
 // Main InfoForm
 // ---------------------
 export const InfoForm = () => {
+  const courseDetail = useCourseFormStore((s) => s.courseDetail);
+  const { reset, getValues } = useFormContext();
+
+  useEffect(() => {
+    if (courseDetail) {
+      const formatted = formatcourseDetail(courseDetail);
+      if (formatted) {
+        reset({
+          ...getValues(),
+          requirements: formatted.requirements.length ? formatted.requirements : [""],
+          learningOutcomes: formatted.learningOutcomes.length ? formatted.learningOutcomes : [""],
+          targetAudience: formatted.targetAudience.length ? formatted.targetAudience : [""],
+          faqs: formatted.faqs.length ? formatted.faqs : [{ question: "", answer: "" }],
+          projects: formatted.projects.length
+            ? formatted.projects
+            : [{ title: "", image: "", description: "" }],
+        });
+      }
+    }
+  }, [courseDetail, reset, getValues]);
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">

@@ -39,7 +39,7 @@ export interface Course {
 
   assignments?: Assignment[];
   certificates?: Certificate[];
-  course_details?: CourseDetails[];
+  course_details?: CourseDetailsApiFormat;
   course_categories?: CourseCategory;
   course_instructors?: CourseInstructor[];
   course_modules?: CourseModule[];
@@ -73,6 +73,23 @@ export type CourseDetails = {
   for_whom?: string[] | null;
 };
 
+export type CourseDetailsApiFormat = {
+  requirements?: string;
+  what_you_learn?: string;
+  for_whom?: string;
+  faqs?: {
+    question: string;
+    answer: string;
+  }[];
+  projects?: {
+    title: string;
+    image?: string;
+    description: string;
+  }[];
+  duration?: string;
+  money_back_days?: null | number;
+};
+
 export interface CourseModule {
   id: ID;
   title: string;
@@ -82,6 +99,7 @@ export interface CourseModule {
   course_lessons?: CourseLesson[];
   lessons: CourseLesson[];
   course_id?: ID;
+  deleted_at?: string | null;
 }
 
 export interface CourseLesson {
@@ -95,6 +113,7 @@ export interface CourseLesson {
   duration?: string | null;
   sort_order?: number | null;
   is_preview?: number | null;
+  deleted_at?: string | null;
 }
 
 export interface LessonFormData {
@@ -104,8 +123,10 @@ export interface LessonFormData {
   contentType: string;
   contentUrl?: string | null;
   notes?: string | null;
+  course_id?: ID;
   duration?: string | null;
   isPreview?: number | null;
+  deleted_at?: string | null;
 }
 
 export interface CourseResource {

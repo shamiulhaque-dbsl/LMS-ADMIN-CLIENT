@@ -1,7 +1,7 @@
 import type { Category } from "@/features/category/types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import type { CourseFormData, CourseMetadataFormatted } from "../types";
+import type { CourseFormData, CourseMetadataFormatted, CourseDetailsApiFormat } from "../types";
 import { resetPersistedStore } from "@/lib/zustand/resetPersistedStore";
 
 export interface ValidationErrors {
@@ -23,6 +23,7 @@ interface CourseFormState {
 
   categories: Category[];
   courseMetadata: CourseMetadataFormatted | null;
+  courseDetail: CourseDetailsApiFormat | null;
 
   setCourseId(id: string | number): void;
   setFormData(data: Partial<CourseFormData>): void;
@@ -36,6 +37,7 @@ interface CourseFormState {
   setIsSubmitting(v: boolean): void;
   setCategories(categories: Category[]): void;
   setCourseMetadata(metadata: CourseMetadataFormatted | null): void;
+  setCourseDetail(detail: CourseDetailsApiFormat | null): void;
 
   teachers: any[];
   courseInstructors: any[];
@@ -106,6 +108,7 @@ export const useCourseFormStore = create<CourseFormState>()(
         teachers: [],
         courseInstructors: [],
         courseMetadata: null,
+        courseDetail: null,
 
         setCourseId: (id) => set({ courseId: id }),
 
@@ -134,6 +137,7 @@ export const useCourseFormStore = create<CourseFormState>()(
         setCourseMetadata: (metadata) => set({ courseMetadata: metadata }),
         setTeachers: (teachers) => set({ teachers: teachers }),
         setCourseInstructors: (instructors) => set({ courseInstructors: instructors }),
+        setCourseDetail: (detail) => set({ courseDetail: detail }),
 
         resetForm: () =>
           set((s) => ({

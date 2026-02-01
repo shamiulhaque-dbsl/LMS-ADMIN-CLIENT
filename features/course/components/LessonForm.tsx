@@ -50,7 +50,7 @@ export const LessonForm = ({
       isPreview: lesson?.is_preview,
     },
   });
-
+  const courseId = useCourseFormStore((s) => s.courseId);
   const router = useRouter();
   const { handleApiErrors } = useHandleApiErrors<LessonFormData>();
   const { create, update } = useLessonAction();
@@ -59,7 +59,7 @@ export const LessonForm = ({
   const onSubmit = async (data: LessonFormData) => {
     try {
       const response =
-        lesson && lesson.id ? await update(lesson.id, data) : await create({ ...data });
+        lesson && lesson.id ? await update(lesson.id, data) : await create({ ...data, course_id: courseId });
       if (!response?.success) {
         toast.error(mode === "edit" ? "Failed to update lesson." : "Failed to create lesson.");
         useCourseFormStore.setState({ activeTabEdit: "curriculum" });

@@ -67,6 +67,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata, t
   const setFormData = useCourseFormStore((s) => s.setFormData);
   const setMode = useCourseFormStore((s) => s.setMode);
   const setCourseInstructors = useCourseFormStore((s) => s.setCourseInstructors);
+  const setCourseDetail = useCourseFormStore((s) => s.setCourseDetail);
 
   const { update } = useCourseAction();
   const { handleApiErrors } = useHandleApiErrors<CourseFormData>();
@@ -93,6 +94,7 @@ export default function ManageCourseEdit({ course, categories, courseMetadata, t
     setCourseMetadata(courseMetadata);
     setTeachers(teachers);
     setCourseInstructors(course?.course_instructors || []);
+    setCourseDetail(course?.course_details || null);
     setCourseId(course.id);
     setMode("edit");
 
@@ -105,8 +107,8 @@ export default function ManageCourseEdit({ course, categories, courseMetadata, t
         lessons: m.course_lessons || [],
         status: m.status,
         course_id: m.course_id,
+        deleted_at: m.deleted_at,
       }));
-
       useCurriculumStore.getState().setSections(normalized);
     }
 

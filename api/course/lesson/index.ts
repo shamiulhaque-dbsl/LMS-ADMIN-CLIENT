@@ -1,4 +1,4 @@
-import type { Course, CourseLesson, CourseModule } from "@/features/course/types";
+import type { CourseLesson } from "@/features/course/types";
 import { ApiResponse, apiRequest } from "@/api";
 
 const LESSON_API_PREFIX = "/admin/lessons";

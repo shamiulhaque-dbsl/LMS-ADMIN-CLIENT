@@ -23,6 +23,7 @@ export const useLessonAction = () => {
         duration: formData.duration,
         is_preview: formData.isPreview,
       };
+
       const res = await createLesson(formatData);
       return { success: true, data: res };
     } catch (err: any) {

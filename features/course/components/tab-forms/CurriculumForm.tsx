@@ -88,7 +88,11 @@ export const CurriculumForm = () => {
                 Section {sectionIndex + 1}: {section.title || "Untitled"}
               </Text>
 
-              <div className="flex justify-center items-center gap-4">
+              {section?.deleted_at &&
+                <span className="text-red-500 text-sm">Deleted</span>
+              }
+
+              <div className={`flex justify-center items-center gap-4 ${section?.deleted_at && "hidden"}`}>
                 <Button
                   size="sm"
                   type="button"
@@ -148,7 +152,10 @@ export const CurriculumForm = () => {
                     <Text as="span">
                       Lesson {lessonIndex + 1}: {lesson.title || "Untitled"}{" "}
                     </Text>
-                    <div className="flex items-center justify-end">
+                    {lesson?.deleted_at &&
+                      <span className="text-red-500 text-sm">Deleted</span>
+                    }
+                    <div className={`flex items-center justify-end ${lesson?.deleted_at && "hidden"}`}>
                       {/* <Tooltip content="Resources Files">
                         <Button
                           type="button"
