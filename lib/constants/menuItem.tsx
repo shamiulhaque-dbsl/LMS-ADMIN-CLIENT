@@ -65,19 +65,19 @@ export const menuItems: MenuItem[] = [
     label: "Certificates",
     icon: <Icons.award size={20} />,
     group: "Education",
-    roles: [Role.ADMIN, Role.INSTRUCTOR],
+    roles: [Role.ADMIN],
     children: [
       {
         id: "quiz-certificates",
         label: "Quiz Certificates",
         href: ROUTES.CERTIFICATES.QUIZ,
-        roles: [Role.ADMIN, Role.INSTRUCTOR],
+        roles: [Role.ADMIN],
       },
       {
         id: "completion-certificates",
         label: "Completion Certificates",
         href: ROUTES.CERTIFICATES.COMPLETION,
-        roles: [Role.ADMIN, Role.INSTRUCTOR],
+        roles: [Role.ADMIN],
       },
     ],
   },

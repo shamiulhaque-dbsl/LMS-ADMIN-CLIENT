@@ -1,3 +1,5 @@
+import ComingSoonPage from "@/components/common/ComingSoonPage";
+
 export default function Dashboard() {
-  return <h4>Dashboard</h4>;
+  return <ComingSoonPage featureName="Dashboard Features" />
 }

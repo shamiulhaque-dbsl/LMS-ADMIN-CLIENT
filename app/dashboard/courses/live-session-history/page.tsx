@@ -1,9 +1,9 @@
-import Breadcrumb from "@/components/ui/Breadcrumb";
+import ComingSoonPage from "@/components/common/ComingSoonPage";
 export default function Page() {
   return (
     <>
-      <Breadcrumb mode="portal" />
-      <h1>Welcome to the Courses Page!</h1>
+      {/* <Breadcrumb mode="portal" /> */}
+      <ComingSoonPage featureName="Live classes Features" />
     </>
   );
 }
