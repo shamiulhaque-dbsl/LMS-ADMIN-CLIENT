@@ -29,7 +29,7 @@ export default function ManageCourse() {
           <Text className="text-dark text-lg font-medium">Courses List</Text>
 
           <div className="flex gap-3">
-            <Tooltip content="Export as CSV" placement="top">
+            {/* <Tooltip content="Export as CSV" placement="top">
               <Button size="sm" variant="outlineGray" type="button">
                 <Icons.fileType className="h-4 w-4 text-blue-500" />
               </Button>
@@ -38,7 +38,7 @@ export default function ManageCourse() {
               <Button size="sm" variant="outlineGray" type="button">
                 <Icons.fileSpreadsheet className="h-4 w-4 text-green-600" />
               </Button>
-            </Tooltip>
+            </Tooltip> */}
 
             {/* Add Course */}
             <Link href="/dashboard/courses/create">
