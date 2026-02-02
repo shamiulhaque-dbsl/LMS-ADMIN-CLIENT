@@ -22,7 +22,7 @@ export interface Assignment {
   assignment_type?: string;
   notes?: string;
   resources?: string;
-  status?: number;
+  status?: number | string;
 }
 
 export interface AssignmentSubmission {

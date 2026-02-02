@@ -75,7 +75,6 @@ export default function AssignmentTable() {
     loadAssignments();
   }, [filters]);
 
-  // ✅ THIS IS THE KEY FUNCTION - Remove deleted assignment from list
   const handleDeleteAssignment = (deletedId: number) => {
     setAssignments((prevAssignments) =>
       prevAssignments.filter((assignment) => assignment.assignmentId !== deletedId)
@@ -150,14 +149,14 @@ export default function AssignmentTable() {
             </TableCell>
           </TableRow>
         ) : (
-          assignments.map((assignment, index) => (
+          assignments?.map((assignment, index) => (
             <TableRow key={assignment.assignmentId}>
               <TableCell>{index + 1}</TableCell>
               <TableCell>{assignment?.title}</TableCell>
               <TableCell>{assignment?.totalMarks}</TableCell>
               <TableCell>{assignment?.dueDate && formatDateTime(assignment?.dueDate)}</TableCell>
               <TableCell>
-                <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
+                <span className={`${assignment?.status === "Expired" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"} rounded-full  px-2 py-1 text-xs font-medium `}>
                   {assignment?.status}
                 </span>
               </TableCell>
