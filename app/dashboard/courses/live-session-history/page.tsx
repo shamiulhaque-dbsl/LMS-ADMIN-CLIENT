@@ -3,7 +3,7 @@ export default function Page() {
   return (
     <>
       {/* <Breadcrumb mode="portal" /> */}
-      <ComingSoonPage featureName="Live classes Features" />
+      <ComingSoonPage featureName="Live class Features" />
     </>
   );
 }

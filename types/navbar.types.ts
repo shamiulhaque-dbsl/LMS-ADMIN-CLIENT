@@ -21,7 +21,7 @@ export interface Suggestion {
 }
 
 export interface User {
-  id: string;
+  id: number | string;
   name: string;
   email: string;
   avatar?: string;

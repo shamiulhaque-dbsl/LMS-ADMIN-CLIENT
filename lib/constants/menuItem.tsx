@@ -117,12 +117,12 @@ export const menuItems: MenuItem[] = [
     group: "Education",
     roles: [Role.ADMIN, Role.INSTRUCTOR],
     children: [
-      {
-        id: "add-student-to-course",
-        label: "Add Student to Course",
-        href: ROUTES.ENROLLMENTS.ADD,
-        roles: [Role.ADMIN],
-      },
+      // {
+      //   id: "add-student-to-course",
+      //   label: "Add Student to Course",
+      //   href: ROUTES.ENROLLMENTS.ADD,
+      //   roles: [Role.ADMIN],
+      // },
       {
         id: "history",
         label: "History",
@@ -150,18 +150,18 @@ export const menuItems: MenuItem[] = [
     children: [
       { id: "new-user", label: "New User", href: ROUTES.USERS.CREATE, roles: [Role.ADMIN] },
       { id: "all-users", label: "All Users", href: ROUTES.USERS.LIST, roles: [Role.ADMIN] },
-      {
-        id: "manage-admin",
-        label: "Manage Admins",
-        href: ROUTES.USERS.DASHBOARDS,
-        roles: [Role.ADMIN],
-      },
-      {
-        id: "instructors",
-        label: "Manage Instructors",
-        href: ROUTES.USERS.INSTRUCTORS,
-        roles: [Role.ADMIN],
-      },
+      // {
+      //   id: "manage-admin",
+      //   label: "Manage Admins",
+      //   href: ROUTES.USERS.DASHBOARDS,
+      //   roles: [Role.ADMIN],
+      // },
+      // {
+      //   id: "instructors",
+      //   label: "Manage Instructors",
+      //   href: ROUTES.USERS.INSTRUCTORS,
+      //   roles: [Role.ADMIN],
+      // },
       {
         id: "students",
         label: "Manage Students",
@@ -170,37 +170,37 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  {
-    id: "ip-management",
-    label: "IP Management",
-    icon: <Icons.shield size={20} />,
-    group: "Users",
-    roles: [Role.ADMIN],
-    children: [
-      {
-        id: "logins-history",
-        label: "Logins History",
-        href: ROUTES.LOGIN_HISTORY,
-        roles: [Role.ADMIN],
-      },
-      {
-        id: "ip-restriction",
-        label: "IP Restriction",
-        href: ROUTES.IP_RESTRICTION,
-        roles: [Role.ADMIN],
-      },
-    ],
-  },
+  // {
+  //   id: "ip-management",
+  //   label: "IP Management",
+  //   icon: <Icons.shield size={20} />,
+  //   group: "Users",
+  //   roles: [Role.ADMIN],
+  //   children: [
+  //     {
+  //       id: "logins-history",
+  //       label: "Logins History",
+  //       href: ROUTES.LOGIN_HISTORY,
+  //       roles: [Role.ADMIN],
+  //     },
+  //     {
+  //       id: "ip-restriction",
+  //       label: "IP Restriction",
+  //       href: ROUTES.IP_RESTRICTION,
+  //       roles: [Role.ADMIN],
+  //     },
+  //   ],
+  // },
 
   // ========= CRM =========
-  {
-    id: "contact-messages",
-    label: "Contact Messages",
-    href: ROUTES.CONTACTS,
-    group: "CRM",
-    icon: <Icons.mail size={20} />,
-    roles: [Role.ADMIN],
-  },
+  // {
+  //   id: "contact-messages",
+  //   label: "Contact Messages",
+  //   href: ROUTES.CONTACTS,
+  //   group: "CRM",
+  //   icon: <Icons.mail size={20} />,
+  //   roles: [Role.ADMIN],
+  // },
   {
     id: "notice-board",
     label: "Notice Board",
@@ -214,28 +214,28 @@ export const menuItems: MenuItem[] = [
   },
 
   // ========= Content =========
-  {
-    id: "testimonials",
-    label: "Testimonials",
-    href: ROUTES.TESTIMONIALS,
-    group: "Content",
-    icon: <Icons.messageSquare size={20} />,
-    roles: [Role.ADMIN],
-  },
+  // {
+  //   id: "testimonials",
+  //   label: "Testimonials",
+  //   href: ROUTES.TESTIMONIALS,
+  //   group: "Content",
+  //   icon: <Icons.messageSquare size={20} />,
+  //   roles: [Role.ADMIN],
+  // },
 
   // ========= Marketing =========
-  {
-    id: "emails-newsletters",
-    label: "Newsletters",
-    icon: <Icons.send size={20} />,
-    group: "Marketing",
-    roles: [Role.ADMIN],
-    children: [
-      { id: "list", label: "List", href: ROUTES.NEWSLETTERS.LIST, roles: [Role.ADMIN] },
-      { id: "send", label: "Send", href: ROUTES.NEWSLETTERS.SEND, roles: [Role.ADMIN] },
-      { id: "history", label: "History", href: ROUTES.NEWSLETTERS.HISTORY, roles: [Role.ADMIN] },
-    ],
-  },
+  // {
+  //   id: "emails-newsletters",
+  //   label: "Newsletters",
+  //   icon: <Icons.send size={20} />,
+  //   group: "Marketing",
+  //   roles: [Role.ADMIN],
+  //   children: [
+  //     { id: "list", label: "List", href: ROUTES.NEWSLETTERS.LIST, roles: [Role.ADMIN] },
+  //     { id: "send", label: "Send", href: ROUTES.NEWSLETTERS.SEND, roles: [Role.ADMIN] },
+  //     { id: "history", label: "History", href: ROUTES.NEWSLETTERS.HISTORY, roles: [Role.ADMIN] },
+  //   ],
+  // },
 
   // ========= Settings =========
   {

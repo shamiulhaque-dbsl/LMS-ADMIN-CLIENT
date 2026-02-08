@@ -1,5 +1,5 @@
 import ComingSoonPage from "@/components/common/ComingSoonPage";
 
 export default function Page() {
-  return <ComingSoonPage featureName="Reviews Features" />
+  return <ComingSoonPage featureName="Review Features" />
 }

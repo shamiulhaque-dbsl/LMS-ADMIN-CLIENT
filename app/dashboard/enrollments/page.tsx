@@ -1,5 +1,11 @@
-import ComingSoonPage from "@/components/common/ComingSoonPage";
+import { PageHeader } from "@/components/page/PageHeader";
+import EnrollmentInfo from "@/features/enrollments/components/EnrollmentInfo";
+import ManageEnrollment from "@/features/enrollments/components/ManageEnrollment";
 
 export default function Page() {
-  return <ComingSoonPage featureName="Enrollments Features" />
+  return <>
+    <PageHeader title="Manage Enrollments" />
+    <EnrollmentInfo />
+    <ManageEnrollment />
+  </>
 }

@@ -1,18 +1,32 @@
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import Text from "@/components/ui/Text";
-import { Tooltip } from "@/components/ui/Tooltip";
-import { Plus, FileSpreadsheet, FileType } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { USER_CONFIG, UserType } from "@/dashboard/users/config";
-import UserTable from "@/dashboard/users/components/UserTable";
+import UserTable from "@/features/user/components/UserTable";
+import { getRoleWiseActiveUsers } from "@/api/user";
 
 interface ManageUserProps {
   userType?: UserType;
   showAllUsers?: boolean;
 }
-export default function ManageUser({ userType, showAllUsers = false }: ManageUserProps) {
+export default async function ManageUser({ userType, showAllUsers = false }: ManageUserProps) {
   const config = USER_CONFIG[userType!];
+  let userData = null;
+  let errors = null;
+
+  try {
+    const userRes = await getRoleWiseActiveUsers();
+
+    if (userRes.status === "success") {
+      userData = userRes.data;
+    } else {
+      errors = userRes.message || "Failed to fetch User Data";
+    }
+  } catch (error) {
+    errors = "Failed to fetch User Data";
+  }
 
   if (!config && !showAllUsers) {
     return (
@@ -21,6 +35,7 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
       </div>
     );
   }
+
 
   return (
     <>
@@ -31,7 +46,7 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
           </Text>
 
           <div className="flex gap-3">
-            <Tooltip content="Export as CSV" placement="top">
+            {/* <Tooltip content="Export as CSV" placement="top">
               <Button size="sm" variant="outlineGray" type="button">
                 <FileType className="h-4 w-4 text-blue-500" />
               </Button>
@@ -40,9 +55,9 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
               <Button size="sm" variant="outlineGray" type="button">
                 <FileSpreadsheet className="h-4 w-4 text-green-600" />
               </Button>
-            </Tooltip>
+            </Tooltip> */}
 
-            <Link href={showAllUsers ? "/admin/users/create" : config.createRoute} prefetch={false}>
+            <Link href={showAllUsers ? "/dashboard/users/create" : config.createRoute} prefetch={false}>
               <Button size="sm" variant="default" type="button">
                 <Plus className="mr-1 h-4 w-4" />
                 {showAllUsers ? "Add User" : config.addLabel}
@@ -52,7 +67,7 @@ export default function ManageUser({ userType, showAllUsers = false }: ManageUse
         </Card.Header>
 
         <Card.Content className="p-4 sm:p-6">
-          <UserTable />
+          <UserTable userData={userData} />
         </Card.Content>
       </Card>
     </>

@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import { UserForm } from "@/dashboard/users/components/UserForm";
+import { UserForm } from "@/features/user/components/UserForm";
 import { Card } from "@/components/ui/Card";
 
 export default function UserCreatePage() {
@@ -8,7 +8,7 @@ export default function UserCreatePage() {
       <PageHeader title="Add new User" />
       <Card className="bg-white p-6">
         <Card.Content className="max-w-xl">
-          <UserForm />
+          <UserForm userData={{}} />
         </Card.Content>
       </Card>
     </>

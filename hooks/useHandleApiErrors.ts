@@ -14,7 +14,6 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
     setError: UseFormSetError<T>
   ) => {
     if (!response) return;
-
     if (response instanceof ReferenceError) {
       setError("root", {
         type: "server",
@@ -22,14 +21,12 @@ export const useHandleApiErrors = <T extends FieldValues>() => {
       });
       return;
     }
-
     const { message, errors } = response;
 
     if (errors) {
       Object.entries(errors).forEach(([field, value]) => {
         const camelField = snakeToCamel(field) as Path<T>;
         const messageText = Array.isArray(value) ? value[0] : value;
-
         setError(camelField, { type: "server", message: messageText });
       });
     }

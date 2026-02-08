@@ -4,40 +4,43 @@ import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
 // import { useCourseStore } from "@/dashboard/courses/store/courseStore";
 import { Icons } from "@/components/Icons";
+import { deleteUser } from "@/api/user";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const deleteCourseAPI = async (id: number) => new Promise((res) => setTimeout(res, 500));
-const toggleStatusAPI = async (id: number, status: string) =>
-  new Promise((res) => setTimeout(res, 500));
-
-interface Course {
-  id: number;
-  title: string;
-  category: string;
-  lessons: number;
-  sections: number;
-  price: string;
-  sales: number;
-  students: number;
-  createdAt: string;
-  updatedAt: string;
-  status: string;
+interface ActionTableProps {
+  userId: number;
 }
 
-interface CategoryTableProps {
-  item: Course;
-}
-
-export default function CategoryTable() {
+export default function ActionTable({ userId }: ActionTableProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("active");
-
+  //const [status, setStatus] = useState("active");
+  const router = useRouter();
   // const store = useCourseStore();
 
-  const handleDelete = async () => {};
+  const handleDelete = async (id: number) => {
+    setLoading(true)
+    try {
+      const user = await deleteUser(id);
+      if (user?.status === "success") {
+        toast.success(user?.message || "Delete Successfull")
+        setShowConfirm(false);
+        router.refresh();
+      } else {
+        toast.error(user?.message || "Failed to delete user")
+      }
 
-  const handleToggleStatus = async () => {};
+    } catch (error) {
+      toast.error(error?.message || "Failed to delete user")
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
+  // const handleToggleStatus = async () => { };
 
   return (
     <>
@@ -52,11 +55,11 @@ export default function CategoryTable() {
         className="w-52 space-y-2 rounded-md py-4 leading-tight"
         align="right"
       >
-        <DropdownItem href="#">Edit</DropdownItem>
+        <DropdownItem href={`/dashboard/users/edit/${userId}`}>Edit</DropdownItem>
         <DropdownItem onClick={() => setShowConfirm(true)}>Delete</DropdownItem>
-        <DropdownItem onClick={handleToggleStatus}>
+        {/* <DropdownItem onClick={handleToggleStatus}>
           {status === "active" ? "Deactivate" : "Activate"}
-        </DropdownItem>
+        </DropdownItem> */}
       </Dropdown>
 
       {/* Delete Confirmation Modal */}
@@ -68,7 +71,8 @@ export default function CategoryTable() {
             </h2>
             <div className="flex justify-center gap-4">
               <button
-                onClick={handleDelete}
+                disabled={loading}
+                onClick={() => handleDelete(userId)}
                 className="rounded bg-red-600 px-4 py-2 text-white hover:bg-red-700"
               >
                 {loading ? "Deleting..." : "Yes, Delete"}

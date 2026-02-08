@@ -8,7 +8,7 @@ type QuizEditPageProps = {
   params: Promise<{ id: number }>;
 };
 
-export default function QuizzCreatePage({ params }: QuizEditPageProps) {
+export default function QuizzEditPage({ params }: QuizEditPageProps) {
   const { id } = use(params);
   if (isNaN(id as number)) {
     notFound();

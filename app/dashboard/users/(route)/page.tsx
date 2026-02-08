@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/page/PageHeader";
-import ManageUser from "@/dashboard/users/components/ManageUsers";
+import ManageUser from "@/features/user/components/ManageUsers";
 /*
   # ToDo:
   - Add user filters option
