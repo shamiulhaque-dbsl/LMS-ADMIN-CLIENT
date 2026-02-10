@@ -5,25 +5,24 @@ import { useState, useEffect } from "react";
 import { Icons } from "@/components/Icons";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
-
-import { useAssignmentStore } from "@/dashboard/assignments/store/assignmentStore";
+import { useEnrollmentStore } from "@/app/dashboard/enrollments/store/enrollmentStore";
 
 export default function EnrollmentsFilter() {
-  const { filters, setFilters } = useAssignmentStore();
+  const { filters, setFilters } = useEnrollmentStore();
   const [isOpen, setIsOpen] = useState(false);
   const [localFilters, setLocalFilters] = useState({
     dateFrom: filters.dateFrom,
     dateTo: filters.dateTo,
-    course: filters.course,
-    status: filters.status,
+    page: filters.page,
+    limit: filters.limit,
   });
 
   useEffect(() => {
     setLocalFilters({
       dateFrom: filters.dateFrom,
       dateTo: filters.dateTo,
-      course: filters.course,
-      status: filters.status,
+      page: filters.page,
+      limit: filters.limit,
     });
   }, [filters]);
 
@@ -43,8 +42,8 @@ export default function EnrollmentsFilter() {
     const emptyFilters = {
       dateFrom: "",
       dateTo: "",
-      course: "",
-      status: "",
+      page: 1,
+      limit: 10,
     };
     setLocalFilters(emptyFilters);
     setFilters({

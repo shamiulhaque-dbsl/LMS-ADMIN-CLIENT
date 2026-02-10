@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { createQuizz, updateQuizz, deleteQuizz } from "@/api/quiz";
-import { AssignmentCreateFormValues } from "../types/type-matric";
 import { createAssignment, updateAssignment } from "@/api/assignment";
+import { AssignmentCreateFormValues } from "@/features/assignment/types/type-matric";
 
 export const useHandleAssignment = () => {
   const [loading, setLoading] = useState(false);
@@ -26,14 +25,5 @@ export const useHandleAssignment = () => {
     }
   };
 
-  const removeQuizz = async (id: number | string) => {
-    setLoading(true);
-    try {
-      return await deleteQuizz(id);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { create, update, removeQuizz, loading };
+  return { create, update, loading };
 };

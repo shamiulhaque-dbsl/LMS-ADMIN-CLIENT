@@ -32,7 +32,7 @@ export default function ActionTable({ userId }: ActionTableProps) {
         toast.error(user?.message || "Failed to delete user")
       }
 
-    } catch (error) {
+    } catch (error: any) {
       toast.error(error?.message || "Failed to delete user")
     } finally {
       setLoading(false);

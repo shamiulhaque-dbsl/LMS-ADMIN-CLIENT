@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Dropdown, DropdownItem } from "@/components/common/Dropdown";
 import { Icons } from "@/components/Icons";
-import { Assignment } from "../types/type-matric";
 import { deleteAssignment } from "@/api/assignment";
 import { toast } from "sonner";
+import { Assignment } from "@/features/course/types";
 
 interface AssignmentTableActionProps {
   item: Assignment;

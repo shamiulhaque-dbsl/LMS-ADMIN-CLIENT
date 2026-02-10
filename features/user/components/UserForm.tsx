@@ -14,7 +14,6 @@ import { createUser, updateUser } from "@/api/user";
 import { Camera } from "lucide-react";
 import Image from "next/image";
 import { uploadImage } from "@/features/profile/hooks/uploadImage";
-import { UserInfo } from "@/features/profile/types";
 import { useRouter } from "next/navigation";
 
 // Validation schema
@@ -40,7 +39,7 @@ const userFormSchema = z.object({
 type UserFormValues = z.infer<typeof userFormSchema>;
 
 interface UserFormProps {
-  userData?: Partial<UserFormValues>
+  userData?: Partial<UserFormValues> & { id?: string | number }
 }
 
 export const UserForm = ({ userData }: UserFormProps) => {
@@ -49,7 +48,7 @@ export const UserForm = ({ userData }: UserFormProps) => {
   const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [profilePicPreview, setProfilePicPreview] = useState<string>("");
   const router = useRouter();
-  const { handleApiErrors } = useHandleApiErrors<UserInfo>();
+  const { handleApiErrors } = useHandleApiErrors<UserFormValues>();
   const {
     register,
     handleSubmit,
@@ -77,7 +76,7 @@ export const UserForm = ({ userData }: UserFormProps) => {
     },
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const UserExist = Object.keys(userData)?.length
+  const UserExist = userData && Object.keys(userData)?.length > 0
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -129,12 +128,13 @@ export const UserForm = ({ userData }: UserFormProps) => {
     if (userData) {
       let socialLinks = { linkedin: "", github: "", twitter: "" };
 
-      if ((userData as any)?.social_links) {
+      if (userData && "social_links" in userData && userData.social_links) {
         try {
+          const links = userData.social_links;
           socialLinks =
-            typeof (userData as any).social_links === "string"
-              ? JSON.parse((userData as any).social_links)
-              : (userData as any).social_links;
+            typeof links === "string"
+              ? JSON.parse(links)
+              : links;
         } catch (error) {
           console.error("Error parsing social_links:", error);
         }
@@ -175,13 +175,15 @@ export const UserForm = ({ userData }: UserFormProps) => {
 
     const payload = {
       ...data,
+      name: `${data.first_name} ${data.last_name}`,
+      avatar: profilePicPreview,
       avatar_url: profilePicPreview,
       social_links: JSON.stringify(data.social_links),
     };
 
     try {
-      if (UserExist) {
-        const res = await updateUser(payload, userData.id)
+      if (UserExist && userData?.id) {
+        const res = await updateUser(payload, userData.id as number)
         if (res?.success) {
           toast.success(res?.message || "User Updated Successfully")
           router.refresh();
@@ -405,7 +407,7 @@ export const UserForm = ({ userData }: UserFormProps) => {
         <div className="flex justify-end space-x-3 border-t pt-6">
 
           <Button
-            disabled={isLoading}
+            disabled={isLoading || isImageUpload}
             variant="outline"
             type="submit"
           >

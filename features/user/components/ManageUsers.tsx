@@ -13,13 +13,13 @@ interface ManageUserProps {
 }
 export default async function ManageUser({ userType, showAllUsers = false }: ManageUserProps) {
   const config = USER_CONFIG[userType!];
-  let userData = null;
+  let userData: string[] = [];
   let errors = null;
 
   try {
     const userRes = await getRoleWiseActiveUsers();
 
-    if (userRes.status === "success") {
+    if (userRes.status === "success" && userRes.data) {
       userData = userRes.data;
     } else {
       errors = userRes.message || "Failed to fetch User Data";

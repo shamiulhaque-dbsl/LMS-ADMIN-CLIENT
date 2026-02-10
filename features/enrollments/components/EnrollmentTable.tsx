@@ -19,7 +19,6 @@ import { useEnrollmentStore } from "@/app/dashboard/enrollments/store/enrollment
 
 export default function EnrollmentTable() {
   const { filters, setFilters } = useEnrollmentStore();
-  const [limit, setLimit] = useState(10);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -30,36 +29,29 @@ export default function EnrollmentTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
 
+  // Initialize filters from URL params only once on mount
   useEffect(() => {
-    const params = {
-      dateFrom: searchParams.get("dateFrom") || "",
-      dateTo: searchParams.get("dateTo") || "",
-      page: parseInt(searchParams.get("page") || "1", 10),
-      limit: limit,
-    };
+    const dateFrom = searchParams.get("dateFrom") || "";
+    const dateTo = searchParams.get("dateTo") || "";
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "10", 10);
 
-    setFilters(params);
-  }, [searchParams, setFilters, limit]);
+    setFilters({
+      dateFrom,
+      dateTo,
+      page,
+      limit,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
-  // Update URL when filters change
+  // Fetch data when filters change
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (filters.dateFrom) params.set("dateFrom", filters.dateFrom);
-    if (filters.dateTo) params.set("dateTo", filters.dateTo);
-    if (filters.page > 1) params.set("page", filters.page.toString());
-    if (limit) params.set("limit", filters.limit.toString());
-
-
-    const queryString = params.toString();
-    const newUrl = `${pathname}${queryString ? `?${queryString}` : ""}`;
-    router.push(newUrl);
-  }, [filters, pathname, router, limit]);
-
-  useEffect(() => {
-    const loadAssignments = async () => {
+    const loadEnrollments = async () => {
       try {
         setLoading(true);
         setError(null);
+
         const response = await getEnrollments({
           dateFrom: filters.dateFrom,
           dateTo: filters.dateTo,
@@ -67,20 +59,42 @@ export default function EnrollmentTable() {
           limit: filters.limit,
         });
 
-        setEnrollments(response?.data.data || []);
-        setTotalPages(response?.data.pagination.totalPages || 1);
-        setTotalRecords(response?.data.pagination.totalRecords || 0);
+        if (response?.data) {
+          setEnrollments(response.data.data || []);
+          setTotalPages(response.data.pagination?.totalPages || 1);
+          setTotalRecords(response.data.pagination?.totalRecords || 0);
+        }
       } catch {
-        setError("Failed to load assignments. Please try again.");
+        setError("Failed to load enrollments. Please try again.");
         setEnrollments([]);
       } finally {
         setLoading(false);
       }
     };
 
-    loadAssignments();
-  }, [filters]);
+    // Only fetch if filters are initialized (not all empty/default on first render)
+    if (filters.page > 0) {
+      loadEnrollments();
+    }
+  }, [filters.dateFrom, filters.dateTo, filters.page, filters.limit]);
 
+  // Update URL when filters change - but use replace to avoid adding to history
+  useEffect(() => {
+    // Skip if filters haven't been initialized yet
+    if (filters.page === 0) return;
+
+    const params = new URLSearchParams();
+    if (filters.dateFrom) params.set("dateFrom", filters.dateFrom);
+    if (filters.dateTo) params.set("dateTo", filters.dateTo);
+    if (filters.page > 1) params.set("page", filters.page.toString());
+    if (filters.limit !== 10) params.set("limit", filters.limit.toString());
+
+    const queryString = params.toString();
+    const newUrl = `${pathname}${queryString ? `?${queryString}` : ""}`;
+
+    // Use shallow routing to avoid re-triggering effects
+    router.replace(newUrl, { scroll: false });
+  }, [filters.dateFrom, filters.dateTo, filters.page, filters.limit, pathname, router]);
 
   return (
     <Table className="overflow-y-clip bg-white">
@@ -92,9 +106,6 @@ export default function EnrollmentTable() {
           <TableHead>Enrolled Type</TableHead>
           <TableHead>Enrolled Date</TableHead>
           <TableHead>Course Title</TableHead>
-
-
-          {/* <TableHead>Actions</TableHead> */}
         </TableRow>
       </TableHeader>
 
@@ -153,30 +164,26 @@ export default function EnrollmentTable() {
         ) : (
           enrollments?.map((enrollment, index) => (
             <TableRow key={enrollment.id}>
-              <TableCell>{index + 1}</TableCell>
+              <TableCell>{(filters.page - 1) * filters.limit + index + 1}</TableCell>
               <TableCell>
                 <Image
                   src={enrollment?.student?.avatar_url || "/images/noimage.png"}
-                  alt={`image`}
+                  alt={enrollment?.student?.name || "Student"}
                   width={40}
                   height={40}
                   className="h-10 w-10 rounded-full object-cover"
                 />
               </TableCell>
-              <TableCell>{enrollment?.student?.name} <br /> {enrollment?.student?.email} </TableCell>
+              <TableCell>
+                {enrollment?.student?.name}
+                <br />
+                {enrollment?.student?.email}
+              </TableCell>
               <TableCell>{enrollment?.enrolled_type}</TableCell>
-              <TableCell>{enrollment?.enrolled_at && formatDateTime(enrollment?.enrolled_at)}</TableCell>
+              <TableCell>
+                {enrollment?.enrolled_at && formatDateTime(enrollment?.enrolled_at)}
+              </TableCell>
               <TableCell>{enrollment?.course?.title}</TableCell>
-
-
-              {/* <TableCell>
-                <span className={`${assignment?.status === "Expired" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"} rounded-full  px-2 py-1 text-xs font-medium `}>
-                  {assignment?.status}
-                </span>
-              </TableCell> */}
-              {/* <TableCell>
-                <AssignmentTableAction item={assignment} onDelete={handleDeleteAssignment} />
-              </TableCell> */}
             </TableRow>
           ))
         )}
@@ -184,14 +191,14 @@ export default function EnrollmentTable() {
 
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={8} className="py-4">
+          <TableCell colSpan={6} className="py-4">
             <Pagination
               currentPage={filters.page}
               totalPages={totalPages}
               totalRecords={totalRecords}
-              limit={limit}
-              setLimit={setLimit}
-              onPageChange={(page) => useEnrollmentStore.getState().setFilters({ page })}
+              limit={filters.limit}
+              setLimit={(newLimit) => setFilters({ limit: newLimit, page: 1 })}
+              onPageChange={(page) => setFilters({ page })}
             />
           </TableCell>
         </TableRow>

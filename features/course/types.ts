@@ -141,7 +141,8 @@ export interface CourseResource {
 }
 
 export interface Assignment {
-  id: number;
+  id?: number;
+  assignmentId?: number;
 }
 export interface Certificate {
   id: number;

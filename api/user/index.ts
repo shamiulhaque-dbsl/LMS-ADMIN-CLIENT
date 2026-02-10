@@ -24,10 +24,14 @@ export async function createUser(body: Partial<any>): Promise<any> {
   try {
     const token = await getAuthToken();
 
-    const response = await apiRequest<{ data: any }>(`${USER_API_PREFIX}/create`, "POST", {
-      body,
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await apiRequest<{ data: any; message?: string }>(
+      `${USER_API_PREFIX}/create`,
+      "POST",
+      {
+        body,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     return {
       success: true,
       message: response.message || "",

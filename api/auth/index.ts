@@ -19,6 +19,44 @@ export async function loginUser(email: string, password: string) {
   return data;
 }
 
+export async function forgetUser(email: string) {
+  const res = await fetch(`${API_URL}/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: email, role: "admin" }),
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || data.status === "error") {
+    const error = new Error(data.message || "Failed to send reset link");
+    (error as any).response = data;
+    throw error;
+  }
+
+  return data;
+}
+
+export async function resetUser(password: string, token: string) {
+  const res = await fetch(`${API_URL}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ newPassword: password, token, role: "admin" }),
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok || data.status === "error") {
+    const error = new Error(data.message || "Failed to reset password");
+    (error as any).response = data;
+    throw error;
+  }
+
+  return data;
+}
+
 export async function logoutUser() {
   const res = await fetch(`${API_URL}/auth/logout`, {
     method: "POST",

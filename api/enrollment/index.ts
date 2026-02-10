@@ -27,7 +27,6 @@ export const getEnrollments = cache(
 
     const queryString = queryParams.toString();
     const endpoint = `${ENROLLMENTS_API_PREFIX}${queryString ? `?${queryString}` : ""}`;
-    console.log("endpoint", endpoint);
     return apiRequest<ApiResponse<EnrollmentResponse>>(endpoint, "GET", {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -4,23 +4,24 @@ import { Card } from "@/components/ui/Card";
 import { getIdWiseUser } from "@/api/user";
 
 type UserEditPageProps = {
-  params: { id: number };
+  params: Promise<{ id: string }>;
 };
 
 export default async function UserEditPage({ params }: UserEditPageProps) {
-  const { id } = params;
+  const { id } = await params;
+  const userId = Number(id);
   let userData = {}
   let errors = null;
 
   try {
-    const userRes = await getIdWiseUser(id);
+    const userRes = await getIdWiseUser(userId);
 
     if (userRes.status === "success") {
       userData = userRes.data;
     } else {
       errors = userRes.message || "Failed to fetch User Data";
     }
-  } catch (error) {
+  } catch {
     errors = "Failed to fetch User Data";
   }
 

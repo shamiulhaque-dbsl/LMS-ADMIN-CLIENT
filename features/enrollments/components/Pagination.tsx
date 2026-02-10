@@ -27,14 +27,8 @@ export default function Pagination({
 
   const handleLimitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newLimit = parseInt(event.target.value, 10);
-    // Here you would typically update your state with the new limit
-    // and reset to page 1
-    setLimit(+newLimit);
-    //onPageChange(1);
+    setLimit(newLimit);
   };
-
-  // Default items per page
-  const currentLimit = limit;
 
   const renderPageNumbers = () => {
     const pages = [];
@@ -47,8 +41,8 @@ export default function Pagination({
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="mr-1 inline-flex items-center rounded-md border border-gray-300 bg-white px-2 
-                 py-2 text-sm
-                 font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
+                 disabled:cursor-not-allowed disabled:opacity-50"
         aria-label="Previous page"
       >
         <Icons.chevronLeft className="h-4 w-4" />
@@ -58,24 +52,19 @@ export default function Pagination({
     // Calculate range of visible page numbers
     let startPage, endPage;
     if (totalPages <= maxPagesToShow) {
-      // If we have less pages than we want to show, display all pages
       startPage = 1;
       endPage = totalPages;
     } else {
-      // We have more pages than we want to display
       const maxPagesBeforeCurrentPage = Math.floor(maxPagesToShow / 2);
       const maxPagesAfterCurrentPage = Math.ceil(maxPagesToShow / 2) - 1;
 
       if (currentPage <= maxPagesBeforeCurrentPage) {
-        // Current page is close to the start
         startPage = 1;
         endPage = maxPagesToShow;
       } else if (currentPage + maxPagesAfterCurrentPage >= totalPages) {
-        // Current page is close to the end
         startPage = totalPages - maxPagesToShow + 1;
         endPage = totalPages;
       } else {
-        // Current page is somewhere in the middle
         startPage = currentPage - maxPagesBeforeCurrentPage;
         endPage = currentPage + maxPagesAfterCurrentPage;
       }
@@ -150,8 +139,8 @@ export default function Pagination({
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="ml-1 inline-flex items-center rounded-md border border-gray-300 bg-white px-2
-                 py-2 text-sm
-                 font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 
+                 disabled:cursor-not-allowed disabled:opacity-50"
         aria-label="Next page"
       >
         <Icons.chevronRight className="h-4 w-4" />
@@ -166,7 +155,7 @@ export default function Pagination({
       <div className="flex items-center space-x-2">
         <span className="text-sm text-gray-600">Show</span>
         <select
-          value={currentLimit}
+          value={limit}
           onChange={handleLimitChange}
           className="rounded-md border border-gray-300 p-1 text-sm"
           aria-label="Records per page"
@@ -186,8 +175,8 @@ export default function Pagination({
 
       <div className="text-sm text-gray-600">
         Showing{" "}
-        {totalRecords > 0 ? Math.min((currentPage - 1) * currentLimit + 1, totalRecords) : 0} -{" "}
-        {Math.min(currentPage * currentLimit, totalRecords)} of {totalRecords} records
+        {totalRecords > 0 ? Math.min((currentPage - 1) * limit + 1, totalRecords) : 0} -{" "}
+        {Math.min(currentPage * limit, totalRecords)} of {totalRecords} records
       </div>
     </div>
   );

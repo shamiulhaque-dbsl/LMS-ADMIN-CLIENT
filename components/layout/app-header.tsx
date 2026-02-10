@@ -54,8 +54,6 @@ const AppHeader: React.FC = () => {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement search logic here
-    console.log("Search query:", searchQuery);
   };
 
   return (

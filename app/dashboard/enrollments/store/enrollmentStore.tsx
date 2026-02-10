@@ -1,8 +1,6 @@
-"use client";
+import { create } from 'zustand';
 
-import { create } from "zustand";
-
-interface EnrollmentFilter {
+interface EnrollmentFilters {
     dateFrom: string;
     dateTo: string;
     page: number;
@@ -10,23 +8,26 @@ interface EnrollmentFilter {
 }
 
 interface EnrollmentStore {
-    filters: EnrollmentFilter;
-    setFilters: (filters: Partial<EnrollmentFilter>) => void;
+    filters: EnrollmentFilters;
+    setFilters: (updates: Partial<EnrollmentFilters>) => void;
     resetFilters: () => void;
 }
 
-const initialFilters: EnrollmentFilter = {
-    dateFrom: "",
-    dateTo: "",
+const defaultFilters: EnrollmentFilters = {
+    dateFrom: '',
+    dateTo: '',
     page: 1,
     limit: 10,
 };
 
 export const useEnrollmentStore = create<EnrollmentStore>((set) => ({
-    filters: initialFilters,
-    setFilters: (newFilters) =>
+    filters: defaultFilters,
+    setFilters: (updates) =>
         set((state) => ({
-            filters: { ...state.filters, ...newFilters },
+            filters: { ...state.filters, ...updates },
         })),
-    resetFilters: () => set({ filters: initialFilters }),
+    resetFilters: () =>
+        set({
+            filters: defaultFilters,
+        }),
 }));

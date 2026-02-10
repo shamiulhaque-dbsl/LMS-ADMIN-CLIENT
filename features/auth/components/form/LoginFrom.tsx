@@ -58,11 +58,11 @@ export const LoginForm = () => {
         error={errors.password?.message}
       />
 
-      {/* <div className="text-right text-xs">
+      <div className="text-right text-xs">
         <Link href="/forget-password" className="font-semibold text-gray-600 hover:text-gray-800">
           Forgot password?
         </Link>
-      </div> */}
+      </div>
 
       <Button type="submit" variant="secondary" size="md" className="w-full" disabled={loading}>
         {loading ? "Logging in..." : "Login"}

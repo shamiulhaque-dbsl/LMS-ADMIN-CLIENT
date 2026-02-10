@@ -23,11 +23,9 @@ export interface Enrollment {
 }
 
 export interface EnrollmentResponse {
-  data: {
-    data: Enrollment[] | [];
-    pagination?: {
-      totalRecords: number;
-      totalPages: number;
-    };
+  data: Enrollment[];
+  pagination: {
+    totalPages: number;
+    totalRecords: number;
   };
 }
