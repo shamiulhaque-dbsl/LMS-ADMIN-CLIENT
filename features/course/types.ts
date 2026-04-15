@@ -5,12 +5,12 @@ type COURSE_LAVEL = "beginner" | "intermediate" | "advanced" | "";
 
 export interface Course {
   id: number;
-  uuid: string;
+  uuid?: string;
   title: string;
   slug?: string;
   description?: string | null;
   long_description?: string | null;
-  category_id: number;
+  category_id?: number;
   category_name?: string;
   skill_level?: COURSE_LAVEL;
   price?: string | null; // Decimal stored as string
@@ -32,8 +32,8 @@ export interface Course {
   certificate_available?: boolean | null;
   estimated_completion_time?: number | null;
   tags?: string | null;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
   published_at?: string | null;
   deleted_at?: string | null;
 

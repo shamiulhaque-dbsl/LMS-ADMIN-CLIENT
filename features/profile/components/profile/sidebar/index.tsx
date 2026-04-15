@@ -14,15 +14,15 @@ export default function ProfileSidebar({ user }: { user: UserInfo }) {
         <div className="flex flex-row items-center gap-3 text-left sm:flex-col sm:text-center">
           <ReusableImage
             src={user?.avatarUrl || ""}
-            alt={user.fullName || ""}
+            alt={user?.fullName || ""}
             className="h-12 w-12 flex-shrink-0 rounded-full sm:mx-auto sm:mb-2 sm:h-20 sm:w-20"
           />
           <div className="leading-tight">
             <Text as="h2" variant="dark" className="font-semibold capitalize">
-              {user.fullName}
+              {user?.fullName}
             </Text>
             <Text as="small" variant="muted" className="block">
-              {user.email}
+              {user?.email}
             </Text>
           </div>
         </div>

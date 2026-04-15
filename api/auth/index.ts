@@ -4,7 +4,7 @@ export async function loginUser(email: string, password: string) {
   const res = await fetch(`${API_URL}/auth/signin`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, role: "admin" }),
     credentials: "include",
   });
 

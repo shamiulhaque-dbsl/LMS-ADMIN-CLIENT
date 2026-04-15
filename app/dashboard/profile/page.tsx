@@ -10,10 +10,16 @@ const UserProfilePage = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   if (!accessToken) return null;
-  const detailsData = await getCurrentUser({ headers: { Authorization: `Bearer ${accessToken}` } });
-  if (detailsData.status === "success") {
-    profileData = detailsData.data;
+  try {
+    const detailsData = await getCurrentUser({ headers: { Authorization: `Bearer ${accessToken}` } });
+    if (detailsData.status === "success") {
+      profileData = detailsData.data;
+    }
+
+  } catch {
+    profileData = null;
   }
+
 
 
 

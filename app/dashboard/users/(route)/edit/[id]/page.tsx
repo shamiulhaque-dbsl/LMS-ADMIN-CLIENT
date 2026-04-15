@@ -23,6 +23,7 @@ export default async function UserEditPage({ params }: UserEditPageProps) {
     }
   } catch {
     errors = "Failed to fetch User Data";
+    console.log(errors);
   }
 
   return (

@@ -3,8 +3,8 @@
 import { Icons } from "@/components/Icons";
 import { useSidebar } from "@/contexts/SidebarContext";
 import React, { useState } from "react";
-import { MessageDropdown } from "./_components/MessageDropdown";
-import { NotificationDropdown } from "./_components/NotificationDropdown";
+//import { MessageDropdown } from "./_components/MessageDropdown";
+//import { NotificationDropdown } from "./_components/NotificationDropdown";
 import { UserProfileDropdown } from "./_components/UserProfileDropdown";
 
 interface NavigationButtonProps {
