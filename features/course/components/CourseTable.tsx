@@ -62,8 +62,8 @@ export default function CourseTable({ fetchCourses }: CourseProps) {
             </TableCell>
             <TableCell>
               <span className="text-gray-600">
-                {course?.enrollment_count}{" "}
-                {course.enrollment_count === (1 || 0) ? "student" : "students"}
+                {course?.enrollment_count ? course?.enrollment_count : ""}{" "}
+                {course?.enrollment_count ? course.enrollment_count === (1 || 0) ? "student" : "students" : "No enrollments"}
               </span>
             </TableCell>
             <TableCell>

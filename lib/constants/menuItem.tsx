@@ -46,9 +46,9 @@ export const menuItems: MenuItem[] = [
       },
       {
         id: "live-session-history",
-        label: "Live Session History",
+        label: "Live Classes History",
         href: ROUTES.COURSES.LIVE_HISTORY,
-        roles: [Role.ADMIN, Role.INSTRUCTOR],
+        roles: [Role.INSTRUCTOR],
       },
     ],
   },

@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import QuizQuestionContainer from "./components/QuizzQuestionContainer";
 import { getCoursesForSelect } from "@/api/course";
 import { getQuestions } from "@/api/quiz/question";
+import { getQuizz } from "@/api/quiz";
 import { QuizQuestionsSkeleton } from "./components/QuizQuestionsSkeleton";
 import { QuizFormSkeleton } from "./components/QuizFormSkeleton";
 import QuizFormSection from "./components/QuizFormSection";
@@ -10,6 +11,7 @@ import QuizFormSection from "./components/QuizFormSection";
 export default function ManageQuizzEdit({ quizId }: { quizId: number }) {
   const coursesPromise = getCoursesForSelect();
   const quizQuestionsPromise = getQuestions(quizId);
+  const quizPromise = getQuizz(quizId);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -33,7 +35,7 @@ export default function ManageQuizzEdit({ quizId }: { quizId: number }) {
         }
       >
         <Suspense fallback={<QuizQuestionsSkeleton />}>
-          <QuizQuestionContainer quizQuestionsPromise={quizQuestionsPromise} quizId={quizId} />
+          <QuizQuestionContainer quizQuestionsPromise={quizQuestionsPromise} quizPromise={quizPromise} quizId={quizId} />
         </Suspense>
       </ErrorBoundary>
     </div>

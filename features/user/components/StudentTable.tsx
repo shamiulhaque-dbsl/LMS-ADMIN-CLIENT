@@ -12,8 +12,8 @@ import {
 import UserTableAction from "@/features/user/components/UserTableAction";
 import { formatDateTime } from "@/lib/utils/date";
 
-export default function UserTable({ userData }: { userData: any[] }) {
-
+export default function StudentTable({ userData }: { userData: any[] }) {
+  console.log("userData", userData);
   return (
     <Table className="overflow-y-clip bg-white">
       <TableHeader>
@@ -37,7 +37,7 @@ export default function UserTable({ userData }: { userData: any[] }) {
             <TableCell>
               <Image
                 src={user?.avatar_url || "/images/noimage.png"}
-                alt={`${user?.first_name} ${user?.last_name}`}
+                alt={`${user?.fullName}`}
                 width={40}
                 height={40}
                 className="h-10 w-10 rounded-full object-cover"
@@ -45,19 +45,19 @@ export default function UserTable({ userData }: { userData: any[] }) {
             </TableCell>
 
             <TableCell>
-              {user.first_name} {user.last_name} <span className="capitalize text-blue-500"> ({user.role}) </span>
+              {user?.fullName}
             </TableCell>
 
-            <TableCell>{user.email}</TableCell>
+            <TableCell>{user?.email}</TableCell>
 
-            <TableCell>{user.phone}</TableCell>
+            <TableCell>{user?.phone}</TableCell>
 
             <TableCell>
-              {user.created_at ? formatDateTime(user.created_at) : ""}
+              {user?.createdAt ? formatDateTime(user?.createdAt) : ""}
             </TableCell>
 
             <TableCell>
-              {user.status === 1 ? (
+              {user?.status === "active" ? (
                 <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                   Active
                 </span>
@@ -71,7 +71,7 @@ export default function UserTable({ userData }: { userData: any[] }) {
             {/* Table action */}
             <TableCell>
               {
-                user?.id && <UserTableAction userId={user.id} />
+                user?.id && <UserTableAction userId={user?.id} />
               }
 
             </TableCell>

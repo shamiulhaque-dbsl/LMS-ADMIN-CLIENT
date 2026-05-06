@@ -125,7 +125,7 @@ export const LessonForm = ({
         })}
         error={errors.contentUrl?.message}
       />
-      <Textarea id="notes" label="Notes" placeholder="Notes" {...register("notes")} />
+      <Textarea id="notes" label="Notes" rows={4} placeholder="Notes" {...register("notes")} />
       <Input
         id="duration"
         label="Duration"

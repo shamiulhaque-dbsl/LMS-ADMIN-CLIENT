@@ -7,15 +7,18 @@ import { useModalStore } from "@/stores/modal-store";
 import { QuestionModal } from "./QuestionModal";
 import { use } from "react";
 import { ApiResponse } from "@/api";
-import type { QuizQuestion } from "@/features/quiz/types";
+import type { QuizQuestion, Quizz } from "@/features/quiz/types";
 
 type Props = {
   quizQuestionsPromise: Promise<ApiResponse<QuizQuestion[]>>;
+  quizPromise: Promise<ApiResponse<Quizz>>;
   quizId: number | string;
 };
 
-export default function QuizQuestionContainer({ quizQuestionsPromise, quizId }: Props) {
+export default function QuizQuestionContainer({ quizQuestionsPromise, quizPromise, quizId }: Props) {
   const { data: quizQuestions } = use(quizQuestionsPromise);
+  const { data: quiz } = use(quizPromise);
+  console.log("ManageQuizzEdit quizQuestions:", quizQuestions);
 
   const openModal = useModalStore((state) => state.openModal);
   const isOpen = useModalStore((state) => state.isOpen("question-add-modal"));
@@ -27,7 +30,7 @@ export default function QuizQuestionContainer({ quizQuestionsPromise, quizId }: 
         <Button
           variant="default"
           size="sm"
-          onClick={() => openModal("question-add-modal", { quizId: quizId })}
+          onClick={() => openModal("question-add-modal", { quizId: quizId, quizTotalPoints: quiz?.totalPoint })}
         >
           Add New Question
         </Button>
@@ -40,7 +43,7 @@ export default function QuizQuestionContainer({ quizQuestionsPromise, quizId }: 
             <Button
               variant="default"
               size="sm"
-              onClick={() => openModal("question-add-modal", { quizId: quizId })}
+              onClick={() => openModal("question-add-modal", { quizId: quizId, quizTotalPoints: quiz?.totalPoint })}
             >
               Add Your First Question
             </Button>

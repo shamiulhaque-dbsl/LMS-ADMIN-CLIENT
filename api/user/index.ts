@@ -20,6 +20,14 @@ export async function getRoleWiseActiveUsers(role?: string): Promise<ApiResponse
   });
 }
 
+export async function getAllStudents(): Promise<ApiResponse<any[]>> {
+  const url = "/students/list";
+
+  return apiRequest<ApiResponse<any[]>>(url, "GET", {
+    next: { tags: ["users", "users-list"] },
+  });
+}
+
 export async function createUser(body: Partial<any>): Promise<any> {
   try {
     const token = await getAuthToken();

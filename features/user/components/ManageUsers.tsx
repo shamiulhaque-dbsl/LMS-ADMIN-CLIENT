@@ -5,7 +5,8 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { USER_CONFIG, UserType } from "@/dashboard/users/config";
 import UserTable from "@/features/user/components/UserTable";
-import { getRoleWiseActiveUsers } from "@/api/user";
+import { getRoleWiseActiveUsers, getAllStudents } from "@/api/user";
+import StudentTable from "./StudentTable";
 
 interface ManageUserProps {
   userType?: UserType;
@@ -17,15 +18,29 @@ export default async function ManageUser({ userType, showAllUsers = false }: Man
   let errors = null;
 
   try {
-    const userRes = await getRoleWiseActiveUsers();
 
-    if (userRes.status === "success" && userRes.data) {
-      userData = userRes.data;
+    if (userType === "student") {
+      const studentRes = await getAllStudents();
+
+      if (studentRes.status === "success" && studentRes.data) {
+        userData = studentRes.data;
+      } else {
+        errors = studentRes.message || "Failed to fetch Student Data";
+      }
     } else {
-      errors = userRes.message || "Failed to fetch User Data";
+
+      const userRes = await getRoleWiseActiveUsers();
+      if (userRes.status === "success" && userRes.data) {
+        userData = userRes.data;
+      } else {
+        errors = userRes.message || "Failed to fetch User Data";
+      }
+
     }
+
   } catch (error) {
-    errors = "Failed to fetch User Data";
+    errors = error || "Failed to fetch User Data";
+    console.log(errors)
   }
 
   if (!config && !showAllUsers) {
@@ -67,7 +82,10 @@ export default async function ManageUser({ userType, showAllUsers = false }: Man
         </Card.Header>
 
         <Card.Content className="p-4 sm:p-6">
-          <UserTable userData={userData} />
+          {
+            userType === "student" ? <StudentTable userData={userData} /> :
+              <UserTable userData={userData} />
+          }
         </Card.Content>
       </Card>
     </>

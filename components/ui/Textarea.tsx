@@ -4,6 +4,7 @@ import React, { forwardRef } from "react";
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  rows?: number;
   error?: string;
   className?: string;
   labelClassName?: string;
@@ -33,6 +34,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         <textarea
           ref={ref}
+
           className={`input-base ${textareaClassName} ${error ? "input-error" : ""}`}
           {...props}
         />
