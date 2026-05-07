@@ -49,7 +49,7 @@ export default function QuizQuestionContainer({ quizQuestionsPromise, quizPromis
             </Button>
           </div>
         ) : (
-          <QuizzQuestions quizQuestions={quizQuestions} quizId={quizId} />
+          <QuizzQuestions quizQuestions={quizQuestions} quizId={quizId} quiz={quiz} />
         )}
       </Card.Content>
 

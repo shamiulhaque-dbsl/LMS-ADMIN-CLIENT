@@ -9,7 +9,7 @@ import { QuestionModal } from "./QuestionModal";
 import { toast } from "sonner";
 import { useConfirmDialog } from "@/stores/confirmDialog";
 import { useQuizQuestionAction } from "../hooks/useQuizQuesAction";
-export const QuizzQuestions = ({ quizQuestions, quizId = undefined }: any) => {
+export const QuizzQuestions = ({ quizQuestions, quizId = undefined, quiz = undefined }: any) => {
   const openModal = useModalStore((state) => state.openModal);
   const isOpen = useModalStore((state) => state.isOpen("question-edit-modal"));
   const { removeQuestion } = useQuizQuestionAction();
@@ -45,6 +45,7 @@ export const QuizzQuestions = ({ quizQuestions, quizId = undefined }: any) => {
                       openModal("question-edit-modal", {
                         quizId: question.quizId,
                         question: question,
+                        quizTotalPoints: quiz?.totalPoint,
                       })
                     }
                   >

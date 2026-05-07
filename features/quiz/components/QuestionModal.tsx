@@ -35,6 +35,7 @@ export function QuestionModal({ id }: QuestionModalProps) {
   const { handleApiErrors } = useHandleApiErrors<QuestionFormData>();
 
   const quizId = modalPayload?.[id]?.quizId;
+  const quizTotalPoints = modalPayload?.[id]?.quizTotalPoints;
   const question = modalPayload?.[id]?.question;
   const isEditMode = !!question;
 
@@ -81,6 +82,12 @@ export function QuestionModal({ id }: QuestionModalProps) {
   };
 
   const onSubmit = async (data: QuestionFormData) => {
+    // Validate that question points don't exceed quiz total points
+    if (quizTotalPoints && data.point > quizTotalPoints) {
+      toast.error(`Question marks cannot exceed quiz total marks (${quizTotalPoints})`);
+      return;
+    }
+
     const result = isEditMode
       ? await update(quizId, question.id, data)
       : await create(quizId, data);
