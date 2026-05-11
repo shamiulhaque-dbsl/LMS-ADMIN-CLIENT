@@ -36,6 +36,7 @@ export function QuestionModal({ id }: QuestionModalProps) {
 
   const quizId = modalPayload?.[id]?.quizId;
   const quizTotalPoints = modalPayload?.[id]?.quizTotalPoints;
+  const remainingMarks = modalPayload?.[id]?.remainingMarks;
   const question = modalPayload?.[id]?.question;
   const isEditMode = !!question;
 
@@ -85,6 +86,12 @@ export function QuestionModal({ id }: QuestionModalProps) {
     // Validate that question points don't exceed quiz total points
     if (quizTotalPoints && data.point > quizTotalPoints) {
       toast.error(`Question marks cannot exceed quiz total marks (${quizTotalPoints})`);
+      return;
+    }
+
+    // Validate that question points don't exceed remaining marks
+    if (!isEditMode && remainingMarks && data.point > remainingMarks) {
+      toast.error(`Question marks cannot exceed remaining marks (${remainingMarks})`);
       return;
     }
 

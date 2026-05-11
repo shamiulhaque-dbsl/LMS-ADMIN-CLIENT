@@ -27,7 +27,7 @@ export const QuizzQuestions = ({ quizQuestions, quizId = undefined, quiz = undef
   return (
     <>
       <Grid>
-        {quizQuestions?.questions?.map((question: any) => (
+        {Array.isArray(quizQuestions) && quizQuestions.map((question: any) => (
           <Card className="rounded-md border-none bg-gray-300/30" key={question.id}>
             <Card.Content className="flex flex-wrap items-center justify-between gap-2 p-3">
               <div className="space-x-1 text-sm leading-tight">

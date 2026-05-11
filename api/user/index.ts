@@ -60,6 +60,38 @@ export async function createUser(body: Partial<any>): Promise<any> {
     };
   }
 }
+export async function createStudent(body: Partial<any>): Promise<any> {
+  try {
+    const token = await getAuthToken();
+
+    const response = await apiRequest<{ data: any; message?: string }>(
+      `${USER_API_PREFIX}/student/create`,
+      "POST",
+      {
+        body,
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    return {
+      success: true,
+      message: response.message || "",
+      data: response.data,
+    };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return {
+        success: false,
+        message: error.message || "Failed to create student",
+        errors: error.errors as Record<string, string[]>,
+      };
+    }
+
+    return {
+      success: false,
+      message: "An unexpected error occurred. Please try again.",
+    };
+  }
+}
 
 export async function updateUser(payload: UserInfo, id: number) {
   const token = await getAuthToken();

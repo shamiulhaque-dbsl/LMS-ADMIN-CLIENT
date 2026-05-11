@@ -11,7 +11,7 @@ export const USER_CONFIG = {
   },
   student: {
     title: "Student List",
-    createRoute: "/admin/users/create",
+    createRoute: "/dashboard/users/students/create",
     addLabel: "Add Student",
   },
 } as const;
