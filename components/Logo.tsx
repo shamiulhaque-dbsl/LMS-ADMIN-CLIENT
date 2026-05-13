@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Define type for size variants
 type LogoSize = "small" | "default" | "large";
@@ -59,10 +60,11 @@ const Logo: React.FC<DotLmsLogoProps> = ({
       className={`group inline-flex items-end ${sizeClasses.spacing} transition-all duration-300 ${className}`}
     >
       <div className={`relative ${sizeClasses.container}`}>
-        <div className="absolute inset-0 rotate-6 transform rounded-xl bg-gradient-to-r from-web-primary to-web-secondary transition-transform duration-300 group-hover:rotate-12" />
+        <div className="absolute inset-0 rotate-6 transform rounded-xl transition-transform duration-300 group-hover:rotate-12" />
         <div className="absolute inset-0.5 rounded-lg bg-navbar" />
-        <span className="absolute inset-0 flex items-center justify-center bg-gradient-to-r from-web-primary to-web-secondary bg-clip-text text-lg font-bold text-transparent">
-          DL
+        <span className="absolute inset-0 flex items-center justify-center bg-clip-text text-lg font-bold text-transparent">
+          <Image src="/images/logo3.svg" alt="Skillvora Logo"
+            width={100} height={100} className="h-full w-full object-contain" />
         </span>
       </div>
 
@@ -70,7 +72,7 @@ const Logo: React.FC<DotLmsLogoProps> = ({
         <span
           className={`${sizeClasses.text} bg-gradient-to-r from-web-primary to-gray-800 bg-clip-text font-bold text-transparent`}
         >
-          DOTLMS
+          Skillvora
         </span>
       )}
     </div>

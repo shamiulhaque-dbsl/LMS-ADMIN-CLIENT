@@ -8,8 +8,8 @@ const publicSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "DOTLMS - Learning Management System",
-  description: "DOTLMS - Learning Management System.",
+  title: "Skillvora - Learning Management System",
+  description: "Skillvora - Learning Management System.",
 };
 
 export default function RootLayout({
