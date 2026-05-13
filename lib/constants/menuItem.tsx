@@ -117,12 +117,12 @@ export const menuItems: MenuItem[] = [
     group: "Education",
     roles: [Role.ADMIN, Role.INSTRUCTOR],
     children: [
-      // {
-      //   id: "add-student-to-course",
-      //   label: "Add Student to Course",
-      //   href: ROUTES.ENROLLMENTS.ADD,
-      //   roles: [Role.ADMIN],
-      // },
+      {
+        id: "add-student-to-course",
+        label: "Add Student to Course",
+        href: ROUTES.ENROLLMENTS.ADD,
+        roles: [Role.ADMIN],
+      },
       {
         id: "history",
         label: "History",
